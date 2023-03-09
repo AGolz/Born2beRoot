@@ -7,7 +7,13 @@ The goal of this project is to get acquainted with the amazing world of virtuali
 
 ## VM and VirtualBox 
 
-## Rocky Linux 
+## Rocky Linux
+### inst.text
+### anaconda
+### fdisk and parted
+### primary and extended part
+### LVM
+### LUKS
 
 ## Server on Rocky
 ### Configuring VB
