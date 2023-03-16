@@ -14,6 +14,8 @@ The goal of this project is to get acquainted with the amazing world of virtuali
 ### primary and extended part
 ### LVM
 ### LUKS
+### lvm.conf
+### ftstab file 
 
 ## Server on Rocky
 ### Configuring VB
