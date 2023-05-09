@@ -50,6 +50,13 @@ While the Born2beRoot project allows to use Debian, I chose RockyLinux to deploy
 
 In the next section, we will walk through the process of installing Rocky Linux on a VirtualBox VM, setting it up as a server, and exploring the various features and configurations that make it a powerful and flexible choice for server deployment.
 
+## Part III: Setting Up VirtualBox for Rocky Linux
+Here, we will walk through the steps of setting up VirtualBox for Rocky Linux.
+
+__Step 1: Download Rocky Linux ISO__
+Download the ISO file for Rocky Linux from the official Rocky Linux download [page](https://rockylinux.org/ru/download).
+
+
 ### inst.text
 ### anaconda
 ### fdisk and parted
