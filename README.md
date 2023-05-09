@@ -60,9 +60,11 @@ __Open VirtualBox and Create a New VM__
 After acquiring the Rocky Linux ISO, open VirtualBox and click on the "New" button to create a new VM.
 
 A new window will open for the VM setup. Here, you need to specify several settings:
-- __Name and Operating System__: Give your VM a name and specify the type and version of the operating system.Since we are installing Rocky linux, select "Linux" as the system and the required bit depth.
+- __Name and Operating System__: Give your VM a name and specify the type and version of the operating system.Since we are installing Rocky linux, select "Linux" as the system and the required bit depth. 
+- __Memory Size__: Allocate memory (RAM) for your VM.
 <img width="1014" alt="Screen Shot 2023-03-09 at 5 05 30 PM" src="https://github.com/AGolz/Born2beRoot/assets/51645091/42764d43-7dda-4c8f-8cef-48fcd514422a">
-- 
+- __Hard Disk__: Choose "Create a virtual hard disk now." VirtualBox will create a virtual hard disk where Rocky Linux will be installed.
+<img width="1023" alt="Screen Shot 2023-03-09 at 5 06 33 PM" src="https://github.com/AGolz/Born2beRoot/assets/51645091/e6cfc159-c970-436d-84c8-5a3a5d861769">
 
 
 
