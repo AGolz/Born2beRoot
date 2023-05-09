@@ -26,11 +26,11 @@ VMs have become ubiquitous in modern software development and IT infrastructure 
 One of the most popular tools for creating and managing VMs is VirtualBox, a free and open-source hypervisor developed by Oracle Corporation. VirtualBox supports a wide variety of guest operating systems including but not limited to Windows, Linux, and Solaris.
 
 VirtualBox stands out because of its comprehensive feature set, which includes:
-- __Cross-platform compatibility__ : VirtualBox runs on a large number of 64-bit host operating systems.
-- `Multi-generation branched` snapshots: VirtualBox allows you to save the VM state at a particular point in time, which can later be reverted to, allowing developers to 'go back in time'.
-- `Clean architecture and modularity`: VirtualBox’s design makes it easy to control and manage.
-- `Guest Additions`: This refers to software packages that can be installed on supported guest operating systems to improve performance and provide additional integration and communication with the host system.
-- `Shared folders`: These allow for easy data exchange between host and guest operating systems.
+- __Cross-platform compatibility__: VirtualBox runs on a large number of 64-bit host operating systems.
+- __Multi-generation branched` snapshots__: VirtualBox allows you to save the VM state at a particular point in time, which can later be reverted to, allowing developers to 'go back in time'.
+- __Clean architecture and modularity__: VirtualBox’s design makes it easy to control and manage.
+- __Guest Additions__: This refers to software packages that can be installed on supported guest operating systems to improve performance and provide additional integration and communication with the host system.
+- __Shared folders__: These allow for easy data exchange between host and guest operating systems.
 
 In conclusion, VirtualBox is a versatile and powerful tool that provides an effective solution for running multiple operating systems on a single machine without the risk of system crashes or conflicts. With its wide array of features, VirtualBox not only enhances the development and testing environment but also promotes efficient resource utilization. It's no wonder that it is a go-to choice for many in the world of virtualization!
 
