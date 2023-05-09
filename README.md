@@ -32,8 +32,6 @@ VirtualBox stands out because of its comprehensive feature set, which includes:
 - Guest Additions: This refers to software packages that can be installed on supported guest operating systems to improve performance and provide additional integration and communication with the host system.
 - Shared folders: These allow for easy data exchange between host and guest operating systems.
 
-In the next section, we will dive into the practical side of things, discussing how to deploy a server on RockyLinux using VirtualBox. RockyLinux, a community enterprise Operating System designed to be 100% bug-for-bug compatible with America's top enterprise Linux distribution, is an excellent choice for anyone who wants a stable, secure, and high-performance Linux environment. 
-
 ## Rocky Linux
 ### inst.text
 ### anaconda
