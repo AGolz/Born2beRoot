@@ -81,14 +81,23 @@ Before we proceed to the installation of RockyLinux, we need to make a few more 
 - __System__: Under the `System` tab, ensure that the boot order is set to `Optical` then `Hard Disk`.
 - __Display__: Allocate video memory. The recommended minimum is 16MB.
 - __Storage__: Here, you need to attach the Rocky Linux ISO you downloaded earlier. Under the `Controller: IDE`, click on the CD icon with a plus sign (Add Optical Drive), then choose `Add`. Navigate to the location of your Rocky Linux ISO, select it, and click `Choose`.
-- __Network__: Under the "Network" tab, make sure the Adapter is attached to `NAT`.
+- __Network__: Under the "Network" tab, make sure the Adapter is attached to `NAT`. And let's redirect the necessary ports.
+
+<img width="1025" alt="Screen Shot 2023-05-10 at 3 08 40 AM" src="https://github.com/AGolz/Born2beRoot/assets/51645091/32cc0a12-4b24-45e0-bd6c-c27120fa4ef1">
+<img width="1028" alt="Screen Shot 2023-05-10 at 3 09 33 AM" src="https://github.com/AGolz/Born2beRoot/assets/51645091/79969080-31ad-48e9-8bb7-34e447a71ff1">
+<img width="1025" alt="Screen Shot 2023-05-10 at 3 09 57 AM" src="https://github.com/AGolz/Born2beRoot/assets/51645091/527fcce7-58a1-4852-becb-c4dca765b7d5">
+<img width="713" alt="Screen Shot 2023-05-10 at 3 11 09 AM" src="https://github.com/AGolz/Born2beRoot/assets/51645091/3a00d5c4-cd7c-4cd3-b64d-8874f90643df">
 
 Once you've made all these adjustments, click `OK` to save the settings.
 
 ### inst.text
+
 ### anaconda
+
 ### fdisk and parted
+
 ### primary and extended part
+
 ### LVM
 ### LUKS
 ### lvm.conf
