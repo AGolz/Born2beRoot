@@ -57,24 +57,33 @@ __Download Rocky Linux ISO__
 Download the ISO file for Rocky Linux from the official Rocky Linux download [page](https://rockylinux.org/ru/download).
 
 __Open VirtualBox and Create a New VM__
-After acquiring the Rocky Linux ISO, open VirtualBox and click on the "New" button to create a new VM.
+After acquiring the Rocky Linux ISO, open VirtualBox and click on the `New` button to create a new VM.
 
 A new window will open for the VM setup. Here, you need to specify several settings:
-- __Name and Operating System__: Give your VM a name and specify the type and version of the operating system.Since we are installing Rocky linux, select "Linux" as the system and the required bit depth. 
+- __Name and Operating System__: Give your VM a name and specify the type and version of the operating system.Since we are installing Rocky linux, select `Linux` as the system and the required bit depth. 
 - __Memory Size__: Allocate memory (RAM) for your VM. 
-- __Hard Disk__: Choose "Create a virtual hard disk now." VirtualBox will create a virtual hard disk where Rocky Linux will be installed.
+- __Hard Disk__: Choose `Create a virtual hard disk now` VirtualBox will create a virtual hard disk where Rocky Linux will be installed.
 
 <img width="1014" alt="Screen Shot 2023-03-09 at 5 05 30 PM" src="https://github.com/AGolz/Born2beRoot/assets/51645091/42764d43-7dda-4c8f-8cef-48fcd514422a">
 
 __Configure Virtual Hard Disk__
 In the subsequent window, you'll be asked to choose the hard disk file type, its size, and storage details.
 
-Hard Disk File Type: Select "VDI (VirtualBox Disk Image)" as it is compatible with VirtualBox.
+Hard Disk File Type: Select `VDI (VirtualBox Disk Image)` as it is compatible with VirtualBox.
 
-Storage on Physical Hard Disk: Choose "Dynamically allocated," which means your virtual hard disk will grow as it is used, up to the maximum size you set.
+Storage on Physical Hard Disk: Choose `Dynamically allocated`, which means your virtual hard disk will grow as it is used, up to the maximum size you set.
 
 File Location and Size: Finally, set the maximum size of the virtual hard disk. A minimum of 10GB is recommended for Rocky Linux, but if you can, allocate more space to avoid running out of space in the future.
  <img width="1023" alt="Screen Shot 2023-03-09 at 5 06 33 PM" src="https://github.com/AGolz/Born2beRoot/assets/51645091/e6cfc159-c970-436d-84c8-5a3a5d861769">
+ 
+__Configure VM Further__
+Before we proceed to the installation of RockyLinux, we need to make a few more adjustments to our VM. Select your VM and click on `Settings`:
+- __System__: Under the `System` tab, ensure that the boot order is set to `Optical` then `Hard Disk`.
+- __Display__: Allocate video memory. The recommended minimum is 16MB.
+- __Storage__: Here, you need to attach the Rocky Linux ISO you downloaded earlier. Under the `Controller: IDE`, click on the CD icon with a plus sign (Add Optical Drive), then choose `Add`. Navigate to the location of your Rocky Linux ISO, select it, and click `Choose`.
+- __Network__: Under the "Network" tab, make sure the Adapter is attached to `NAT`.
+
+Once you've made all these adjustments, click `OK` to save the settings.
 
 ### inst.text
 ### anaconda
