@@ -1,7 +1,7 @@
 # Born2beRoot
 (in progress)
 
-## "Harnessing the Power of Virtualization: Deploying a RockyLinux Server on VirtualBox for Ecole 42's Born2beRoot Project"
+## Harnessing the Power of Virtualization: Deploying a RockyLinux Server on VirtualBox for Ecole 42's Born2beRoot Project
 
 ### Introduction
 
