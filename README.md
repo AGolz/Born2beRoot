@@ -53,8 +53,17 @@ In the next section, we will walk through the process of installing Rocky Linux 
 ## Part III: Setting Up VirtualBox for Rocky Linux
 Here, we will walk through the steps of setting up VirtualBox for Rocky Linux.
 
-__Step 1: Download Rocky Linux ISO__
+__Download Rocky Linux ISO__
 Download the ISO file for Rocky Linux from the official Rocky Linux download [page](https://rockylinux.org/ru/download).
+
+__Open VirtualBox and Create a New VM__
+After acquiring the Rocky Linux ISO, open VirtualBox and click on the "New" button to create a new VM.
+
+A new window will open for the VM setup. Here, you need to specify several settings:
+- __Name and Operating System__: Give your VM a name and specify the type and version of the operating system.Since we are installing Rocky linux, select "Linux" as the system and the required bit depth.
+<img width="1014" alt="Screen Shot 2023-03-09 at 5 05 30 PM" src="https://github.com/AGolz/Born2beRoot/assets/51645091/42764d43-7dda-4c8f-8cef-48fcd514422a">
+- 
+
 
 
 ### inst.text
