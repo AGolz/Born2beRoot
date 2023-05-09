@@ -61,11 +61,20 @@ After acquiring the Rocky Linux ISO, open VirtualBox and click on the "New" butt
 
 A new window will open for the VM setup. Here, you need to specify several settings:
 - __Name and Operating System__: Give your VM a name and specify the type and version of the operating system.Since we are installing Rocky linux, select "Linux" as the system and the required bit depth. 
-- __Memory Size__: Allocate memory (RAM) for your VM. <img width="1014" alt="Screen Shot 2023-03-09 at 5 05 30 PM" src="https://github.com/AGolz/Born2beRoot/assets/51645091/42764d43-7dda-4c8f-8cef-48fcd514422a">
-- __Hard Disk__: Choose "Create a virtual hard disk now." VirtualBox will create a virtual hard disk where Rocky Linux will be installed. <img width="1023" alt="Screen Shot 2023-03-09 at 5 06 33 PM" src="https://github.com/AGolz/Born2beRoot/assets/51645091/e6cfc159-c970-436d-84c8-5a3a5d861769">
+- __Memory Size__: Allocate memory (RAM) for your VM. 
+- __Hard Disk__: Choose "Create a virtual hard disk now." VirtualBox will create a virtual hard disk where Rocky Linux will be installed.
 
+<img width="1014" alt="Screen Shot 2023-03-09 at 5 05 30 PM" src="https://github.com/AGolz/Born2beRoot/assets/51645091/42764d43-7dda-4c8f-8cef-48fcd514422a">
 
+__Configure Virtual Hard Disk__
+In the subsequent window, you'll be asked to choose the hard disk file type, its size, and storage details.
 
+Hard Disk File Type: Select "VDI (VirtualBox Disk Image)" as it is compatible with VirtualBox.
+
+Storage on Physical Hard Disk: Choose "Dynamically allocated," which means your virtual hard disk will grow as it is used, up to the maximum size you set.
+
+File Location and Size: Finally, set the maximum size of the virtual hard disk. A minimum of 10GB is recommended for Rocky Linux, but if you can, allocate more space to avoid running out of space in the future.
+ <img width="1023" alt="Screen Shot 2023-03-09 at 5 06 33 PM" src="https://github.com/AGolz/Born2beRoot/assets/51645091/e6cfc159-c970-436d-84c8-5a3a5d861769">
 
 ### inst.text
 ### anaconda
