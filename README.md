@@ -54,9 +54,11 @@ In the next section, we will walk through the process of installing Rocky Linux 
 Here, we will walk through the steps of setting up VirtualBox for Rocky Linux.
 
 __Download Rocky Linux ISO__
+
 Download the ISO file for Rocky Linux from the official Rocky Linux download [page](https://rockylinux.org/ru/download).
 
 __Open VirtualBox and Create a New VM__
+
 After acquiring the Rocky Linux ISO, open VirtualBox and click on the `New` button to create a new VM.
 
 A new window will open for the VM setup. Here, you need to specify several settings:
@@ -139,7 +141,7 @@ You will be presented with an Installation Summary screen, where you will config
 
 In total, you will be presented with 9 points of the form each of which is quite simple and easy to set up. Specify the language, date and time, [NTP server](https://www.ntp-servers.net/servers.html), installation source, and so on.
 
-More detailed information should be provided only about the fifth paragraph of the __"Installation location"__ form. Let's will try to split the disk into the partitions we need and create an encrypted LVM volume in text mode.
+More detailed information should be provided only about the fifth paragraph of the __"Installation Destination"__ form. Let's will try to split the disk into the partitions we need and create an encrypted LVM volume in text mode.
 
 ### fdisk and parted
 
