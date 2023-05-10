@@ -54,11 +54,9 @@ In the next section, we will walk through the process of installing Rocky Linux 
 Here, we will walk through the steps of setting up VirtualBox for Rocky Linux.
 
 __Download Rocky Linux ISO__
-
 Download the ISO file for Rocky Linux from the official Rocky Linux download [page](https://rockylinux.org/ru/download).
 
 __Open VirtualBox and Create a New VM__
-
 After acquiring the Rocky Linux ISO, open VirtualBox and click on the `New` button to create a new VM.
 
 A new window will open for the VM setup. Here, you need to specify several settings:
@@ -114,7 +112,7 @@ Once you have configured your VM and attached the Rocky Linux ISO, start your VM
 
 Thus, we pass the inst.text parameter to the installer
 
-## Part V: The Anaconda Installer - Facilitating the Rocky Linux Installation
+## Part IV: The Anaconda Installer - Facilitating the Rocky Linux Installation
 
 Anaconda is the installation program used by Rocky Linux, Fedora, CentOS, and other Linux distributions. It is a versatile and powerful tool that allows you to install Linux on your system exactly how you want it.
 
