@@ -137,6 +137,11 @@ You will be presented with an Installation Summary screen, where you will config
 
 <img width="1259" alt="Screen Shot 2023-03-02 at 11 49 22 AM" src="https://github.com/AGolz/Born2beRoot/assets/51645091/7ce9890c-e23d-49c5-837d-bb78284d4990">
 
+In total, you will be presented with 9 points of the form each of which is quite simple and easy to set up. Specify the language, date and time, [NTP server](https://www.ntp-servers.net/servers.html), installation source, and so on.
+
+
+
+
 
 ### fdisk and parted
 
