@@ -139,7 +139,7 @@ You will be presented with an Installation Summary screen, where you will config
 
 In total, you will be presented with 9 points of the form each of which is quite simple and easy to set up. Specify the language, date and time, [NTP server](https://www.ntp-servers.net/servers.html), installation source, and so on.
 
-More detailed information should be provided only about the fifth paragraph of the `Installation location` form. Let's will try to split the disk into the partitions we need and create an encrypted LVM volume in text mode.
+More detailed information should be provided only about the fifth paragraph of the __"Installation location"__ form. Let's will try to split the disk into the partitions we need and create an encrypted LVM volume in text mode.
 
 ### fdisk and parted
 
