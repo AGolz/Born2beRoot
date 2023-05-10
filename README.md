@@ -101,7 +101,6 @@ Let's walk through the process of installing Rocky Linux in text mode.
 
 __Start the VM__. Once you have configured your VM and attached the Rocky Linux ISO, start your VM. The Rocky Linux boot menu will appear. Press `tab` and start the installation using the `inst.text` boot parameter. 
 
-<img width="955" alt="Screen Shot 2023-05-10 at 3 33 18 AM" src="https://github.com/AGolz/Born2beRoot/assets/51645091/e7906cd1-0b3f-44d1-adb6-abe29f1bd303">
 
 Thus, we pass the inst.text parameter to the installer
 
