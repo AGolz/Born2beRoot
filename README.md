@@ -92,6 +92,25 @@ Before we proceed to the installation of RockyLinux, we need to make a few more 
 Once you've made all these adjustments, click `OK` to save the settings.
 
 __Start the VM and Install Rocky Linux__ 
+While graphical user interfaces (GUIs) have made operating systems more user-friendly, text mode installation offers a set of advantages, especially when it comes to server environments. Text mode is less resource-intensive and faster, and it allows installations on systems with low graphical capabilities. It's a valuable skill to master for anyone aiming for proficiency in system administration. However, you should always consider the available alternatives before starting a text-based installation. Text mode is limited in the amount of choices you can make during the installation.
+
+Limits of interactive text mode installation include:
+- The installer will always use the English language and the US English keyboard layout. You can configure your language and keyboard settings, but these settings will only apply to the installed system, not to the installation.
+- You cannot configure any advanced storage methods (LVM, software RAID, FCoE, zFCP and iSCSI).
+- It is not possible to configure custom partitioning; you must use one of the automatic partitioning settings. You also cannot configure where the boot loader will be installed.
+- You cannot select any package add-ons to be installed; they must be added after the installation finishes using the DNF package manager.
+
+But let's try to get around some of these limitations :)
+
+Let's walk through the process of installing Rocky Linux in text mode.
+
+__Start the VM__
+
+Once you have configured your VM and attached the Rocky Linux ISO, start your VM. The Rocky Linux boot menu will appear. Press `tab` and start the installation using the `inst.text` boot parameter. 
+
+<img width="955" alt="Screen Shot 2023-05-10 at 3 33 18 AM" src="https://github.com/AGolz/Born2beRoot/assets/51645091/e7906cd1-0b3f-44d1-adb6-abe29f1bd303">
+
+
 ### inst.text
 
 ### anaconda
