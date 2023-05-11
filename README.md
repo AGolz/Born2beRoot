@@ -142,7 +142,7 @@ Select item 5 and press `ENTER`, in the window that appears, select your hard dr
 
 <img width="1079" alt="Screen Shot 2023-05-11 at 9 00 23 PM" src="https://github.com/AGolz/Born2beRoot/assets/51645091/e33511c0-7e1a-401a-990d-56a10336ab63">
 
-Select item 4 "Manually assign mount points" and press c.
+Select item 4 "Manually assign mount points" and press `c`.
 <img width="1083" alt="Screen Shot 2023-05-11 at 9 07 28 PM" src="https://github.com/AGolz/Born2beRoot/assets/51645091/c843f135-fa5c-4f0a-b254-8d18f85d9b47">
 
 We got into a menu where you can specify mount points for specific partitions. So far we have only one section. 
