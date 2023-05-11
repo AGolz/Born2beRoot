@@ -216,6 +216,16 @@ In summary, primary partitions are the main divisions of your hard disk and can 
 
 With this understanding of primary and extended partitions, let's proceed with the fdisk partitioning process.
 
+To begin with, we will create a primary partition for the boot mount point
+<img width="1076" alt="Screen Shot 2023-05-11 at 11 38 06 PM" src="https://github.com/AGolz/Born2beRoot/assets/51645091/a7875100-5ac3-4b7c-b22a-9e3c018dc456">
+
+next, we will create an extended partition that will take up all the remaining space.
+<img width="1079" alt="Screen Shot 2023-05-11 at 11 39 34 PM" src="https://github.com/AGolz/Born2beRoot/assets/51645091/6431841d-2f20-4d98-8107-b6afc284b03c">
+
+Now, you need to write these changes to the disk. Type w and press Enter.
+Here's what we got:
+<img width="1079" alt="Screen Shot 2023-05-11 at 11 43 49 PM" src="https://github.com/AGolz/Born2beRoot/assets/51645091/4cf607c0-b065-44cb-9dfc-26bd8c3cd37f">
+
 ### LVM
 ### LUKS
 ### lvm.conf
