@@ -105,6 +105,8 @@ Add `inst.text` to the end of the command.
 Press Enter to start the installation in text mode.
 Once the installation starts in text mode, you can follow the installation process using the text-based interface instead of the graphical interface. 
 
+<img width="953" alt="Screen Shot 2023-05-11 at 8 49 28 PM" src="https://github.com/AGolz/Born2beRoot/assets/51645091/0b1a9a99-74fc-4157-9725-43bf18aeea49">
+
 
 Thus, we pass the inst.text parameter to the installer
 
