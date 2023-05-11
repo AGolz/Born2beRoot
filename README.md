@@ -316,6 +316,19 @@ set the mount point for swap:
 Now we have the following structure:
 <img width="1085" alt="Screen Shot 2023-05-12 at 1 53 25 AM" src="https://github.com/AGolz/Born2beRoot/assets/51645091/05b94224-1fd7-4eb7-9f4e-5f1581c3c4bd">
 
+Let's go back to the loader user interface by pressing `Alt+Tab` and update the information about the sections by pressing `s`.
+Now we see four partitions on our hard drive
+<img width="1076" alt="Screen Shot 2023-05-12 at 2 09 10 AM" src="https://github.com/AGolz/Born2beRoot/assets/51645091/0bae16f9-e492-4c0a-8ba7-087cd1cbbfec">
+
+Specify the mount points for the `root` and `home` partitions. Set the mount point for `boot` to /dev/sda1.
+<img width="1082" alt="Screen Shot 2023-05-12 at 2 12 35 AM" src="https://github.com/AGolz/Born2beRoot/assets/51645091/e863e0b0-776d-4803-91f1-7569a9744dc7">
+<img width="1087" alt="Screen Shot 2023-05-12 at 2 17 34 AM" src="https://github.com/AGolz/Born2beRoot/assets/51645091/81ac93a3-82b0-4b32-8924-a33e112bd5dc">
+
+After filling in all the fields of the installation form, press `b` to continue the installation 
+<img width="1077" alt="Screen Shot 2023-05-12 at 2 29 11 AM" src="https://github.com/AGolz/Born2beRoot/assets/51645091/07a683f4-4231-4ee4-b0b0-7a2b9c825053">
+
+
+
 ### lvm.conf
 ### ftstab file 
 
