@@ -226,6 +226,27 @@ Now, you need to write these changes to the disk. Type w and press Enter.
 Here's what we got:
 <img width="1079" alt="Screen Shot 2023-05-11 at 11 43 49 PM" src="https://github.com/AGolz/Born2beRoot/assets/51645091/4cf607c0-b065-44cb-9dfc-26bd8c3cd37f">
 
+In my assignment, my extended partition had to be encrypted, for this I used LUKS.
+
+### LUKS: Linux Unified Key Setup
+LUKS, or Linux Unified Key Setup, is a disk encryption specification that provides a platform-independent standard on-disk format for use in various tools. This not only facilitates compatibility and interoperability among different systems but also provides secure management of multiple user passwords.
+
+LUKS encrypts entire block devices and is thereby well-suited for protecting the contents of mobile devices such as removable storage media or laptop disk drives. It was designed to conform to the TKS1 secure key setup scheme and is the standard for disk encryption on Linux systems.
+
+Here's why LUKS makes an excellent choice for your disk encryption needs:
+- __Platform-Independence__: LUKS stores all necessary setup information in the partition header, enabling the user to transport or migrate data seamlessly.
+- __Secure against Low Entropy Attacks__: Passwords are secured against low entropy attacks through the use of salting and iterated PBKDF2 hashing.
+- __Supports Multiple Keys__: LUKS supports eight different keys for a single encrypted partition. This feature allows multiple users to have their distinct access keys to the same device.
+- __Effective Passphrase Revocation__: With LUKS, when a passphrase is overwritten, it is entirely infeasible to recover any data associated with that passphrase.
+
+#### Why LUKS1?
+As of my knowledge cutoff in September 2021, there are two versions of LUKS available: LUKS1 and LUKS2. While LUKS2 brings several improvements, such as a new keyslot area layout and improved binary key descriptor management, it may not always be the best choice depending on the specific circumstances of your project.
+
+LUKS1 is widely supported, well tested, and provides a strong encryption standard that is sufficient for most purposes. It's also more compatible with various systems and software. Because of its wide adoption, troubleshooting and support are easier to find if issues arise.
+
+In the context of the Born2beRoot project, the choice of LUKS1 aligns well with the requirement of the project to provide strong disk encryption while ensuring broad compatibility and stability. 
+
+
 ### LVM
 ### LUKS
 ### lvm.conf
