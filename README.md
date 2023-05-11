@@ -26,8 +26,10 @@ VMs have become ubiquitous in modern software development and IT infrastructure 
 One of the most popular tools for creating and managing VMs is VirtualBox, a free and open-source hypervisor developed by Oracle Corporation. VirtualBox supports a wide variety of guest operating systems including but not limited to Windows, Linux, and Solaris.
 
 VirtualBox stands out because of its comprehensive feature set, which includes:
-- __Cross-platform compatibility__: VirtualBox runs on a large number of 64-bit host operating systems.
-- __Multi-generation branched` snapshots__: VirtualBox allows you to save the VM state at a particular point in time, which can later be reverted to, allowing developers to 'go back in time'.
+- __Cross-platform compatibility__: VirtualBox runs on a large number of host operating systems.
+- __Multi-generation branched` snapshots__:  
+- 
+- VirtualBox allows you to save the VM state at a particular point in time, which can later be reverted to, allowing developers to 'go back in time'.
 - __Clean architecture and modularity__: VirtualBox’s design makes it easy to control and manage.
 - __Guest Additions__: This refers to software packages that can be installed on supported guest operating systems to improve performance and provide additional integration and communication with the host system.
 - __Shared folders__: These allow for easy data exchange between host and guest operating systems.
@@ -99,10 +101,15 @@ But let's try to get around some of these limitations :)
 
 Let's walk through the process of installing Rocky Linux in text mode.
 
-__Start the VM__. Once you have configured your VM and attached the Rocky Linux ISO, start your VM. The Rocky Linux boot menu will appear. Press `tab` and start the installation using the `inst.text` boot parameter. 
+__Start the VM__. When you start the Rocky Linux installation, you will see a prompt asking you to choose the installation mode. If you select "Install Rocky Linux 9.0", the installation will start in graphical mode by default. However, if you append the `inst.text` option to the boot command, the installer will start in text mode instead. Once you have configured your VM and attached the Rocky Linux ISO, start your VM. The Rocky Linux boot menu will appear. 
+At the boot prompt, press the Tab key to edit the boot command.
+Add `inst.text` to the end of the command.
+Press Enter to start the installation in text mode.
+Once the installation starts in text mode, you can follow the installation process using the text-based interface instead of the graphical interface. 
 
 
 Thus, we pass the inst.text parameter to the installer
+
 
 ## Part IV: The Anaconda Installer - Facilitating the Rocky Linux Installation
 
