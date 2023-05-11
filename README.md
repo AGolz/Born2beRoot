@@ -53,9 +53,11 @@ In the next section, we will walk through the process of installing Rocky Linux 
 ## Part III: Setting Up VirtualBox for Rocky Linux
 Here, we will walk through the steps of setting up VirtualBox for Rocky Linux.
 
-__Download Rocky Linux ISO__. Download the ISO file for Rocky Linux from the official Rocky Linux download [page](https://rockylinux.org/ru/download).
+### Download Rocky Linux ISO.
+Download the ISO file for Rocky Linux from the official Rocky Linux download [page](https://rockylinux.org/ru/download).
 
-__Open VirtualBox and Create a New VM__. After acquiring the Rocky Linux ISO, open VirtualBox and click on the `New` button to create a new VM.
+### Open VirtualBox and Create a New VM.
+After acquiring the Rocky Linux ISO, open VirtualBox and click on the `New` button to create a new VM.
 
 A new window will open for the VM setup. Here, you need to specify several settings:
 - __Name and Operating System__: Give your VM a name and specify the type and version of the operating system.Since we are installing Rocky linux, select `Linux` as the system and the required bit depth. 
@@ -64,7 +66,9 @@ A new window will open for the VM setup. Here, you need to specify several setti
 
 <img width="1014" alt="Screen Shot 2023-03-09 at 5 05 30 PM" src="https://github.com/AGolz/Born2beRoot/assets/51645091/42764d43-7dda-4c8f-8cef-48fcd514422a">
 
-__Configure Virtual Hard Disk__. In the subsequent window, you'll be asked to choose the hard disk file type, its size, and storage details.
+### Configure Virtual Hard Disk.
+
+In the subsequent window, you'll be asked to choose the hard disk file type, its size, and storage details.
 
 Hard Disk File Type: Select `VDI (VirtualBox Disk Image)` as it is compatible with VirtualBox.
 
@@ -73,7 +77,9 @@ Storage on Physical Hard Disk: Choose `Dynamically allocated`, which means your 
 File Location and Size: Finally, set the maximum size of the virtual hard disk. A minimum of 10GB is recommended for Rocky Linux, but if you can, allocate more space to avoid running out of space in the future.
  <img width="1023" alt="Screen Shot 2023-03-09 at 5 06 33 PM" src="https://github.com/AGolz/Born2beRoot/assets/51645091/e6cfc159-c970-436d-84c8-5a3a5d861769">
  
-__Configure VM Further__. Before we proceed to the installation of RockyLinux, we need to make a few more adjustments to our VM. Select your VM and click on `Settings`:
+### Configure VM Further. 
+
+Before we proceed to the installation of RockyLinux, we need to make a few more adjustments to our VM. Select your VM and click on `Settings`:
 - __System__: Under the `System` tab, ensure that the boot order is set to `Optical` then `Hard Disk`.
 - __Display__: Allocate video memory. The recommended minimum is 16MB.
 - __Storage__: Here, you need to attach the Rocky Linux ISO you downloaded earlier. Under the `Controller: IDE`, click on the CD icon with a plus sign (Add Optical Drive), then choose `Add`. Navigate to the location of your Rocky Linux ISO, select it, and click `Choose`.
@@ -87,7 +93,9 @@ __Configure VM Further__. Before we proceed to the installation of RockyLinux, w
 
 Once you've made all these adjustments, click `OK` to save the settings.
 
-__Start the VM and Install Rocky Linux__. While graphical user interfaces (GUIs) have made operating systems more user-friendly, text mode installation offers a set of advantages, especially when it comes to server environments. Text mode is less resource-intensive and faster, and it allows installations on systems with low graphical capabilities. It's a valuable skill to master for anyone aiming for proficiency in system administration. However, you should always consider the available alternatives before starting a text-based installation. Text mode is limited in the amount of choices you can make during the installation.
+### Start the VM and Install Rocky Linux.
+
+While graphical user interfaces (GUIs) have made operating systems more user-friendly, text mode installation offers a set of advantages, especially when it comes to server environments. Text mode is less resource-intensive and faster, and it allows installations on systems with low graphical capabilities. It's a valuable skill to master for anyone aiming for proficiency in system administration. However, you should always consider the available alternatives before starting a text-based installation. Text mode is limited in the amount of choices you can make during the installation.
 
 Limits of interactive text mode installation include:
 - The installer will always use the English language and the US English keyboard layout. You can configure your language and keyboard settings, but these settings will only apply to the installed system, not to the installation.
@@ -99,7 +107,8 @@ But let's try to get around some of these limitations :)
 
 Let's walk through the process of installing Rocky Linux in text mode.
 
-__Start the VM__. When you start the Rocky Linux installation, you will see a prompt asking you to choose the installation mode. If you select "Install Rocky Linux 9.0", the installation will start in graphical mode by default. However, if you append the `inst.text` option to the boot command, the installer will start in text mode instead. Once you have configured your VM and attached the Rocky Linux ISO, start your VM. The Rocky Linux boot menu will appear. 
+### Start the VM. 
+When you start the Rocky Linux installation, you will see a prompt asking you to choose the installation mode. If you select "Install Rocky Linux 9.0", the installation will start in graphical mode by default. However, if you append the `inst.text` option to the boot command, the installer will start in text mode instead. Once you have configured your VM and attached the Rocky Linux ISO, start your VM. The Rocky Linux boot menu will appear. 
 At the boot prompt, press the Tab key to edit the boot command.
 Add `inst.text` to the end of the command.
 Press Enter to start the installation in text mode.
@@ -153,8 +162,26 @@ Press `Alt+Tab` and switch to `shell` command line mode.
 
 <img width="1083" alt="Screen Shot 2023-05-11 at 9 46 30 PM" src="https://github.com/AGolz/Born2beRoot/assets/51645091/2935c797-429b-45e0-b76c-7269e643344a">
 
+Before proceeding with disk partitioning, let's discuss two popular command-line tools for this task: `fdisk` and `parted`. I will also explain why I decided to use fdisk for this tutorial.
 
-### fdisk and parted
+## fdisk vs. parted: A Brief Comparison
+
+fdisk and parted are both powerful and widely used tools for partitioning disks in Linux systems. They have their advantages and specific use cases, but they also differ in some key aspects.
+
+### fdisk
+`fdisk` is a widely used, text-based utility for managing disk partitions on Linux systems. It supports creating, deleting, and modifying partitions on a hard disk. While `fdisk` primarily works with MBR (Master Boot Record) partition tables, it also offers limited support for GPT (GUID Partition Table) partition tables. Some of the reasons to choose `fdisk` include:
+- __Familiarity__: `fdisk` has been around for a long time, and many users are accustomed to using it.
+- __Simplicity__: `fdisk` provides a straightforward interface for managing partitions, making it easier for users to accomplish their tasks.
+
+### parted
+`parted` is another command-line utility for partitioning hard drives on Linux systems. It is more advanced than `fdisk` and supports a broader range of partition table formats, including MBR and GPT. Some reasons to choose parted include:
+- __Greater compatibility__: `parted` works with a wider variety of partition tables, making it more versatile for managing modern hard drives.
+- __Advanced features__: `parted` offers more advanced functionality, such as resizing partitions without data loss.
+
+### Why Choose fdisk?
+In this guide, I decided to use `fdisk` to partition the disk. The primary reason is its simplicity and familiarity among Linux users. Although parted offers more advanced features and broader compatibility, `fdisk` is more than sufficient for the partitioning requirements of the Born2beRoot project. In addition, using `fdisk` aligns with the text-based installation approach we've been following, making it a suitable choice for this scenario.
+
+Now that we have discussed fdisk and the rationale for choosing it, let's look at the process of partitioning a disk using the `fdisk` command.
 
 ### primary and extended part
 
