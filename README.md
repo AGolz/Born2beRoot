@@ -138,6 +138,11 @@ In total, you will be presented with 9 points of the form each of which is quite
 
 More detailed information should be provided only about the fifth paragraph of the __"Installation Destination"__ form. Let's will try to split the disk into the partitions we need and create an encrypted LVM volume in text mode.
 
+Select item 5 and press `ENTER`, in the window that appears, select your hard drive and press `c`
+
+<img width="1079" alt="Screen Shot 2023-05-11 at 9 00 23 PM" src="https://github.com/AGolz/Born2beRoot/assets/51645091/e33511c0-7e1a-401a-990d-56a10336ab63">
+
+
 ### fdisk and parted
 
 ### primary and extended part
