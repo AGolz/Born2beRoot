@@ -183,6 +183,17 @@ In this guide, I decided to use `fdisk` to partition the disk. The primary reaso
 
 Now that we have discussed fdisk and the rationale for choosing it, let's look at the process of partitioning a disk using the `fdisk` command.
 
+And so, in my project, I had to set up the partitions correctly to get a structure similar to the one below:
+
+<img width="601" alt="Screen Shot 2023-05-11 at 10 54 32 PM" src="https://github.com/AGolz/Born2beRoot/assets/51645091/f407936c-9c8f-48c2-af9f-b1b91e7f3027">
+
+As we learned earlier, there are limitations in text mode, so we will create only a few partitions with which the loader will not have problems during mounting.
+To start, select our device using the following command:
+`fdisk /dev/sda`
+Enter `n`, fdisk will prompt us to choose which partition we want to create "primary" or "extended".
+<img width="1083" alt="Screen Shot 2023-05-11 at 11 02 35 PM" src="https://github.com/AGolz/Born2beRoot/assets/51645091/c9db09d9-efe9-46ad-996b-305a99b237ae">
+
+
 ### primary and extended part
 
 ### LVM
