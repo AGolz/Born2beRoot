@@ -5,7 +5,7 @@
 
 ### Introduction
 
-Welcome to the world of server virtualization! As part of my educational journey at Ecole 42, I embarked on an exciting project - Born2beRoot. This educational initiative presented a unique opportunity to delve deeper into the world of operating systems, network administration, and system administration. It's designed to challenge students like me to deploy a server, enforcing stringent rules to ensure we understand and implement best practices in system and network management.
+Welcome to the world of server virtualization! As part of my educational journey at [Ecole 42](https://42.fr/en/homepage/), I embarked on an exciting project - Born2beRoot. This educational initiative presented a unique opportunity to delve deeper into the world of operating systems, network administration, and system administration. It's designed to challenge students like me to deploy a server, enforcing stringent rules to ensure we understand and implement best practices in system and network management.
 
 Born2beRoot is more than just a project; it's a testament to the capabilities of virtualization and its transformative impact on the world of technology. The project comes with a predefined set of rules and a well-laid-out subject matter to help guide the implementation. This, however, does not in any way limit creativity and problem-solving.
 
@@ -27,7 +27,7 @@ One of the most popular tools for creating and managing VMs is VirtualBox, a fre
 
 VirtualBox stands out because of its comprehensive feature set, which includes:
 - __Cross-platform compatibility__: VirtualBox runs on a large number of host operating systems.
-- __Multi-generation branched snapshots__: VirtualBox allows you to save the VM state at a particular point in time, which can later be reverted to, allowing developers to 'go back in time'.
+- __Multi-generation branched snapshots__: VirtualBox allows you to save the VM state at a particular point in time, which can later be reverted to, allowing developers to "go back in time".
 - __Clean architecture and modularity__: VirtualBox’s design makes it easy to control and manage.
 - __Guest Additions__: This refers to software packages that can be installed on supported guest operating systems to improve performance and provide additional integration and communication with the host system.
 - __Shared folders__: These allow for easy data exchange between host and guest operating systems.
