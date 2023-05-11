@@ -257,6 +257,13 @@ To start encryption, enter the following command
 and follow the instructions
 <img width="1086" alt="Screen Shot 2023-05-12 at 1 10 45 AM" src="https://github.com/AGolz/Born2beRoot/assets/51645091/dc8997f4-99b9-45df-80e8-d0cf2c5b2b8f">
 
+Open the container:
+
+`cryptsetup open /dev/sda1 sda5_crypt`
+
+The decrypted container is now available.
+<img width="1080" alt="Screen Shot 2023-05-12 at 1 16 57 AM" src="https://github.com/AGolz/Born2beRoot/assets/51645091/8c1924a7-da1a-4c06-8c1b-023fe1c5a872">
+
 
 ### LVM
 ### LUKS
