@@ -166,7 +166,7 @@ Before proceeding with disk partitioning, let's discuss two popular command-line
 
 ### fdisk vs. parted: A Brief Comparison
 
-fdisk and parted are both powerful and widely used tools for partitioning disks in Linux systems. They have their advantages and specific use cases, but they also differ in some key aspects.
+`fdisk` and `parted` are both powerful and widely used tools for partitioning disks in Linux systems. They have their advantages and specific use cases, but they also differ in some key aspects.
 
 #### fdisk
 `fdisk` is a widely used, text-based utility for managing disk partitions on Linux systems. It supports creating, deleting, and modifying partitions on a hard disk. While `fdisk` primarily works with MBR (Master Boot Record) partition tables, it also offers limited support for GPT (GUID Partition Table) partition tables. Some of the reasons to choose `fdisk` include:
@@ -189,7 +189,9 @@ And so, in my project, I had to set up the partitions correctly to get a structu
 
 As we learned earlier, there are limitations in text mode, so we will create only a few partitions with which the loader will not have problems during mounting.
 To start, select our device using the following command:
-`fdisk /dev/sda`
+```
+# fdisk /dev/sda
+```
 Enter `n`, fdisk will prompt us to choose which partition we want to create "primary" or "extended".
 <img width="1083" alt="Screen Shot 2023-05-11 at 11 02 35 PM" src="https://github.com/AGolz/Born2beRoot/assets/51645091/c9db09d9-efe9-46ad-996b-305a99b237ae">
 
@@ -252,15 +254,18 @@ In the context of the Born2beRoot project, the choice of LUKS1 aligns well with 
 
 To start encryption, enter the following command
 
-`cryptsetup luksFormat --type luks1 /dev/sda1`
+```
+# cryptsetup luksFormat --type luks1 /dev/sda1
+```
 
 and follow the instructions
 <img width="1086" alt="Screen Shot 2023-05-12 at 1 10 45 AM" src="https://github.com/AGolz/Born2beRoot/assets/51645091/dc8997f4-99b9-45df-80e8-d0cf2c5b2b8f">
 
 Open the container:
 
-`cryptsetup open /dev/sda1 sda5_crypt`
-
+```
+# cryptsetup open /dev/sda1 sda5_crypt
+```
 The decrypted container is now available
 <img width="1080" alt="Screen Shot 2023-05-12 at 1 16 57 AM" src="https://github.com/AGolz/Born2beRoot/assets/51645091/8c1924a7-da1a-4c06-8c1b-023fe1c5a872">
 
@@ -282,15 +287,20 @@ Now that we have understood what LVM is and its components, let's create a volum
 
 Create a physical volume on top of the opened LUKS container:
 
-`pvcreate /dev/mapper/sda5_crypt`
+```
+# pvcreate /dev/mapper/sda5_crypt
+```
 
 Create a volume group (in this example named LVMGroup, but it can be whatever you want) and add the previously created physical volume to it:
 
-`vgcreate LVMGroup /dev/mapper/sda5_crypt`
+```
+# vgcreate LVMGroup /dev/mapper/sda5_crypt
+```
 
 <img width="1081" alt="Screen Shot 2023-05-12 at 1 33 56 AM" src="https://github.com/AGolz/Born2beRoot/assets/51645091/8a3c9548-0c09-4c61-94a7-c2adf7f9b46c">
 
 Create logical volumes in a volume group using the `lvcreate` command
+
 <img width="1083" alt="Screen Shot 2023-05-12 at 1 41 40 AM" src="https://github.com/AGolz/Born2beRoot/assets/51645091/76e3a0ef-b005-4905-b455-646e90c67bae">
 
 Format your filesystems on each logical volume:
@@ -303,6 +313,8 @@ set the mount point for swap:
 ```
 # swapon /dev/LVMGroup/swap
 ```
+Now we have the following structure:
+<img width="1085" alt="Screen Shot 2023-05-12 at 1 53 25 AM" src="https://github.com/AGolz/Born2beRoot/assets/51645091/05b94224-1fd7-4eb7-9f4e-5f1581c3c4bd">
 
 ### lvm.conf
 ### ftstab file 
