@@ -233,7 +233,7 @@ Here's what we got:
 In my assignment, my extended partition had to be encrypted, for this I used LUKS.
 
 ### LUKS: Linux Unified Key Setup
-LUKS, or Linux Unified Key Setup, is a disk encryption specification that provides a platform-independent standard on-disk format for use in various tools. This not only facilitates compatibility and interoperability among different systems but also provides secure management of multiple user passwords.
+__LUKS__, or __Linux Unified Key Setup__, is a disk encryption specification that provides a platform-independent standard on-disk format for use in various tools. This not only facilitates compatibility and interoperability among different systems but also provides secure management of multiple user passwords.
 
 LUKS encrypts entire block devices and is thereby well-suited for protecting the contents of mobile devices such as removable storage media or laptop disk drives. It was designed to conform to the TKS1 secure key setup scheme and is the standard for disk encryption on Linux systems.
 
@@ -261,12 +261,49 @@ Open the container:
 
 `cryptsetup open /dev/sda1 sda5_crypt`
 
-The decrypted container is now available.
+The decrypted container is now available
 <img width="1080" alt="Screen Shot 2023-05-12 at 1 16 57 AM" src="https://github.com/AGolz/Born2beRoot/assets/51645091/8c1924a7-da1a-4c06-8c1b-023fe1c5a872">
 
+Let's create a group of logical volumes in our container and several logical partitions.
 
-### LVM
-### LUKS
+### LVM: Logical Volume Management
+__Logical Volume Management (LVM)__ is a flexible and advanced option for disk management available on Linux. It allows you to manage disk drives and similar mass-storage devices in a more abstract and flexible manner than traditional methods. Instead of working with individual devices, LVM provides the ability to manage disk storage in terms of logical volumes.
+
+Here's a quick breakdown of LVM components:
+- __Physical Volumes (PV)__: These are your actual physical disks or partitions.
+- __Volume Groups (VG)__: These are abstracted layers over physical volumes. You can consider a volume group as one large disk made up of the combined space of its underlying physical volumes. This abstraction provides great flexibility. You can add or remove physical volumes to the volume group, effectively resizing it.
+- __Logical Volumes (LV)__: These are the equivalent of disk partitions in a non-LVM system. However, unlike traditional partitions, logical volumes can span across multiple physical volumes. Logical volumes are the functional equivalent of a partition in a disk, and you can create filesystems on them as you would on a traditional partition.
+
+The real strength of LVM comes from its flexibility. You can resize logical volumes, add new physical volumes to your volume groups, migrate data between physical volumes, and much more, often without downtime.
+
+For example, if you are running out of space on a logical volume, you can simply add a new physical volume to the volume group (if you have a free disk or a disk with free space), and then extend the logical volume across the new space, all without interrupting service.
+
+Now that we have understood what LVM is and its components, let's create a volume group and logical volumes in our decrypted container.
+
+Create a physical volume on top of the opened LUKS container:
+
+`pvcreate /dev/mapper/sda5_crypt`
+
+Create a volume group (in this example named LVMGroup, but it can be whatever you want) and add the previously created physical volume to it:
+
+`vgcreate LVMGroup /dev/mapper/sda5_crypt`
+
+<img width="1081" alt="Screen Shot 2023-05-12 at 1 33 56 AM" src="https://github.com/AGolz/Born2beRoot/assets/51645091/8a3c9548-0c09-4c61-94a7-c2adf7f9b46c">
+
+Create logical volumes in a volume group using the `lvcreate` command
+<img width="1083" alt="Screen Shot 2023-05-12 at 1 41 40 AM" src="https://github.com/AGolz/Born2beRoot/assets/51645091/76e3a0ef-b005-4905-b455-646e90c67bae">
+
+Format your filesystems on each logical volume:
+```
+# mkfs.ext4 /dev/LVMGroup/root
+# mkfs.ext4 /dev/LVMGroup/home
+# mkswap /dev/LVMGroup/swap
+```
+set the mount point for swap:
+```
+# swapon /dev/LVMGroup/swap
+```
+
 ### lvm.conf
 ### ftstab file 
 
