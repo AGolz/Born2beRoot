@@ -27,7 +27,7 @@ One of the most popular tools for creating and managing VMs is VirtualBox, a fre
 
 VirtualBox stands out because of its comprehensive feature set, which includes:
 - __Cross-platform compatibility__: VirtualBox runs on a large number of host operating systems.
-- __Multi-generation branched` snapshots__: VirtualBox allows you to save the VM state at a particular point in time, which can later be reverted to, allowing developers to 'go back in time'.
+- __Multi-generation branched snapshots__: VirtualBox allows you to save the VM state at a particular point in time, which can later be reverted to, allowing developers to 'go back in time'.
 - __Clean architecture and modularity__: VirtualBox’s design makes it easy to control and manage.
 - __Guest Additions__: This refers to software packages that can be installed on supported guest operating systems to improve performance and provide additional integration and communication with the host system.
 - __Shared folders__: These allow for easy data exchange between host and guest operating systems.
