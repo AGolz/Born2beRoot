@@ -198,6 +198,8 @@ Before we proceed with the partitioning process, it's essential to understand th
 
 Hard drives can be divided into one or more logical sections, known as partitions. These partitions function as separate drives, and they can have different file systems. In the context of an MBR partitioning scheme, which is the type of partition table fdisk primarily works with, there are two types of partitions: primary and extended.
 
+![07-file-systems-002](https://github.com/AGolz/Born2beRoot/assets/51645091/f9786998-1cc5-412f-92a4-d7c796342ef9)
+
 #### Primary Partitions
 Primary partitions are the main partitions on a disk. They can host a file system directly, which means you can install an operating system on them or use them for data storage. According to the MBR partitioning scheme, you can have up to four primary partitions on a disk.
 
