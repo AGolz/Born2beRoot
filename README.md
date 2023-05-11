@@ -222,9 +222,13 @@ To begin with, we will create a primary partition for the boot mount point
 next, we will create an extended partition that will take up all the remaining space.
 <img width="1079" alt="Screen Shot 2023-05-11 at 11 39 34 PM" src="https://github.com/AGolz/Born2beRoot/assets/51645091/6431841d-2f20-4d98-8107-b6afc284b03c">
 
+Then enter `n` again and fdisk will automatically create a new logical partition `sda5`. 
+<img width="1081" alt="Screen Shot 2023-05-12 at 12 59 55 AM" src="https://github.com/AGolz/Born2beRoot/assets/51645091/4bb4f99c-b84f-4aa2-88aa-b8eb67baaea3">
+
 Now, you need to write these changes to the disk. Type w and press Enter.
 Here's what we got:
-<img width="1079" alt="Screen Shot 2023-05-11 at 11 43 49 PM" src="https://github.com/AGolz/Born2beRoot/assets/51645091/4cf607c0-b065-44cb-9dfc-26bd8c3cd37f">
+
+<img width="1081" alt="Screen Shot 2023-05-12 at 1 04 44 AM" src="https://github.com/AGolz/Born2beRoot/assets/51645091/4362160f-3318-42c7-918e-a58cb030dd51">
 
 In my assignment, my extended partition had to be encrypted, for this I used LUKS.
 
@@ -240,12 +244,11 @@ Here's why LUKS makes an excellent choice for your disk encryption needs:
 - __Effective Passphrase Revocation__: With LUKS, when a passphrase is overwritten, it is entirely infeasible to recover any data associated with that passphrase.
 
 #### Why LUKS1?
-As of my knowledge cutoff in September 2021, there are two versions of LUKS available: LUKS1 and LUKS2. While LUKS2 brings several improvements, such as a new keyslot area layout and improved binary key descriptor management, it may not always be the best choice depending on the specific circumstances of your project.
+In September 2021, two versions of LUKS became available for Linux: LUKS1 and LUKS2. While LUKS2 brings several improvements, such as a new keyslot area layout and improved binary key descriptor management, it may not always be the best choice depending on the specific circumstances of your project.
 
 LUKS1 is widely supported, well tested, and provides a strong encryption standard that is sufficient for most purposes. It's also more compatible with various systems and software. Because of its wide adoption, troubleshooting and support are easier to find if issues arise.
 
 In the context of the Born2beRoot project, the choice of LUKS1 aligns well with the requirement of the project to provide strong disk encryption while ensuring broad compatibility and stability. 
-
 
 ### LVM
 ### LUKS
