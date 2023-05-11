@@ -178,7 +178,7 @@ fdisk and parted are both powerful and widely used tools for partitioning disks 
 - __Greater compatibility__: `parted` works with a wider variety of partition tables, making it more versatile for managing modern hard drives.
 - __Advanced features__: `parted` offers more advanced functionality, such as resizing partitions without data loss.
 
-### Why Choose fdisk?
+### Why choose fdisk?
 In this guide, I decided to use `fdisk` to partition the disk. The primary reason is its simplicity and familiarity among Linux users. Although parted offers more advanced features and broader compatibility, `fdisk` is more than sufficient for the partitioning requirements of the Born2beRoot project. In addition, using `fdisk` aligns with the text-based installation approach we've been following, making it a suitable choice for this scenario.
 
 Now that we have discussed fdisk and the rationale for choosing it, let's look at the process of partitioning a disk using the `fdisk` command.
