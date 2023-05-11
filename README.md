@@ -164,21 +164,21 @@ Press `Alt+Tab` and switch to `shell` command line mode.
 
 Before proceeding with disk partitioning, let's discuss two popular command-line tools for this task: `fdisk` and `parted`. I will also explain why I decided to use fdisk for this tutorial.
 
-## fdisk vs. parted: A Brief Comparison
+### fdisk vs. parted: A Brief Comparison
 
 fdisk and parted are both powerful and widely used tools for partitioning disks in Linux systems. They have their advantages and specific use cases, but they also differ in some key aspects.
 
-### fdisk
+#### fdisk
 `fdisk` is a widely used, text-based utility for managing disk partitions on Linux systems. It supports creating, deleting, and modifying partitions on a hard disk. While `fdisk` primarily works with MBR (Master Boot Record) partition tables, it also offers limited support for GPT (GUID Partition Table) partition tables. Some of the reasons to choose `fdisk` include:
 - __Familiarity__: `fdisk` has been around for a long time, and many users are accustomed to using it.
 - __Simplicity__: `fdisk` provides a straightforward interface for managing partitions, making it easier for users to accomplish their tasks.
 
-### parted
+#### parted
 `parted` is another command-line utility for partitioning hard drives on Linux systems. It is more advanced than `fdisk` and supports a broader range of partition table formats, including MBR and GPT. Some reasons to choose parted include:
 - __Greater compatibility__: `parted` works with a wider variety of partition tables, making it more versatile for managing modern hard drives.
 - __Advanced features__: `parted` offers more advanced functionality, such as resizing partitions without data loss.
 
-### Why choose fdisk?
+#### Why choose fdisk?
 In this guide, I decided to use `fdisk` to partition the disk. The primary reason is its simplicity and familiarity among Linux users. Although parted offers more advanced features and broader compatibility, `fdisk` is more than sufficient for the partitioning requirements of the Born2beRoot project. In addition, using `fdisk` aligns with the text-based installation approach we've been following, making it a suitable choice for this scenario.
 
 Now that we have discussed fdisk and the rationale for choosing it, let's look at the process of partitioning a disk using the `fdisk` command.
@@ -193,8 +193,24 @@ To start, select our device using the following command:
 Enter `n`, fdisk will prompt us to choose which partition we want to create "primary" or "extended".
 <img width="1083" alt="Screen Shot 2023-05-11 at 11 02 35 PM" src="https://github.com/AGolz/Born2beRoot/assets/51645091/c9db09d9-efe9-46ad-996b-305a99b237ae">
 
+### Understanding Primary and Extended Partitions
+Before we proceed with the partitioning process, it's essential to understand the difference between primary and extended partitions.
 
-### primary and extended part
+Hard drives can be divided into one or more logical sections, known as partitions. These partitions function as separate drives, and they can have different file systems. In the context of an MBR partitioning scheme, which is the type of partition table fdisk primarily works with, there are two types of partitions: primary and extended.
+
+#### Primary Partitions
+Primary partitions are the main partitions on a disk. They can host a file system directly, which means you can install an operating system on them or use them for data storage. According to the MBR partitioning scheme, you can have up to four primary partitions on a disk.
+
+#### Extended Partitions
+The limitation of four primary partitions can be restrictive, especially on large hard drives. That's where extended partitions come in.
+
+An extended partition is a special type of partition that acts as a container for additional partitions known as logical partitions. You can only have one extended partition on a disk, but this extended partition can be subdivided into multiple logical partitions.
+
+This structure allows you to effectively bypass the limit of four primary partitions. Instead of creating multiple primary partitions, you can create a single primary partition, an extended partition, and then as many logical partitions within the extended partition as you need.
+
+In summary, primary partitions are the main divisions of your hard disk and can host a file system or an operating system directly. On the other hand, an extended partition acts as a container for multiple logical partitions, allowing you to create more than four partitions on a disk.
+
+With this understanding of primary and extended partitions, let's proceed with the fdisk partitioning process.
 
 ### LVM
 ### LUKS
