@@ -251,7 +251,9 @@ LUKS1 is widely supported, well tested, and provides a strong encryption standar
 In the context of the Born2beRoot project, the choice of LUKS1 aligns well with the requirement of the project to provide strong disk encryption while ensuring broad compatibility and stability. 
 
 To start encryption, enter the following command
+
 `cryptsetup luksFormat --type luks1 /dev/sda1`
+
 and follow the instructions
 <img width="1086" alt="Screen Shot 2023-05-12 at 1 10 45 AM" src="https://github.com/AGolz/Born2beRoot/assets/51645091/dc8997f4-99b9-45df-80e8-d0cf2c5b2b8f">
 
