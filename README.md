@@ -112,8 +112,8 @@ Once you have configured your VM and attached the Rocky Linux ISO, start your VM
 
 <img width="953" alt="Screen Shot 2023-05-11 at 8 49 28 PM" src="https://github.com/AGolz/Born2beRoot/assets/51645091/0b1a9a99-74fc-4157-9725-43bf18aeea49">
 
-## Part IV: The Anaconda Installer - Facilitating the Rocky Linux Installation
-
+## Part IV: Anaconda Unveiled. Exploring Disk Partitioning, LVM, and LUKS
+### The Anaconda Installer
 Anaconda is the installation program used by Rocky Linux, Fedora, CentOS, and other Linux distributions. It is a versatile and powerful tool that allows you to install Linux on your system exactly how you want it.
 
 In the background, Anaconda performs various tasks like partitioning the disks, setting up the file system, and installing the packages. But what you see as a user is a straightforward, step-by-step process that guides you through the installation.
