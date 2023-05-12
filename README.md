@@ -133,7 +133,7 @@ In summary, Anaconda is a feature-rich and flexible installer that makes the pro
 
 Now let's go back to our RockyLinux installation in text mode.
 
-__Description of the installation__. You will be presented with an Installation Summary screen, where you will configure several aspects of the installation:
+__Description of the installation__. Follow the instructions of the installer until you reach the installation menu with nine items, where you will configure several aspects of the installation: 
 
 <img width="1259" alt="Screen Shot 2023-03-02 at 11 49 22 AM" src="https://github.com/AGolz/Born2beRoot/assets/51645091/7ce9890c-e23d-49c5-837d-bb78284d4990">
 
