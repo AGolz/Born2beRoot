@@ -130,6 +130,7 @@ Anaconda also integrates network and hostname settings, allowing you to set up y
 Lastly, Anaconda offers a range of customizability in terms of software selection. You can choose between several base environments, each tailored for a specific use case (like "Minimal Install" for a basic setup, or "Server with GUI" for a more comprehensive setup), and add additional software packages as needed.
 
 In summary, Anaconda is a feature-rich and flexible installer that makes the process of installing Linux distributions like Rocky Linux straightforward, efficient, and customizable. Whether you're a beginner or an experienced user, Anaconda's various modes and advanced features can accommodate your needs.
+
 Now let's go back to our RockyLinux installation in text mode.
 
 __Description of the installation__. You will be presented with an Installation Summary screen, where you will configure several aspects of the installation:
