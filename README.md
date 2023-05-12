@@ -109,15 +109,8 @@ Let's walk through the process of installing Rocky Linux in text mode.
 
 ### Start the VM. 
 When you start the Rocky Linux installation, you will see a prompt asking you to choose the installation mode. If you select "Install Rocky Linux 9.0", the installation will start in graphical mode by default. However, if you append the `inst.text` option to the boot command, the installer will start in text mode instead. Once you have configured your VM and attached the Rocky Linux ISO, start your VM. The Rocky Linux boot menu will appear. 
-At the boot prompt, press the Tab key to edit the boot command.
-Add `inst.text` to the end of the command.
-Press Enter to start the installation in text mode.
-Once the installation starts in text mode, you can follow the installation process using the text-based interface instead of the graphical interface. 
 
 <img width="953" alt="Screen Shot 2023-05-11 at 8 49 28 PM" src="https://github.com/AGolz/Born2beRoot/assets/51645091/0b1a9a99-74fc-4157-9725-43bf18aeea49">
-
-
-Thus, we pass the inst.text parameter to the installer
 
 
 ## Part IV: The Anaconda Installer - Facilitating the Rocky Linux Installation
