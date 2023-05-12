@@ -255,7 +255,7 @@ In the context of the Born2beRoot project, the choice of LUKS1 aligns well with 
 To start encryption, enter the following command
 
 ```
-# cryptsetup luksFormat --type luks1 /dev/sda1
+# cryptsetup luksFormat --type luks1 /dev/sda5
 ```
 
 and follow the instructions
@@ -264,7 +264,7 @@ and follow the instructions
 Open the container:
 
 ```
-# cryptsetup open /dev/sda1 sda5_crypt
+# cryptsetup open /dev/sda5p sda5_crypt
 ```
 The decrypted container is now available
 <img width="1080" alt="Screen Shot 2023-05-12 at 1 16 57 AM" src="https://github.com/AGolz/Born2beRoot/assets/51645091/8c1924a7-da1a-4c06-8c1b-023fe1c5a872">
@@ -301,12 +301,11 @@ Create a volume group (in this example named LVMGroup, but it can be whatever yo
 
 Create logical volumes in a volume group using the `lvcreate` command
 
-<img width="1083" alt="Screen Shot 2023-05-12 at 1 41 40 AM" src="https://github.com/AGolz/Born2beRoot/assets/51645091/76e3a0ef-b005-4905-b455-646e90c67bae">
+<img width="1038" alt="Screen Shot 2023-05-12 at 3 05 04 AM" src="https://github.com/AGolz/Born2beRoot/assets/51645091/82ce5360-a31a-4a1b-98e4-c73589e92aa9">
 
 Format your filesystems on each logical volume:
 ```
 # mkfs.ext4 /dev/LVMGroup/root
-# mkfs.ext4 /dev/LVMGroup/home
 # mkswap /dev/LVMGroup/swap
 ```
 set the mount point for swap:
@@ -314,23 +313,78 @@ set the mount point for swap:
 # swapon /dev/LVMGroup/swap
 ```
 Now we have the following structure:
-<img width="1085" alt="Screen Shot 2023-05-12 at 1 53 25 AM" src="https://github.com/AGolz/Born2beRoot/assets/51645091/05b94224-1fd7-4eb7-9f4e-5f1581c3c4bd">
+<img width="1048" alt="Screen Shot 2023-05-12 at 3 16 22 AM" src="https://github.com/AGolz/Born2beRoot/assets/51645091/564fafb8-d07a-4c13-92af-b57e717a37e3">
 
 Let's go back to the loader user interface by pressing `Alt+Tab` and update the information about the sections by pressing `s`.
-Now we see four partitions on our hard drive
-<img width="1076" alt="Screen Shot 2023-05-12 at 2 09 10 AM" src="https://github.com/AGolz/Born2beRoot/assets/51645091/0bae16f9-e492-4c0a-8ba7-087cd1cbbfec">
+Now we see three partitions on our hard drive. Specify the mount points for the `root` partition and set the mount point for `boot` to /dev/sda1.
 
-Specify the mount points for the `root` and `home` partitions. Set the mount point for `boot` to /dev/sda1.
-<img width="1082" alt="Screen Shot 2023-05-12 at 2 12 35 AM" src="https://github.com/AGolz/Born2beRoot/assets/51645091/e863e0b0-776d-4803-91f1-7569a9744dc7">
-<img width="1087" alt="Screen Shot 2023-05-12 at 2 17 34 AM" src="https://github.com/AGolz/Born2beRoot/assets/51645091/81ac93a3-82b0-4b32-8924-a33e112bd5dc">
+<img width="1084" alt="Screen Shot 2023-05-12 at 3 23 24 AM" src="https://github.com/AGolz/Born2beRoot/assets/51645091/8ec88c08-6191-4f91-a0b4-7aba51d9b04e">
+<img width="1077" alt="Screen Shot 2023-05-12 at 3 22 18 AM" src="https://github.com/AGolz/Born2beRoot/assets/51645091/579a00db-4e2e-448c-abf0-d93dd5445b4d">
 
-After filling in all the fields of the installation form, press `b` to continue the installation 
+After filling in all the fields of the installation form, press "b" to finish the installation.
+
 <img width="1077" alt="Screen Shot 2023-05-12 at 2 29 11 AM" src="https://github.com/AGolz/Born2beRoot/assets/51645091/07a683f4-4231-4ee4-b0b0-7a2b9c825053">
 
+After the installation is complete, enter the login and password for root.
+Now the fun begins, we need to add a few more sections to our LV group, but if we enter the vgdisplay command, we will find that the system does not see it.
+<img width="1081" alt="Screen Shot 2023-05-12 at 3 56 04 AM" src="https://github.com/AGolz/Born2beRoot/assets/51645091/533989ee-116a-4a5e-891a-4f026958179a">
 
+Let's fix this by going to the `/etc/lvm/lvm.conf` file and setting `use_devicesfile=0`
+<img width="1077" alt="Screen Shot 2023-05-12 at 4 01 57 AM" src="https://github.com/AGolz/Born2beRoot/assets/51645091/336597b6-8f1a-40d3-9a09-b9fde0380a98">
+<img width="1058" alt="Screen Shot 2023-05-12 at 4 02 48 AM" src="https://github.com/AGolz/Born2beRoot/assets/51645091/0fbfd5b7-0fac-4cee-bfeb-4e80361f8e34">
 
-### lvm.conf
-### ftstab file 
+### The LVM Configuration File and Rocky Linux
+
+The `/etc/lvm/lvm.conf` file is the main configuration file for the Logical Volume Manager (LVM). It includes settings that affect the behavior of all LVM commands. This configuration file is read by each LVM command to determine its overall behavior.
+
+One of the parameters in the `lvm.conf` file is `use_devicesfile`. As per the LVM documentation, setting use_devicesfile to 1 (or leaving it unspecified, as the default is 1) means that LVM will use the `/etc/lvm/devices/system.devices` file to check which devices it should scan for physical volumes. This behavior is new in LVM2 and is intended to improve LVM's handling of complex device setups.
+
+However, in certain scenarios, such as ours, this feature might lead to problems. For instance, if you have an encrypted LVM setup (like we do), and the `devices/system.devices` file doesn't include the encrypted device mapper nodes, LVM commands will not be able to see your volume groups and logical volumes, leading to a situation like the one we encountered.
+
+By setting `use_devicesfile` to 0 in the lvm.conf file, we're instructing LVM to scan all devices for physical volumes, ensuring that it sees our volume group on the encrypted container.
+
+The situation we faced is a relatively known issue in the Rocky Linux community. The encrypted LVM setup creates a layer of complexity that the newer LVM2 device filtering feature does not handle well by default. This is not a problem exclusive to Rocky Linux and can occur in any Linux distribution that uses LVM2 and supports disk encryption.
+
+By understanding and modifying the LVM configuration, we are able to work around this issue and properly set up our disk partitions as per the Born2beRoot project requirements. Now, let's proceed with creating the additional logical volumes in our volume group.
+<img width="1084" alt="Screen Shot 2023-05-12 at 4 16 40 AM" src="https://github.com/AGolz/Born2beRoot/assets/51645091/cb67dd77-a4da-407b-8765-6ccb1cf90bd7">
+
+Perform formatting:
+```
+# mkfs.ext4 /dev/LVMGroup/home
+# mkfs.ext4 /dev/LVMGroup/var
+# mkfs.ext4 /dev/LVMGroup/srv
+# mkfs.ext4 /dev/LVMGroup/tmp
+# mkfs.ext4 /dev/LVMGroup/var-log
+```
+Mount your filesystems:
+```
+# mount /dev/LVMGroup/home /home
+# mount /dev/LVMGroup/var /var
+# mount /dev/LVMGroup/srv /srv
+# mount /dev/LVMGroup/tmp /tmp
+# mkdir /var/log/
+# mount /dev/LVMGroup/var-log /var/log
+```
+Edit the `/etc/fstab` file using a text editor. For each partition, add a line to the fstab file that specifies the mount point and options. The format of the line should be as follows:
+<img width="1085" alt="Screen Shot 2023-05-12 at 5 01 53 AM" src="https://github.com/AGolz/Born2beRoot/assets/51645091/fa827cb8-b77e-4bcf-afa4-a784eff86304">
+
+The `/etc/fstab` file is a system configuration file on Linux and Unix-like operating systems that contains information about filesystems. The file is read by the mount command to determine which options should be used when mounting the specified filesystems.
+
+`fstab` stands for File System Table, and it has a simple structure with each line representing one filesystem. Each line in the file contains six fields separated by spaces or tabs. Here's what those fields represent:
+- __File System__: This field is the name of the partition or storage device. It could be identified in several ways, such as by UUID, or by its file path under /dev/.
+- __Mount Point__: This field is the directory where the file system will be mounted. If the directory doesn't exist, it will need to be created before the filesystem can be mounted.
+- __Type__: This field specifies the type of the filesystem. Common filesystem types include ext4, xfs, ntfs, vfat, swap, and auto (which tells the system to automatically detect the filesystem type).
+- __Options__: This field specifies the mount options that should be used. Options are comma-separated and include things like defaults (use the default options), ro (mount read-only), rw (mount read-write), auto (mount automatically at boot), noauto (do not mount automatically at boot), and many others. The `x-systemd.device-timeout=0` option is a special mount option understood by systemd. It sets the device timeout to 0 seconds, meaning systemd will not wait for the device to be ready or accessible and will fail immediately if the device is not available at boot time.
+- __Dump__: This field is used by the dump utility to decide when to make a backup. If it is set to 0, dump will ignore the filesystem. If set to 1, dump will make a backup.
+- __Pass__: This field is used by the fsck program to determine the order in which filesystem checks are done at boot time. The root filesystem should have a pass of 1, and other filesystems should have a pass of 2. A pass value of 0 means that fsck will not check the filesystem.
+
+The `x-systemd.device-timeout=0` parameter is useful when you want the system boot process to fail quickly if a certain device is not available. However, setting it to 0 could cause issues if the device is slow to become ready or accessible during boot. You might want to consider using a small, non-zero value instead, depending on your specific needs and system configuration.
+
+Test that the partitions are mounted correctly by running the `mount -a` command. This will attempt to mount all the partitions listed in the fstab file. However, it won't catch errors that might only occur during boot, such as an incorrect `fsck` order or a device that isn't ready in time. For this reason, it's also recommended to test a system reboot after making changes to the `/etc/fstab file`.
+
+Once your system is set up with the correct filesystems and mount points, and you've verified that everything is working correctly, you're ready to move on to setting up the server.
+
+## Part V: Setting Up the Server
 
 ### SSH
 #### sshd
