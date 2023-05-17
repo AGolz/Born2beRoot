@@ -222,7 +222,7 @@ next, we will create an extended partition that will take up all the remaining s
 Then enter `n` again and fdisk will automatically create a new logical partition `sda5`. 
 <img width="1081" alt="Screen Shot 2023-05-12 at 12 59 55 AM" src="https://github.com/AGolz/Born2beRoot/assets/51645091/4bb4f99c-b84f-4aa2-88aa-b8eb67baaea3">
 
-Now, you need to write these changes to the disk. Type w and press Enter.
+Now, you need to write these changes to the disk. Type `w` and press `Enter`.
 Here's what we got:
 
 <img width="1081" alt="Screen Shot 2023-05-12 at 1 04 44 AM" src="https://github.com/AGolz/Born2beRoot/assets/51645091/4362160f-3318-42c7-918e-a58cb030dd51">
