@@ -375,6 +375,16 @@ The `/etc/fstab` file is a system configuration file on Linux and Unix-like oper
 
 The `x-systemd.device-timeout=0` parameter is useful when you want the system boot process to fail quickly if a certain device is not available. However, setting it to 0 could cause issues if the device is slow to become ready or accessible during boot. You might want to consider using a small, non-zero value instead, depending on your specific needs and system configuration.
 
+To register the swap partition in /etc/fstab, you need to add the following entry: 
+```
+/dev/mapper/LVMGroup/swap none swap sw 0 0
+```
+- __none__: There is no mount point for swap, as it's not a filesystem.
+- __swap__: This specifies the type of the entry (in this case, swap).
+- __sw__: This is the mount option, indicating that it's a swap partition.
+- __0__: This field is for the dump utility. Since swap is not a filesystem, it's set to 0.
+- __0__: This field is for fsck order. Again, since swap is not a filesystem, it's set to 0.
+
 Test that the partitions are mounted correctly by running the `mount -a` command. This will attempt to mount all the partitions listed in the fstab file. However, it won't catch errors that might only occur during boot, such as an incorrect `fsck` order or a device that isn't ready in time. For this reason, it's also recommended to test a system reboot after making changes to the `/etc/fstab file`.
 <img width="1087" alt="Screen Shot 2023-05-18 at 3 06 55 AM" src="https://github.com/AGolz/Born2beRoot/assets/51645091/476fa50e-de9e-4b90-9e7d-65e16a1c0fc4">
 
