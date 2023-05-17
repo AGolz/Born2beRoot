@@ -259,7 +259,7 @@ and follow the instructions
 Open the container:
 
 ```
-# cryptsetup open /dev/sda5p sda5_crypt
+# cryptsetup open /dev/sda5 sda5_crypt
 ```
 The decrypted container is now available
 <img width="1080" alt="Screen Shot 2023-05-12 at 1 16 57 AM" src="https://github.com/AGolz/Born2beRoot/assets/51645091/8c1924a7-da1a-4c06-8c1b-023fe1c5a872">
