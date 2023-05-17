@@ -361,7 +361,7 @@ Mount your filesystems:
 # mount /dev/LVMGroup/var-log /var/log
 ```
 Edit the `/etc/fstab` file using a text editor. For each partition, add a line to the fstab file that specifies the mount point and options. The format of the line should be as follows:
-<img width="1085" alt="Screen Shot 2023-05-12 at 5 01 53 AM" src="https://github.com/AGolz/Born2beRoot/assets/51645091/fa827cb8-b77e-4bcf-afa4-a784eff86304">
+<img width="1077" alt="Screen Shot 2023-05-18 at 3 05 00 AM" src="https://github.com/AGolz/Born2beRoot/assets/51645091/0efe4b06-a782-42cb-a578-628726c927ec">
 
 The `/etc/fstab` file is a system configuration file on Linux and Unix-like operating systems that contains information about filesystems. The file is read by the mount command to determine which options should be used when mounting the specified filesystems.
 
@@ -376,6 +376,7 @@ The `/etc/fstab` file is a system configuration file on Linux and Unix-like oper
 The `x-systemd.device-timeout=0` parameter is useful when you want the system boot process to fail quickly if a certain device is not available. However, setting it to 0 could cause issues if the device is slow to become ready or accessible during boot. You might want to consider using a small, non-zero value instead, depending on your specific needs and system configuration.
 
 Test that the partitions are mounted correctly by running the `mount -a` command. This will attempt to mount all the partitions listed in the fstab file. However, it won't catch errors that might only occur during boot, such as an incorrect `fsck` order or a device that isn't ready in time. For this reason, it's also recommended to test a system reboot after making changes to the `/etc/fstab file`.
+<img width="1087" alt="Screen Shot 2023-05-18 at 3 06 55 AM" src="https://github.com/AGolz/Born2beRoot/assets/51645091/476fa50e-de9e-4b90-9e7d-65e16a1c0fc4">
 
 Once your system is set up with the correct filesystems and mount points, and you've verified that everything is working correctly, you're ready to move on to setting up the server.
 
