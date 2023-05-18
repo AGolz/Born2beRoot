@@ -386,14 +386,79 @@ To register the swap partition in /etc/fstab, you need to add the following entr
 - __0__: This field is for fsck order. Again, since swap is not a filesystem, it's set to 0.
 
 Test that the partitions are mounted correctly by running the `mount -a` command. This will attempt to mount all the partitions listed in the fstab file. However, it won't catch errors that might only occur during boot, such as an incorrect `fsck` order or a device that isn't ready in time. For this reason, it's also recommended to test a system reboot after making changes to the `/etc/fstab file`.
+
+To enable the swap partition immediately, run the following command:
+```
+# swapon -a
+```
+This command activates all swap partitions listed in /etc/fstab. You can check the swap status with the following command:
+```
+# free -h
+```
+This will display memory and swap usage in a human-readable format.
+
+Now our sections look like this:
+
 <img width="1087" alt="Screen Shot 2023-05-18 at 3 06 55 AM" src="https://github.com/AGolz/Born2beRoot/assets/51645091/476fa50e-de9e-4b90-9e7d-65e16a1c0fc4">
 
 Once your system is set up with the correct filesystems and mount points, and you've verified that everything is working correctly, you're ready to move on to setting up the server.
 
 ## Part V: Setting Up the Server
+### Secure Shell
+Secure Shell (SSH) is a cryptographic network protocol for operating network services securely over an unsecured network. It is typically used to log into a remote machine and execute commands, but it also supports tunneling, forwarding TCP ports and X11(X Window System) connections. It can transfer files using the associated Secure Copy Protocol (SCP) or Secure File Transfer Protocol (SFTP).
 
-### SSH
-#### sshd
+SSH uses public-key cryptography to authenticate the remote computer and allow the remote computer to authenticate the user, if necessary. SSH protects the privacy and integrity of the transferred identities, data, and files.
+
+It was designed as a replacement for Telnet and other insecure remote shell protocols, which send information, notably passwords, in plaintext, leaving them susceptible to interception and disclosure using packet analysis.
+
+#### Configuring SSH
+SSH configuration is controlled by the /etc/ssh/sshd_config file on your system. In this file, you can customize various settings such as the SSH port, authentication methods, and security-related options.
+
+As per our project requirements, we need to modify the SSH configuration to make it more secure and meet specific criteria. Here's a step-by-step guide on how to do that:
+- __Generate SSH Key Pair on the VM__: Simply run `ssh-keygen -t rsa` on your VM. Accept the default file location and optionally provide a passphrase for added security.
+- __Hange the default port__. Open the SSH configuration file `/etc/ssh/sshd_config` with a text editor, locate the `#Port 22` line, remove the `#`, and change the port number to `4242`. So, the line should look like this: `Port 4242`. This will cause SSH to listen on port 4242 instead of the default port 22. 
+- __Disable root login__. To prevent direct access to the root account over SSH, look for the `#PermitRootLogin` line, uncomment it (by removing the #), and set its value to `no`. So, it should look like this: `PermitRootLogin no`.
+-  __Enable Public Key Authentication__. To use public key authentication, you need to set `PubkeyAuthentication yes` in the sshd_config file.
+<img width="1075" alt="Screen Shot 2023-05-18 at 4 41 16 AM" src="https://github.com/AGolz/Born2beRoot/assets/51645091/2e80b1ab-04a7-4084-bc06-75639ff0e266">
+
+<img width="1038" alt="Screen Shot 2023-05-18 at 4 43 27 AM" src="https://github.com/AGolz/Born2beRoot/assets/51645091/f37588f6-2ca0-4bc8-88d5-2c093f3f2fb5">
+
+These steps allow for key-based authentication on your VM, where the VM itself is the server accepting SSH connections.
+
+However, if you intend to SSH from this VM to another machine (making this VM an SSH client), you will need to add the VM's public key to the ~/.ssh/authorized_keys file on the target server (the other machine).
+
+#### Adjusting SELinux for SSH
+SELinux (Security-Enhanced Linux) provides an additional layer of system security by managing the permissions of your applications. It prevents them from performing unauthorized actions, even if they have been exploited or compromised.
+
+SELinux and AppArmor are Mandatory Access Control (MAC) systems for Linux. They provide a way to restrict system access beyond the typical user/group/other permissions system (also known as Discretionary Access Control, or DAC).
+
+SELinux was initially developed by the NSA and contributed to the open-source community. It provides a fine level of control over system interactions, but it can be complex to manage due to its policy complexity.
+
+AppArmor is somewhat simpler to use than SELinux. It works by applying profiles to individual applications rather than working system-wide. This can make it less powerful, but also less likely to cause unintended side effects.
+
+SSH communication is typically allowed by default in the SELinux policies. However, if you have changed the default SSH port (22), SELinux might not allow the SSH daemon (sshd) to use the new port. In that case, you need to add the new port to the SELinux policy.
+
+Here are the steps to add a new SSH port to the SELinux policy (replace YOUR_NEW_PORT with your actual new port number):
+
+Install the policycoreutils-python-utils package which provides the semanage command:
+```
+# dnf install -y policycoreutils-python-utils
+```
+just in case, check if the `selinux-policy-targeted` package is installed.
+
+Then add the new port to the SELinux policy with the semanage command:
+```
+# semanage port -a -t ssh_port_t -p tcp 4242
+```
+erify that the new port is added:
+```
+# semanage port -l | grep ssh
+```
+The command in step 2 tells SELinux to add (-a) a new rule that allows the sshd process type (ssh_port_t) to listen on the new TCP port (-p tcp 4242).
+
+#### Configuring Firewall for SSH
+
+
 #### Enabling ssh service
 #### Rsync
 ### Firewall
