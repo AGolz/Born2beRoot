@@ -687,3 +687,16 @@ Please remember that you need to have the correct permissions to execute these s
 And that's it! You've created a script that monitors key system parameters and set it up to run automatically. Not only will this save you a lot of manual work, but it also ensures you're constantly up to date with the state of your system.
 
 Remember to test your script thoroughly to ensure that it's working as expected. When you're ready, you can deploy it on your production system with confidence.
+
+__Now let's check our settings:__
+```
+# head -n 2 /etc/os-release
+# sestatus
+# ss -tunlp
+# sudo firewall-cmd --list-service
+# sudo firewall-cmd --list-port
+# sudo firewall-cmd --state
+```
+Here's what we need to see :
+<img width="1011" alt="Screen Shot 2023-05-18 at 3 44 58 PM" src="https://github.com/AGolz/Born2beRoot/assets/51645091/c8486f06-ec6f-4e12-ab11-8d94a8ca2b06">
+
