@@ -505,12 +505,94 @@ The appropriate choice of protocol largely depends on the application requiremen
 
 let's try to connect to our server via ssh:
 ```
-ssh username@localhost -p 4242
+# ssh username@localhost -p 4242
 ```
 Voila! Welcome home! :) 
 
 <img width="572" alt="Screen Shot 2023-05-18 at 11 13 31 AM" src="https://github.com/AGolz/Born2beRoot/assets/51645091/5234e0cb-b2e9-4e88-8170-76db55825b5f">
 
-#### Opening ports
-#### SELinux
-#### semanage 
+#### Setting the Stage: Configuring Your Hostname in Rocky Linux
+
+Your machine's hostname is akin to its own identity card, a unique name that separates it from other machines on the same network. In certain situations, such as this educational endeavor, we want our hostname to follow a certain convention, perhaps representing a login ID or a unique identifier associated with an individual or task. Here we'll outline the steps to achieve this, focusing on the robust Rocky Linux distribution.
+
+Our tool of choice is the hostnamectl command. This handy tool is responsible for controlling the Linux system hostname. You can set the hostname to the required value with the following command. Be sure to replace 'emaksimo42' with your specific hostname:
+```
+# sudo hostnamectl set-hostname emaksimo42
+```
+To ensure our operation was successful, we'll verify by querying the hostname:
+```
+# hostnamectl
+```
+<img width="1187" alt="Screen Shot 2023-05-18 at 11 46 30 AM" src="https://github.com/AGolz/Born2beRoot/assets/51645091/58909c33-fd20-42e8-b27d-ae3109ef3cce">
+Your new hostname should make its appearance in both the Static and Pretty lines.
+
+But we're not done just yet. We want this change to be reflected throughout your system, so we'll go ahead and edit the hosts file:
+```
+# sudo vi /etc/hosts
+```
+Look for a line that follows this format: 127.0.1.1 your-old-hostname. It's time to bid farewell to your-old-hostname and replace it with your new hostname, yourlogin42. In the case this line is absent, don't worry. Simply add it right below the line that states 127.0.0.1 localhost.
+<img width="950" alt="Screen Shot 2023-05-18 at 11 50 00 AM" src="https://github.com/AGolz/Born2beRoot/assets/51645091/27f5a44d-ca32-42cc-bd9c-6dd2527d32f8">
+Save the changes and close the file.
+Finally, to ensure that our changes take effect, we'll reboot the system:
+
+```
+# sudo reboot
+```
+After the system emerges from its brief slumber, it will wake up sporting its new identity, your customized hostname. 
+
+#### Implementing Robust Password and Sudo Policies on Your Linux Machine
+Maintaining a secure Linux environment entails setting strong password and sudo policies. These policies not only safeguard your system against unauthorized access, but also ensure its overall stability.
+
+__Implementing Strong Password Policies__
+To set strong password policies, you'd typically modify the configuration files associated with PAM (Pluggable Authentication Modules) and login.defs. Here's how:
+
+Open the /etc/login.defs file and make the following changes:
+-__Set PASS_MAX_DAYS__ to __30__ to ensure passwords expire every 30 days.
+-__Set PASS_MIN_DAYS__ to __2__ to require at least two days before a password can be changed.
+-__Set PASS_WARN_AGE__ to __7__ to give users a 7-day warning before their password expires.
+<img width="980" alt="Screen Shot 2023-05-18 at 12 13 14 PM" src="https://github.com/AGolz/Born2beRoot/assets/51645091/a1e03288-f37f-4713-af77-17d2359824a8">
+
+To ensure complex passwords, update the pam_pwquality.so line in the `/etc/pam.d/system-auth` and `/etc/pam.d/password-auth files`. You should set the minimum length to 10, require different case letters, digits and restrict repeating characters. Here is an example line:
+```
+password    requisite     pam_pwquality.so try_first_pass local_users_only retry=3 authtok_type= minlen=10 ucredit=-1 lcredit=-1 dcredit=-1 difok=3 reject_username enforce_for_root
+
+```
+Note that ucredit, lcredit, and dcredit are used to enforce usage of upper case, lower case, and digits respectively.
+
+To enforce password history checks, modify the following line in the same files, `/etc/pam.d/system-auth` and `/etc/pam.d/password-auth`:
+```
+password sufficient pam_unix.so remember=7
+```
+The remember option forces the user to choose a password that differs from the last 7 ones.
+
+__Configuring Sudo Policies__
+Sudo policies are typically configured in the sudoers file. Here's how:
+
+To limit sudo attempts, add or modify the following line in the `/etc/sudoers` file:
+```
+Defaults        passwd_tries=3
+```
+To display a custom error message, add the following line to the same file:
+
+```
+Defaults        badpass_message="Sorry, but you entered the wrong password three times ¯\_(ツ)_/¯"
+```
+To log sudo inputs and outputs, add the following lines:
+
+```
+Defaults        log_input
+Defaults        log_output
+Defaults        iolog_dir=/var/log/sudo/
+```
+
+To enable TTY mode, add this line:
+```
+Defaults        requiretty
+```
+To restrict sudo path, ensure secure_path is set as follows:
+```
+Defaults        secure_path="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/snap/bin"
+```
+After making these changes, use the `passwd` command to change the passwords for all users (`sudo passwd username`), including root, to comply with the new policies.
+
+Remember to carefully modify these files as incorrect changes can lead to system instability. Always backup these files before making any changes. Use the visudo command to safely edit the sudoers file as it checks the syntax before saving.
