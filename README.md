@@ -417,11 +417,13 @@ SSH configuration is controlled by the /etc/ssh/sshd_config file on your system.
 As per our project requirements, we need to modify the SSH configuration to make it more secure and meet specific criteria. Here's a step-by-step guide on how to do that:
 - __Generate SSH Key Pair on the VM__: Simply run `ssh-keygen -t rsa` on your VM. Accept the default file location and optionally provide a passphrase for added security.
 - __Hange the default port__. Open the SSH configuration file `/etc/ssh/sshd_config` with a text editor, locate the `#Port 22` line, remove the `#`, and change the port number to `4242`. So, the line should look like this: `Port 4242`. This will cause SSH to listen on port 4242 instead of the default port 22. 
-- __Disable root login__. To prevent direct access to the root account over SSH, look for the `#PermitRootLogin` line, uncomment it (by removing the #), and set its value to `no`. So, it should look like this: `PermitRootLogin no`.
--  __Enable Public Key Authentication__. To use public key authentication, you need to set `PubkeyAuthentication yes` in the sshd_config file.
-<img width="1075" alt="Screen Shot 2023-05-18 at 4 41 16 AM" src="https://github.com/AGolz/Born2beRoot/assets/51645091/2e80b1ab-04a7-4084-bc06-75639ff0e266">
+<img width="1089" alt="Screen Shot 2023-05-18 at 11 15 28 AM" src="https://github.com/AGolz/Born2beRoot/assets/51645091/77af3142-e606-4338-b330-20efdb344c5b">
 
-<img width="1038" alt="Screen Shot 2023-05-18 at 4 43 27 AM" src="https://github.com/AGolz/Born2beRoot/assets/51645091/f37588f6-2ca0-4bc8-88d5-2c093f3f2fb5">
+- __Disable root login__. To prevent direct access to the root account over SSH, look for the `#PermitRootLogin` line, uncomment it (by removing the #), and set its value to `no`. So, it should look like this: `PermitRootLogin no`.
+<img width="1079" alt="Screen Shot 2023-05-18 at 9 53 36 AM" src="https://github.com/AGolz/Born2beRoot/assets/51645091/421d1dc1-aa19-408e-92fd-a39c624495ed">
+
+-  __Password Authentication__.  Make sure that password authentication is enabled. You can do this by looking for a line that says PasswordAuthentication yes. If you don't see this line, or if it's commented out, then add it to the file.
+<img width="1071" alt="Screen Shot 2023-05-18 at 9 54 21 AM" src="https://github.com/AGolz/Born2beRoot/assets/51645091/e83f5078-dbce-420a-b7e3-92899959932f">
 
 These steps allow for key-based authentication on your VM, where the VM itself is the server accepting SSH connections.
 
@@ -458,11 +460,57 @@ The command in step 2 tells SELinux to add (-a) a new rule that allows the sshd 
 
 #### Configuring Firewall for SSH
 
+The firewall protects your system by controlling inbound and outbound network traffic. In our project we will use FirewallD.
 
-#### Enabling ssh service
-#### Rsync
-### Firewall
-#### Firewalld
+__firewall-cmd__ is the command-line interface for FirewallD, a dynamically managed firewall that supports network zones to define the trust level of network connections or interfaces.
+
+FirewallD is used to configure rules either permanently or temporarily to allow or block traffic coming into your server's system ports.
+
+firewall-cmd is a part of the firewalld application, which is installed by default on some Linux distributions.
+
+Here are a few common commands you might use with firewall-cmd:
+- __firewall-cmd --state__: This command checks if the firewall is running.
+- __firewall-cmd --reload__: This command reloads the configuration without interrupting existing connections.
+- __firewall-cmd --get-default-zone__: This command returns the default zone used for connections and interfaces where no specific zone has been assigned.
+- __firewall-cmd --get-active-zones__: This command returns the currently active zones along with the network interfaces and sources that are assigned to them.
+- __firewall-cmd --zone=public --list-all__: This command shows all settings for the zone (replace "public" with your specific zone if necessary).
+
+We need to configure it to allow SSH traffic through port 4242.
+
+Here's how to open port 4242 for SSH:
+```
+# firewall-cmd --permanent --add-port=4242/tcp
+# firewall-cmd --reload
+```
+Now, you should be able to connect to your VM via SSH on port 4242 while having the enhanced security of SELinux and a configured firewall.
+
+With this, we have completed the chapter on Configuring SSH. You've successfully set up a secure SSH environment for your server. Moving forward, keep these principles of key-based authentication, SELinux permissions, and firewall configurations in mind—they are fundamental to maintaining a secure server environment.
+
+#### The Internet Protocol Suite 
+
+The Transmission Control Protocol (TCP) is one of the main protocols in the Internet Protocol Suite. TCP is one of the two original components of the suite, complementing the Internet Protocol (IP), and therefore the entire suite is commonly referred to as TCP/IP. TCP provides reliable, ordered, and error-checked delivery of a stream of octets (bytes) between applications running on hosts communicating over an IP network.
+
+TCP is a connection-oriented protocol, which means a connection is established and maintained until the application programs at each end have finished exchanging messages. It determines how to break application data into packets that networks can deliver, sends packets to and accepts packets from the network layer, manages flow control, and—because it is meant to provide error-free data transmission—handles retransmission of dropped or garbled packets as well as acknowledgment of all packets that arrive.
+
+Major internet applications such as the World Wide Web, email, remote administration, and file transfer rely on TCP, which is part of the Transport Layer of the TCP/IP suite. SSL/TLS often runs on top of TCP.
+
+Apart from TCP, there are several other important protocols as well, including:
+- __UDP__ (User Datagram Protocol): Unlike TCP, UDP is a connectionless protocol. It doesn't guarantee delivery by itself, but it allows for a very low overhead transmission. It's commonly used in streaming media, games, and VoIP calls.
+- __ICMP__ (Internet Control Message Protocol): This protocol is used by network devices, like routers, to send error messages and operational information indicating, for example, that a requested service is not available or that a host or router could not be reached.
+- __HTTP__ (Hypertext Transfer Protocol) and HTTPS (HTTP Secure): These protocols are used for transmitting hypertext over the internet. HTTP operates at the application layer of the TCP/IP networking model and has been the foundation of data communication on the world wide web since its inception. HTTPS is the secure version of HTTP, where communications are encrypted by SSL or TLS.
+- __FTP__ (File Transfer Protocol): This is a standard network protocol used for the transfer of computer files between a client and server on a computer network.
+- __DNS__ (Domain Name System): A hierarchical and decentralized naming system for computers, services, or other resources connected to the Internet or a private network. It associates various information with domain names assigned to each of the participating entities.
+
+The appropriate choice of protocol largely depends on the application requirements, such as the need for speed, reliability, or security.
+
+let's try to connect to our server via ssh:
+```
+ssh username@localhost -p 4242
+```
+Voila! Welcome home! :) 
+
+<img width="572" alt="Screen Shot 2023-05-18 at 11 13 31 AM" src="https://github.com/AGolz/Born2beRoot/assets/51645091/5234e0cb-b2e9-4e88-8170-76db55825b5f">
+
 #### Opening ports
 #### SELinux
 #### semanage 
