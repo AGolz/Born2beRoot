@@ -576,7 +576,7 @@ Defaults        passwd_tries=3
 To display a custom error message, add the following line to the same file:
 
 ```
-Defaults        badpass_message="Sorry, but you entered the wrong password three times ¯\_(ツ)_/¯"
+Defaults        badpass_message="Sorry, but you entered the wrong password  ¯\_(ツ)_/¯"
 ```
 To log sudo inputs and outputs, add the following lines:
 
@@ -597,3 +597,93 @@ Defaults        secure_path="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/
 After making these changes, use the `passwd` command to change the passwords for all users (`sudo passwd username`), including root, to comply with the new policies.
 
 Remember to carefully modify these files as incorrect changes can lead to system instability. Always backup these files before making any changes. Use the visudo command to safely edit the sudoers file as it checks the syntax before saving.
+
+### Utilizing Bash and Cron for System Monitoring
+Introduction
+System monitoring is a vital part of any system administrator's job. It involves constantly checking various parameters of the system like processor usage, available memory, disk usage, etc. In this chapter, we'll discuss how to create a bash script that does this for you and how to automate its execution using Cron.
+
+#### Understanding Bash Scripts
+Bash (Bourne Again SHell) is the default command-line interpreter for many Linux distributions. A bash script is a plain text file which contains a series of commands. These commands are a combination of commands that you could type on the command line and commands (control structures) that are specific to bash scripting.
+
+The script we've created for system monitoring, [monitoring.sh](https://github.com/AGolz/Born2beRoot/blob/main/monitoring.sh), collects a variety of important system information. Here's how it works:
+```
+#!/bin/bash
+```
+This line, called a shebang, tells the system that this script should be executed using the bash shell interpreter.
+```
+while true; do
+```
+This is the start of a loop that will run indefinitely because the condition for the loop (true) is always met.
+```
+ARCH=$(uname -m)
+KERNEL=$(uname -r)
+```
+These lines use the uname command to capture the system's architecture (e.g., x86_64, i386, armv7l, etc.) and the kernel version.
+```
+CPU_PHYSICAL=$(lscpu | grep "Socket(s):" | awk '{print $2}')
+VCPU=$(lscpu | grep "^CPU(s):" | awk '{print $2}')
+```
+Here, the lscpu command is used to capture the number of physical CPU sockets and the total number of virtual CPUs (vCPUs).
+```
+RAM_USAGE=$(free -m | awk 'NR==2{printf "%.0f/%.0fMB (%.2f%%)", $3, $2, $3*100/$2}')
+```
+This line uses the free command to fetch information about the RAM usage of the system in MB, including the percentage of RAM used.
+```
+DISK_USAGE=$(df -BG --output=size,used,pcent / | awk 'NR==2 {printf "%s/%s (%s)\n", $2, $1, $3}')
+```
+Here, df is used to display disk usage of the root directory in GB, including the percentage of disk used.
+```
+CPU_LOAD=$(top -b -n1 | grep "Cpu(s)" | awk '{printf "%.1f%%", $2+$4}')
+```
+This line uses the top command to calculate the CPU load, which is the percentage of time that the CPU is working.
+```
+LAST_BOOT=$(who -b | awk '{print $3, $4}')
+```
+The who command with the -b option is used here to fetch the date and time of the last system boot.
+```
+LVM_STATUS=$(lvs --noheadings -o lv_active 2>/dev/null | grep -q "active" && echo "yes" || echo "no")
+```
+This line checks if any active Logical Volume Manager (LVM) volumes exist.
+```
+TCP_CONNECTIONS=$(ss -tn state established '( dport = :ssh or sport = :ssh )' | grep -c -v LISTEN)
+```
+The ss command is used to count the number of active TCP connections.
+```
+USER_LOG=$(users | wc -w)
+```
+This line uses the users command to count the number of users currently logged into the system.
+```
+IP_MAC=$(ip -4 -o addr show | awk '!/^[0-9]*: ?lo/ {print $4 " ("$6")"}')
+```
+The ip command is used here to display the IPv4 address and the MAC address of the server.
+```
+SUDO_CMDS=$(journalctl _COMM=sudo | grep COMMAND | wc -l)
+```
+Every 10 minutes, the script runs these commands, packages the results into a well-formatted message, and then broadcasts this message to all terminals using the wall command.
+<img width="811" alt="Screen Shot 2023-05-18 at 3 08 56 PM" src="https://github.com/AGolz/Born2beRoot/assets/51645091/0b63320b-513b-4b73-8b7e-a19166f08116">
+
+This script collects and displays a wealth of information about the system, including architecture, kernel version, CPU, RAM and Disk usage, last boot time, LVM status, TCP connections, logged users, network details, and sudo commands executed. It uses a variety of common Linux utilities to gather this information.
+
+To make the script executable, save it to a file, let's say, "monitoring.sh", and then change its permissions using the chmod command like so:
+```
+# chmod +x monitoring.sh
+```
+#### Automating Tasks with Cron
+Cron is a time-based job scheduling utility in Unix-like operating systems. Users can schedule jobs (commands or scripts) to run at specific times on specific days.
+
+In our case, we want monitoring.sh to run at system startup and every 10 minutes thereafter. The script itself contains an infinite loop that ensures the script will keep running once it's started, with a pause of 600 seconds (10 minutes) between iterations.
+
+While there are many ways to make a script run at startup, one common method involves using cron's special @reboot keyword, which runs a job once at startup.
+
+<img width="972" alt="Screen Shot 2023-05-18 at 2 08 44 PM" src="https://github.com/AGolz/Born2beRoot/assets/51645091/31af8729-1137-42f7-81ab-bce9819d57ed">
+
+To edit the crontab file, which contains a list of jobs run by cron, use the command:
+```
+# crontab -e
+```
+
+Please remember that you need to have the correct permissions to execute these scripts and to schedule cron jobs.
+
+And that's it! You've created a script that monitors key system parameters and set it up to run automatically. Not only will this save you a lot of manual work, but it also ensures you're constantly up to date with the state of your system.
+
+Remember to test your script thoroughly to ensure that it's working as expected. When you're ready, you can deploy it on your production system with confidence.
