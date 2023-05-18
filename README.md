@@ -547,9 +547,11 @@ __Implementing Strong Password Policies__
 To set strong password policies, you'd typically modify the configuration files associated with PAM (Pluggable Authentication Modules) and login.defs. Here's how:
 
 Open the /etc/login.defs file and make the following changes:
+
 -__Set PASS_MAX_DAYS__ to __30__ to ensure passwords expire every 30 days.
 -__Set PASS_MIN_DAYS__ to __2__ to require at least two days before a password can be changed.
 -__Set PASS_WARN_AGE__ to __7__ to give users a 7-day warning before their password expires.
+
 <img width="980" alt="Screen Shot 2023-05-18 at 12 13 14 PM" src="https://github.com/AGolz/Born2beRoot/assets/51645091/a1e03288-f37f-4713-af77-17d2359824a8">
 
 To ensure complex passwords, update the pam_pwquality.so line in the `/etc/pam.d/system-auth` and `/etc/pam.d/password-auth files`. You should set the minimum length to 10, require different case letters, digits and restrict repeating characters. Here is an example line:
