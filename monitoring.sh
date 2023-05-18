@@ -1,7 +1,7 @@
 #!/bin/bash
 
 while true; do
-  ARCH=$(uname -a)
+  ARCH=$(uname -a | awk '{print $15 " " $16}')
   CPU_PHYSICAL=$(lscpu | grep "Socket(s):" | awk '{print $2}')
   VCPU=$(lscpu | grep "^CPU(s):" | awk '{print $2}')
   RAM_USAGE=$(free -m | awk 'NR==2{printf "%.0f/%.0fMB (%.2f%%)", $3, $2, $3*100/$2}')
