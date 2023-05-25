@@ -961,5 +961,13 @@ By following these steps, you can observe the caching behavior of Varnish in act
 
 Setting up a WordPress website using Lighttpd, MariaDB, and PHP offers a balanced blend of performance and flexibility. By adding an extra service of your choice, you can further optimize your setup to meet your specific needs. This process not only equips you with a functional WordPress website but also deepens your understanding of how different services work together in a web server environment.
 
+## Resume:
+In this article, we took a journey to deploy a server on RockyLinux using VirtualBox. We started by understanding the concept of virtual machines (VMs) and their importance in modern software development and OT infrastructure.
 
+Turning to the practical side, we studied the process of installing and configuring RockyLinux in VirtualBox. We learned about the advantages of RockyLinux as a stable and secure corporate operating system.
+
+Following this detailed guide, we have successfully deployed our own Linux server ready to support our development needs. We have a powerful combination that allows us to experiment, test and deploy applications in a controlled and isolated environment.
+
+Congratulations on completing the deployment of your server! 
+Enjoy the benefits of a reliable and efficient server environment tailored to your requirements.
 
