@@ -584,6 +584,7 @@ To log sudo inputs and outputs, add the following lines:
 Defaults        log_input
 Defaults        log_output
 Defaults        iolog_dir=/var/log/sudo/
+Defaults        logfile=/var/log/sudo/sudo.log
 ```
 
 To enable TTY mode, add this line:
