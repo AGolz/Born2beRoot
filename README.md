@@ -885,4 +885,8 @@ Restart the Lighttpd server:
 ```
 With the proper SELinux context set for the WordPress files, SELinux should allow access to them while still enforcing security policies. 
 
+Well, now we are ready to visit our website 'http://localhost:8080/wordpress/'
+
+<img width="1703" alt="Screen Shot 2023-05-25 at 5 41 32 AM" src="https://github.com/AGolz/Born2beRoot/assets/51645091/a265f2db-3aac-4146-bbf2-73d200a83578">
+
 
