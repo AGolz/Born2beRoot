@@ -959,5 +959,7 @@ Note: Make sure to adjust the configuration according to your specific setup, su
 
 By following these steps, you can observe the caching behavior of Varnish in action. It should improve the response time for subsequent requests by serving them from cache, reducing the load on your backend server and improving overall performance.
 
+Setting up a WordPress website using Lighttpd, MariaDB, and PHP offers a balanced blend of performance and flexibility. By adding an extra service of your choice, you can further optimize your setup to meet your specific needs. This process not only equips you with a functional WordPress website but also deepens your understanding of how different services work together in a web server environment.
+
 
 
