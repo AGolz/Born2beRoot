@@ -139,7 +139,7 @@ Follow the instructions of the installer until you reach the installation menu w
 
 In total, you will be presented with 9 points of the form each of which is quite simple and easy to set up. Specify the language, date and time, [NTP server](https://www.ntp-servers.net/servers.html), installation source, and so on.
 
-More detailed information should be provided only about the fifth paragraph of the __"Installation Destination"__ form. Let's will try to split the disk into the partitions we need and create an encrypted LVM volume in text mode.
+More detailed information should be provided only about the fifth paragraph of the "Installation Destination" form. Let's will try to split the disk into the partitions we need and create an encrypted LVM volume in text mode.
 
 Select item 5 and press `ENTER`, in the window that appears, select your hard drive and press `c` .
 
