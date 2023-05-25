@@ -700,3 +700,160 @@ __Now let's check our settings:__
 Here's what we need to see :
 <img width="1011" alt="Screen Shot 2023-05-18 at 3 44 58 PM" src="https://github.com/AGolz/Born2beRoot/assets/51645091/c8486f06-ec6f-4e12-ab11-8d94a8ca2b06">
 
+## Part VI: Setting Up WordPress with Lighttpd, MariaDB, and PHP
+In this chapter, we're going to explore how to set up a functional WordPress website on your server. The configuration will utilize Lighttpd as the web server, MariaDB as the database, and PHP for dynamic content processing. We'll also discuss adding an additional service of your choice that enhances the performance or security of your WordPress site.
+
+### Lighttpd: A Lightweight Web Server
+Lighttpd, pronounced "lighty", is a secure, fast, compliant, and flexible open-source web-server that has been optimized for high-performance environments. Its low memory footprint (compared to other web servers), small CPU load and speed optimizations make it perfect for servers that are suffering from load problems.
+
+Installing Lighttpd is typically straightforward on most systems using the system's package manager. Once installed, you will need to configure it to serve your WordPress site.
+
+### MariaDB: A Robust Database Server
+MariaDB is a community-developed, commercially supported fork of the MySQL relational database management system (RDBMS). MariaDB is highly compatible with MySQL and is a great choice for most applications that utilize MySQL. Installation is typically accomplished through the system's package manager. Once installed, you'll need to set up a new database and user for your WordPress installation.
+
+### PHP: A Server-side Scripting Language
+PHP is a popular general-purpose scripting language that is especially suited to web development. It's the language that WordPress is written in. Again, installation is generally straightforward. You will need to ensure that the PHP FastCGI module is installed and enabled, as this is what Lighttpd will use to interface with PHP.
+
+To create a functional WordPress website with lighttpd, MariaDB, and PHP, follow these instructions:
+
+Update and upgrade the system:
+```
+# sudo dnf update -y
+# sudo dnf upgrade -y
+```
+Install the required packages:
+```
+# sudo dnf install -y lighttpd lighttpd-fastcgi mariadb mariadb-server php php-mysqlnd php-fpm php-gd php-xml php-mbstring wget unzip
+```
+Start and enable the services:
+```
+# sudo systemctl start lighttpd
+# sudo systemctl enable lighttpd
+# sudo systemctl start mariadb
+# sudo systemctl enable mariadb
+# sudo systemctl start php-fpm
+# sudo systemctl enable php-fpm
+```
+__Configure lighttpd__:
+Edit the lighttpd configuration file to include the fastcgi configuration:
+```
+# sudo vi /etc/lighttpd/lighttpd.conf
+```
+Add the following line at the end of the file:
+```
+include "conf.d/fastcgi.conf"
+```
+if you want to disable IPv6 use the following line:
+```
+server.use-ipv6 = "disable"
+```
+and ensure that the configuration for the FastCGI module is correct. If you're using a TCP socket, it should look like this:
+```
+fastcgi.server += ( ".php" =>
+    ((
+        "host" => "127.0.0.1",
+        "port" => "9000",
+        "broken-scriptfilename" => "enable"
+    ))
+)
+```
+Save and close the file.
+
+Check the ownership and permissions of the log files:
+```
+# sudo ls -l /var/log/lighttpd/
+```
+Make sure that the owner is set to the 'lighttpd' user and the group is also 'lighttpd'. The permissions should allow the user to read and write to the file.
+
+If the ownership and permissions are incorrect, you can change them using the following commands:
+```
+# sudo chown lighttpd:lighttpd /var/log/lighttpd/access.log
+# sudo chmod 644 /var/log/lighttpd/access.log
+# sudo chown lighttpd:lighttpd /var/log/lighttpd/error.log
+# sudo chmod 644 /var/log/lighttpd/error.log
+```
+These commands change the ownership to 'lighttpd' and set the permissions to allow read and write access to the owner and read-only access to the group and others.
+
+__Configure PHP-FPM__:
+Edit the PHP-FPM configuration file:
+```
+# sudo vi /etc/php-fpm.d/www.conf
+```
+Find the following lines and change their values:
+
+```
+user = lighttpd
+group = lighttpd
+listen = 127.0.0.1:9000
+listen.owner = lighttpd
+listen.group = lighttpd
+listen.mode = 0660
+```
+Save and close the file.
+
+Restart the services:
+```
+# sudo systemctl restart lighttpd
+# sudo systemctl restart php-fpm
+```
+Secure the MariaDB installation:
+```
+# sudo mysql_secure_installation
+```
+Follow the prompts to set a root password and remove anonymous users, disallow remote root login, and remove the test database.
+
+__Create a WordPress database and user__:
+Log in to MariaDB:
+```
+sudo mysql -u root -p
+```
+Create a new database, user, and grant permissions:
+
+```
+CREATE DATABASE wordpress;
+CREATE USER 'wpuser'@'localhost' IDENTIFIED BY 'your_password';
+GRANT ALL PRIVILEGES ON wordpress.* TO 'wpuser'@'localhost';
+FLUSH PRIVILEGES;
+EXIT;
+```
+Download and install WordPress:
+```
+# cd /tmp
+# wget https://wordpress.org/latest.zip
+# unzip latest.zip
+# mv wordpress /var/www/lighttpd/
+```
+Set the proper ownership and permissions:
+```
+sudo chown -R lighttpd:lighttpd /var/www/lighttpd/wordpress
+sudo find /var/www/lighttpd/wordpress/ -type d -exec chmod 755 {} \;
+sudo find /var/www/lighttpd/wordpress/ -type f -exec chmod 644 {} \;
+```
+__Configure WordPress__:
+Copy the sample configuration file:
+```
+# cd /var/www/lighttpd/wordpress
+# cp wp-config-sample.php wp-config.php
+```
+Edit the configuration file:
+```
+# sudo nano wp-config.php
+```
+Replace the database details with the values you created earlier:
+```
+define('DB_NAME', 'wordpress');
+define('DB_USER', 'wpuser');
+define('DB_PASSWORD', 'your_password');
+define('DB_HOST', 'localhost');
+```
+Save and close the file.
+
+Configure the firewall:
+Allow incoming traffic on ports 80 (HTTP) and 443 (HTTPS):
+```
+# sudo firewall-cmd --add-service=http --permanent
+# sudo firewall-cmd --add-service=https --permanent
+# sudo firewall-cmd --reload
+```
+
+
