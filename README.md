@@ -34,8 +34,7 @@ VirtualBox stands out because of its comprehensive feature set, which includes:
 
 In conclusion, VirtualBox is a versatile and powerful tool that provides an effective solution for running multiple operating systems on a single machine without the risk of system crashes or conflicts. With its wide array of features, VirtualBox not only enhances the development and testing environment but also promotes efficient resource utilization. It's no wonder that it is a go-to choice for many in the world of virtualization!
 
-With a good understanding of VirtualBox, we are now ready to dive into the realm of Linux distributions, specifically Rocky Linux. This open-source operating system provides a robust, stable, and high-performance environment for our server. Let's explore what RockyLinux has to offer and how we can set it up on our VirtualBox environment.
-
+Now that we have learned a little more about VirtualBox, we are ready to dive into the world of Linux distributions, in particular Rocky Linux. This open source operating system provides a reliable, stable and high-performance environment for our server. Let's look at what Rocky Linux has to offer and how we can configure it in our VirtualBox environment.
 ## Part II: Rocky Linux: A Community-Driven Enterprise Linux
 ### Rocky Linux
 In the spectrum of Linux distributions, Rocky Linux has rapidly made a name for itself as a community-driven, enterprise-grade operating system. It was designed to be 100% bug-for-bug compatible with America's top enterprise Linux distribution, now that CentOS has shifted its focus towards CentOS Stream.
