@@ -173,7 +173,7 @@ Before proceeding with disk partitioning, let's discuss two popular command-line
 - __Advanced features__: `parted` offers more advanced functionality, such as resizing partitions without data loss.
 
 #### Why choose fdisk?
-In this guide, I decided to use `fdisk` to partition the disk. The primary reason is its simplicity and familiarity among Linux users. Although parted offers more advanced features and broader compatibility, `fdisk` is more than sufficient for the partitioning requirements of the Born2beRoot project. In addition, using `fdisk` aligns with the text-based installation approach we've been following, making it a suitable choice for this scenario.
+In this guide, I decided to use fdisk to partition the disk. The primary reason is its simplicity and familiarity among Linux users. Although parted offers more advanced features and wider compatibility, fdisk is more than sufficient to meet the requirements of the Born2beRoot project. In addition, using fdisk aligns with the text-based installation approach we've been following, making it a suitable choice for this scenario.
 
 Now that we have discussed fdisk and the rationale for choosing it, let's look at the process of partitioning a disk using the `fdisk` command.
 
