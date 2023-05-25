@@ -893,3 +893,71 @@ Well, now we are ready to visit our website 'http://localhost:8080/wordpress/'
 
 <img width="1485" alt="Screen Shot 2023-05-25 at 6 27 31 AM" src="https://github.com/AGolz/Born2beRoot/assets/51645091/bddc4f57-62c2-4e14-90c1-20193bd9fe33">
 
+### Adding an Extra Service
+
+This is where you can truly customize your server setup. There are many services that could enhance a WordPress site, so choose one that align with your particular needs or interests. For example, you might choose to install a caching service like Varnish or Memcached to improve the performance of your site, or a security service like Fail2Ban to enhance security.
+
+We will install Varnish.
+
+Varnish is a popular caching service that can greatly improve the performance of your WordPress site. It acts as a reverse proxy, sitting between your web server and the visitors of your site. Varnish stores a copy of the web pages in its memory and serves them directly to visitors, reducing the load on your web server and improving response times.
+
+#### Installing Varnish:
+
+To install Varnish, follow these steps:
+
+Update the package repository:
+
+```
+# sudo dnf update
+```
+Install Varnish using the package manager:
+```
+# sudo dnf install varnish
+```
+Configure Varnish to work with your web server. The configuration file for Varnish is located at `/etc/varnish/default.vcl`. Open the file using a text editor:
+```
+# sudo vi /etc/varnish/default.vcl
+```
+In the configuration file, you will find a section that begins with backend default. Replace the placeholder values with the IP address and port number of your web server. For example:
+```
+backend default {
+    .host = "127.0.0.1";
+    .port = "8080";
+}
+```
+Save the changes and exit the text editor.
+
+Start the Varnish service:
+```
+# sudo systemctl start varnish
+```
+Enable Varnish to start on system boot:
+```
+# sudo systemctl enable varnish
+```
+Verify that Varnish is running correctly:
+```
+# sudo systemctl status varnish
+```
+You should see a status message indicating that Varnish is active and running.
+
+Open the configuration file using a text editor with root privileges. For example:
+```
+# sudo vi /etc/httpd/conf/httpd.conf
+```
+Look for a line that specifies the port on which your web server listens. This line is usually set to Listen 80, which indicates that it is listening on port 80. Change this line to specify a different port, such as Listen 8080.
+
+Save the changes and exit the text editor.
+
+Restart your web server to apply the changes:
+```
+# sudo systemctl restart httpd
+```
+Now, Varnish is installed and running alongside your web server. It will start caching and serving web pages, improving the performance of your WordPress site. Keep in mind that any changes to your WordPress site might not be immediately visible due to Varnish's caching mechanism. To purge the cache and see the changes immediately, you can use the Varnish management tool or restart the Varnish service.
+
+Note: Make sure to adjust the configuration according to your specific setup, such as the IP address and port number of your web server.
+
+By following these steps, you can observe the caching behavior of Varnish in action. It should improve the response time for subsequent requests by serving them from cache, reducing the load on your backend server and improving overall performance.
+
+
+
