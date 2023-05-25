@@ -889,7 +889,7 @@ Well, now we are ready to visit our website 'http://localhost:8080/wordpress/'
 
 <img width="1703" alt="Screen Shot 2023-05-25 at 5 41 32 AM" src="https://github.com/AGolz/Born2beRoot/assets/51645091/a265f2db-3aac-4146-bbf2-73d200a83578">
 
-Here's what we'll get after some changes: 
+Here's what we'll get after some changes :)  
 
 <img width="1485" alt="Screen Shot 2023-05-25 at 6 27 31 AM" src="https://github.com/AGolz/Born2beRoot/assets/51645091/bddc4f57-62c2-4e14-90c1-20193bd9fe33">
 
