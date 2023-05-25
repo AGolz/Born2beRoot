@@ -771,6 +771,7 @@ If the ownership and permissions are incorrect, you can change them using the fo
 # sudo chmod 644 /var/log/lighttpd/access.log
 # sudo chown lighttpd:lighttpd /var/log/lighttpd/error.log
 # sudo chmod 644 /var/log/lighttpd/error.log
+# sudo chmod 755 /var/log/lighttpd/
 ```
 These commands change the ownership to 'lighttpd' and set the permissions to allow read and write access to the owner and read-only access to the group and others.
 
@@ -837,7 +838,7 @@ Copy the sample configuration file:
 ```
 Edit the configuration file:
 ```
-# sudo nano wp-config.php
+# sudo vi wp-config.php
 ```
 Replace the database details with the values you created earlier:
 ```
@@ -848,6 +849,11 @@ define('DB_HOST', 'localhost');
 ```
 Save and close the file.
 
+Set the correct ownership and permissions for the new wp-config.php file:
+```
+# sudo chown lighttpd:lighttpd wp-config.php
+# sudo chmod 644 wp-config.php
+```
 Configure the firewall:
 Allow incoming traffic on ports 80 (HTTP) and 443 (HTTPS):
 ```
@@ -855,5 +861,28 @@ Allow incoming traffic on ports 80 (HTTP) and 443 (HTTPS):
 # sudo firewall-cmd --add-service=https --permanent
 # sudo firewall-cmd --reload
 ```
+Identify the SELinux context of the WordPress files:
+```
+# sudo ls -Z /var/www/lighttpd/wordpress
+```
+The output will display the SELinux context of the files. It will look something like `unconfined_u:object_r:httpd_sys_content_t:s0`.
+
+Set the correct SELinux context for the WordPress files:
+```
+# sudo chcon -R -t httpd_sys_content_t /var/www/lighttpd/wordpress
+```
+Replace `/var/www/lighttpd/wordpress` with the actual path to your WordPress installation.
+
+Verify the SELinux context has been set correctly:
+```
+# sudo ls -Z /var/www/lighttpd/wordpress
+```
+The output should now display the new SELinux context for the files.
+
+Restart the Lighttpd server:
+```
+# sudo systemctl restart lighttpd
+```
+With the proper SELinux context set for the WordPress files, SELinux should allow access to them while still enforcing security policies. 
 
 
