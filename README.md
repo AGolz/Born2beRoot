@@ -69,11 +69,11 @@ A new window will open for the VM setup. Here, you need to specify several setti
 
 In the subsequent window, you'll be asked to choose the hard disk file type, its size, and storage details.
 
-Hard Disk File Type: Select `VDI (VirtualBox Disk Image)` as it is compatible with VirtualBox.
+__Hard Disk File Type__: Select `VDI (VirtualBox Disk Image)` as it is compatible with VirtualBox.
 
-Storage on Physical Hard Disk: Choose `Dynamically allocated`, which means your virtual hard disk will grow as it is used, up to the maximum size you set.
+__Storage on Physical Hard Disk__: Choose `Dynamically allocated`, which means your virtual hard disk will grow as it is used, up to the maximum size you set.
 
-File Location and Size: Finally, set the maximum size of the virtual hard disk. A minimum of 10GB is recommended for Rocky Linux, but if you can, allocate more space to avoid running out of space in the future.
+__File Location and Size__: Finally, set the maximum size of the virtual hard disk. A minimum of 10GB is recommended for Rocky Linux, but if you can, allocate more space to avoid running out of space in the future.
  <img width="1023" alt="Screen Shot 2023-03-09 at 5 06 33 PM" src="https://github.com/AGolz/Born2beRoot/assets/51645091/e6cfc159-c970-436d-84c8-5a3a5d861769">
  
 ### Configure VM Further. 
