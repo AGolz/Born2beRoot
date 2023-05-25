@@ -11,7 +11,7 @@ Welcome to the world of server virtualization! As part of my educational journey
 
 In this article, I will share my journey of deploying a server on RockyLinux in a VirtualBox environment. The experience was both challenging and enriching, providing me with invaluable hands-on experience in configuring and managing virtual servers. From the installation of the operating system, setting up network configurations, to ensuring secure user management, each step provided me with a deeper understanding of how servers function.
 
-This article aims to serve as a comprehensive guide for anyone interested in undertaking a similar project. It will detail the theoretical aspects of virtual machines and VirtualBox before delving into the practical aspects of deploying a server on RockyLinux. So, whether you're a student, a budding system administrator, or a seasoned professional looking for some refreshers, this guide has something to offer. Let's dive in!
+This article aims to serve as a comprehensive guide for anyone interested in undertaking a similar project. It will detail the theoretical aspects of virtual machines and VirtualBox before delving into the practical aspects of deploying a server on Rocky Linux. So, whether you're a student, a budding system administrator, or a seasoned professional looking for some refreshers, this guide has something to offer. Let's dive in!
 
 ![emaksimo's b2beRoot](https://user-images.githubusercontent.com/51645091/221917201-45cedcb5-7568-466d-b2cd-fd52d3001af1.png)
 
@@ -962,9 +962,9 @@ By following these steps, you can observe the caching behavior of Varnish in act
 Setting up a WordPress website using Lighttpd, MariaDB, and PHP offers a balanced blend of performance and flexibility. By adding an extra service of your choice, you can further optimize your setup to meet your specific needs. This process not only equips you with a functional WordPress website but also deepens your understanding of how different services work together in a web server environment.
 
 ## Resume:
-In this article, we took a journey to deploy a server on RockyLinux using VirtualBox. We started by understanding the concept of virtual machines (VMs) and their importance in modern software development and OT infrastructure.
+In this article, we took a journey to deploy a server on Rocky Linux using VirtualBox. We started by understanding the concept of virtual machines (VMs) and their importance in modern software development and OT infrastructure.
 
-Turning to the practical side, we studied the process of installing and configuring RockyLinux in VirtualBox. We learned about the advantages of RockyLinux as a stable and secure corporate operating system.
+Turning to the practical side, we studied the process of installing and configuring Rocky Linux in VirtualBox. We learned about the advantages of Rocky Linux as a stable and secure corporate operating system.
 
 Following this detailed guide, we have successfully deployed our own Linux server ready to support our development needs. We have a powerful combination that allows us to experiment, test and deploy applications in a controlled and isolated environment.
 
