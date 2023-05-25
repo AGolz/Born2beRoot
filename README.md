@@ -130,7 +130,7 @@ Lastly, Anaconda offers a range of customizability in terms of software selectio
 
 In summary, Anaconda is a feature-rich and flexible installer that makes the process of installing Linux distributions like Rocky Linux straightforward, efficient, and customizable. Whether you're a beginner or an experienced user, Anaconda's various modes and advanced features can accommodate your needs.
 
-Now let's go back to our RockyLinux installation in text mode.
+Now let's go back to our Rocky Linux installation in text mode.
 
 ### Description of the installation. 
 Follow the instructions of the installer until you reach the installation menu with nine items, where you will configure several aspects of the installation: 
