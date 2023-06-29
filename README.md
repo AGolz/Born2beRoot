@@ -1,5 +1,8 @@
-# Born2beRoot
-(in progress)
+**Born2beRoot ([42cursus](https://www.42.fr)) 2023**
+
+**Actual Status :** Finished
+
+**Result :** 125%
 
 ## Harnessing the Power of Virtualization: Deploying a Rocky Linux Server on VirtualBox for Ecole 42's Born2beRoot Project
 
