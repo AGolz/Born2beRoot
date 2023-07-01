@@ -215,7 +215,7 @@ In summary, primary partitions are the main divisions of your hard disk and can 
 
 With this understanding of primary and extended partitions, let's proceed with the fdisk partitioning process.
 
-To begin with, we will create a primary partition for the boot mount point
+To begin with, we will create a primary partition for the boot mount point:
 <img width="1076" alt="Screen Shot 2023-05-11 at 11 38 06 PM" src="https://github.com/AGolz/Born2beRoot/assets/51645091/a7875100-5ac3-4b7c-b22a-9e3c018dc456">
 
 next, we will create an extended partition that will take up all the remaining space.
@@ -249,13 +249,13 @@ LUKS1 is widely supported, well tested, and provides a strong encryption standar
 
 In the context of the Born2beRoot project, the choice of LUKS1 aligns well with the requirement of the project to provide strong disk encryption while ensuring broad compatibility and stability. 
 
-To start encryption, enter the following command
+To start encryption, enter the following command:
 
 ```
 # cryptsetup luksFormat --type luks1 /dev/sda5
 ```
 
-and follow the instructions
+and follow the instructions:
 <img width="1086" alt="Screen Shot 2023-05-12 at 1 10 45 AM" src="https://github.com/AGolz/Born2beRoot/assets/51645091/dc8997f4-99b9-45df-80e8-d0cf2c5b2b8f">
 
 Open the container:
@@ -263,7 +263,7 @@ Open the container:
 ```
 # cryptsetup open /dev/sda5 sda5_crypt
 ```
-The decrypted container is now available
+The decrypted container is now available:
 <img width="1080" alt="Screen Shot 2023-05-12 at 1 16 57 AM" src="https://github.com/AGolz/Born2beRoot/assets/51645091/8c1924a7-da1a-4c06-8c1b-023fe1c5a872">
 
 Let's create a group of logical volumes in our container and several logical partitions.
@@ -296,7 +296,7 @@ Create a volume group (in this example named LVMGroup, but it can be whatever yo
 
 <img width="1081" alt="Screen Shot 2023-05-12 at 1 33 56 AM" src="https://github.com/AGolz/Born2beRoot/assets/51645091/8a3c9548-0c09-4c61-94a7-c2adf7f9b46c">
 
-Create logical volumes in a volume group using the `lvcreate` command
+Create logical volumes in a volume group using the `lvcreate` command:
 
 <img width="1038" alt="Screen Shot 2023-05-12 at 3 05 04 AM" src="https://github.com/AGolz/Born2beRoot/assets/51645091/82ce5360-a31a-4a1b-98e4-c73589e92aa9">
 
