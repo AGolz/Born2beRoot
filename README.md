@@ -88,8 +88,8 @@ Before we proceed to the installation of RockyLinux, we need to make a few more 
 - __Storage__: Here, you need to attach the Rocky Linux ISO you downloaded earlier. Under the `Controller: IDE`, click on the CD icon with a plus sign (Add Optical Drive), then choose `Add`. Navigate to the location of your Rocky Linux ISO, select it, and click `Choose`.
 - __Network__: Under the "Network" tab, make sure the Adapter is attached to `NAT`. And let's redirect the necessary ports.
 
-<div id="stat" align="center">
- <img width="1025" alt="Screen Shot 2023-05-10 at 3 08 40 AM" src="https://github.com/AGolz/Born2beRoot/assets/51645091/72685597-6f88-4a54-8277-8a1a0a9499ea">
+<div id="stat" align="center"> 
+ <img width="1025" alt="Screen Shot 2024-01-26 at 8 38 13 PM" src="https://github.com/AGolz/Born2beRoot/assets/51645091/17f5625b-0445-4dce-9e5f-1c71dc2256d1">
  <img width="1025" alt="Screen Shot 2023-05-10 at 3 09 57 AM" src="https://github.com/AGolz/Born2beRoot/assets/51645091/527fcce7-58a1-4852-becb-c4dca765b7d5">
  <img width="713" alt="Screen Shot 2023-05-10 at 3 11 09 AM" src="https://github.com/AGolz/Born2beRoot/assets/51645091/3a00d5c4-cd7c-4cd3-b64d-8874f90643df">
 </div>
