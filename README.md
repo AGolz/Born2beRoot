@@ -342,12 +342,10 @@ $ git clone https://github.com/rhinstaller/anaconda -b rhel-9
 
 #### Navigate and Edit the Anaconda Source Code:
 
-Go to the cloned repository and edit the `anaconda/pyanaconda/modules/storage/checker/utils.py` file. Comment out lines 724, 725, and 726:
+Go to the cloned repository and edit the `anaconda/pyanaconda/modules/storage/checker/utils.py` file. Comment out lines 724
 ```
 Comment out the following lines:
 # self.add_check(verify_unlocked_devices_have_key)
-# self.add_check(verify_luks_devices_have_key)
-# self.add_check(verify_luks2_memory_requirements)
 ```
 
 #### Generate the updates.img File:
