@@ -1,4 +1,4 @@
-# Born2beRoot ([42cursus](https://www.42.fr)) 2023 :package:
+# Born2beRoot ([42cursus](https://www.42.fr)) 2024 :package:
 
 **Actual Status :** Finished
 
@@ -313,6 +313,85 @@ set the mount point for swap:
 ```
 Now we have the following structure:
 <img width="1048" alt="Screen Shot 2023-05-12 at 3 16 22 AM" src="https://github.com/AGolz/Born2beRoot/assets/51645091/564fafb8-d07a-4c13-92af-b57e717a37e3">
+
+## Unraveling LUKS Device Key Issues
+
+### Issue Description:
+
+The challenge highlighted in this investigation is associated with a modification in the Anaconda installer, which disallows the use of an existing unlocked LUKS device during the installation process. This modification inhibits the ability to perform installations on previously decrypted LUKS containers, creating a significant hurdle for users and disrupting workflows that involve opening the LUKS container in the %pre section and reusing the decrypted partition or LVM logical volumes.
+
+### Historical Context:
+
+The issue gained prominence in November 2019 when users discovered that the change in the Anaconda source code prevented the installation on an already existing LUKS container. The commit responsible for the change aimed to prevent installation failures but inadvertently made it impossible to use an opened LUKS device in certain scenarios.
+
+### Workaround Solution:
+
+To tackle this challenge, a temporary solution involves modifying the Anaconda source code and creating an `updates.img` file to bypass the key-related checks. This workaround is not a permanent fix and involves a certain level of risk, as it requires altering the installer's behavior.
+
+### Steps to Implement the Workaround:
+
+#### As a first thing, we need to clone the Anaconda git repository:
+```
+https://github.com/rhinstaller/anaconda-l10n?tab=readme-ov-file 
+```
+
+In my case, this is a branch of `rhel-9`:
+```
+$ git clone https://github.com/rhinstaller/anaconda -b rhel-9
+```
+
+#### Navigate and Edit the Anaconda Source Code:
+
+Go to the cloned repository and edit the `anaconda/pyanaconda/modules/storage/checker/utils.py` file. Comment out lines 724, 725, and 726:
+```
+Comment out the following lines:
+# self.add_check(verify_unlocked_devices_have_key)
+# self.add_check(verify_luks_devices_have_key)
+# self.add_check(verify_luks2_memory_requirements)
+```
+
+#### Generate the updates.img File:
+
+Go back to the anaconda root folder: `~/anaconda`
+Run `makeupdates`:
+```
+./scripts/makeupdates
+```
+
+#### Placement of updates.img File:
+
+Place the generated `updates.img` file where it can be accessed during installation.
+
+Final Steps and Workaround for Installation Challenges:
+
+With logical volumes established, the final steps involve turning off the virtual machine (VM) and restarting the installation process. During the installation, incorporate the following parameter to address LUKS device key issues:
+```
+inst.updates=http://your-server-path/updates.img
+```
+
+I posted my file `updates.img` on GitHub, so my upload option looked like this:
+
+```
+inst.updates=https://raw.githubusercontent.com/AGolz/Born2beRoot/main/updates.img
+```
+<img width="957" alt="Screenshot 2024-01-31 at 03 17 30" src="https://github.com/AGolz/Born2beRoot/assets/51645091/73ecdd32-c684-48cf-be40-477bad934f02">
+
+This parameter integrate the previously generated updates.img file into the installation process, circumventing the LUKS device key challenges.
+
+#### Important Note:
+
+Exercise caution with this workaround, as it involves altering the installer's behavior and may impact system stability and support.
+
+#### Community Response:
+
+The Rocky Linux community, through various discussions and forums, has actively engaged in addressing this issue. However, a comprehensive solution from the official channels is still awaited.
+
+
+Go back to step 5 and press `ENTER`, select your hard drive in the window that appears and press `c'. Select item 4 "Manually assign mount points" and press `c` . Press `Alt+Tab` and switch to `shell` command line mode. Open the container:
+
+```
+# cryptsetup open /dev/sda5 sda5_crypt
+```
 
 Let's go back to the loader user interface by pressing `Alt+Tab` and update the information about the sections by pressing `s`.
 Now we see three partitions on our hard drive. Specify the mount points for the `root` partition and set the mount point for `boot` to /dev/sda1.
