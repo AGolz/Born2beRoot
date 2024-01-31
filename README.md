@@ -366,13 +366,13 @@ Final Steps and Workaround for Installation Challenges:
 
 With logical volumes established, the final steps involve turning off the virtual machine (VM) and restarting the installation process. During the installation, incorporate the following parameter to address LUKS device key issues:
 ```
-insert.updates=http://your-server-path/updates.img
+inst.updates=http://your-server-path/updates.img
 ```
 
 I posted my file `updates.img` on GitHub, so my upload option looked like this:
 
 ```
-insert.updates=https://raw.githubusercontent.com/AGolz/Born2beRoot/main/updates.img
+inst.updates=https://raw.githubusercontent.com/AGolz/Born2beRoot/main/updates.img
 ```
 <img width="957" alt="Screenshot 2024-01-31 at 03 17 30" src="https://github.com/AGolz/Born2beRoot/assets/51645091/73ecdd32-c684-48cf-be40-477bad934f02">
 
