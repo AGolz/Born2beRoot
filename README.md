@@ -1,4 +1,4 @@
-# Born2beRoot ([42cursus](https://www.42.fr)) 2024 :package:
+# Born2beRoot ([42cursus](https://www.42.fr)) 2023 :package:
 
 **Actual Status :** Finished
 
@@ -7,7 +7,6 @@
 ## Harnessing the Power of Virtualization: Deploying a Rocky Linux Server on VirtualBox for Ecole 42's Born2beRoot Project
 
 ### Introduction
-
 
 Welcome to the world of server virtualization! As part of my educational journey at [Ecole 42](https://42.fr/en/homepage/), I embarked on an exciting project - [Born2beRoot](https://github.com/AGolz/Born2beRoot/blob/main/en.subject.pdf). This educational initiative presented a unique opportunity to delve deeper into the world of operating systems, network administration, and system administration. It's designed to challenge students like me to deploy a server, enforcing stringent rules to ensure we understand and implement best practices in system and network management.
 
@@ -88,8 +87,8 @@ Before we proceed to the installation of RockyLinux, we need to make a few more 
 - __Storage__: Here, you need to attach the Rocky Linux ISO you downloaded earlier. Under the `Controller: IDE`, click on the CD icon with a plus sign (Add Optical Drive), then choose `Add`. Navigate to the location of your Rocky Linux ISO, select it, and click `Choose`.
 - __Network__: Under the "Network" tab, make sure the Adapter is attached to `NAT`. And let's redirect the necessary ports.
 
-<div id="stat" align="center"> 
- <img width="1025" alt="Screen Shot 2024-01-26 at 8 38 13 PM" src="https://github.com/AGolz/Born2beRoot/assets/51645091/17f5625b-0445-4dce-9e5f-1c71dc2256d1">
+<div id="stat" align="center">
+ <img width="1025" alt="Screen Shot 2023-05-10 at 3 08 40 AM" src="https://github.com/AGolz/Born2beRoot/assets/51645091/32cc0a12-4b24-45e0-bd6c-c27120fa4ef1">
  <img width="1025" alt="Screen Shot 2023-05-10 at 3 09 57 AM" src="https://github.com/AGolz/Born2beRoot/assets/51645091/527fcce7-58a1-4852-becb-c4dca765b7d5">
  <img width="713" alt="Screen Shot 2023-05-10 at 3 11 09 AM" src="https://github.com/AGolz/Born2beRoot/assets/51645091/3a00d5c4-cd7c-4cd3-b64d-8874f90643df">
 </div>
@@ -111,13 +110,12 @@ But let's try to get around some of these limitations :)
 Let's walk through the process of installing Rocky Linux in text mode.
 
 ### Start the VM. 
-Once you have configured your VM and attached the Rocky Linux ISO, start your VM. The Rocky Linux boot menu will appear. When you start the Rocky Linux installation, you will see a prompt asking you to choose the installation mode. If you select "Install Rocky Linux 9.3", the installation will start in graphical mode by default. However, if you append the `inst.text` option to the boot command, the installer will start in text mode instead. 
+Once you have configured your VM and attached the Rocky Linux ISO, start your VM. The Rocky Linux boot menu will appear. When you start the Rocky Linux installation, you will see a prompt asking you to choose the installation mode. If you select "Install Rocky Linux 9.0", the installation will start in graphical mode by default. However, if you append the `inst.text` option to the boot command, the installer will start in text mode instead. 
 
-<img width="953" alt="Screen Shot 2023-05-11 at 8 49 28 PM" src="https://github.com/AGolz/Born2beRoot/assets/51645091/3561ee14-7203-4923-95df-1249e05e9e27">
+<img width="953" alt="Screen Shot 2023-05-11 at 8 49 28 PM" src="https://github.com/AGolz/Born2beRoot/assets/51645091/0b1a9a99-74fc-4157-9725-43bf18aeea49">
 
 ## Part IV: Anaconda Unveiled. Exploring Disk Partitioning, LVM, and LUKS
 ### The Anaconda Installer
-
 Anaconda is the installation program used by Rocky Linux, Fedora, CentOS, and other Linux distributions. It is a versatile and powerful tool that allows you to install Linux on your system exactly how you want it.
 
 In the background, Anaconda performs various tasks like partitioning the disks, setting up the file system, and installing the packages. But what you see as a user is a straightforward, step-by-step process that guides you through the installation.
@@ -313,83 +311,6 @@ set the mount point for swap:
 ```
 Now we have the following structure:
 <img width="1048" alt="Screen Shot 2023-05-12 at 3 16 22 AM" src="https://github.com/AGolz/Born2beRoot/assets/51645091/564fafb8-d07a-4c13-92af-b57e717a37e3">
-
-## Unraveling LUKS Device Key Issues
-
-### Issue Description:
-
-The challenge highlighted in this investigation is associated with a modification in the Anaconda installer, which disallows the use of an existing unlocked LUKS device during the installation process. This modification inhibits the ability to perform installations on previously decrypted LUKS containers, creating a significant hurdle for users and disrupting workflows that involve opening the LUKS container in the %pre section and reusing the decrypted partition or LVM logical volumes.
-
-### Historical Context:
-
-The issue gained prominence in November 2019 when users discovered that the change in the Anaconda source code prevented the installation on an already existing LUKS container. The commit responsible for the change aimed to prevent installation failures but inadvertently made it impossible to use an opened LUKS device in certain scenarios.
-
-### Workaround Solution:
-
-To tackle this challenge, a temporary solution involves modifying the Anaconda source code and creating an `updates.img` file to bypass the key-related checks. This workaround is not a permanent fix and involves a certain level of risk, as it requires altering the installer's behavior.
-
-### Steps to Implement the Workaround:
-
-#### As a first thing, we need to clone the Anaconda git repository:
-```
-https://github.com/rhinstaller/anaconda-l10n?tab=readme-ov-file 
-```
-
-In my case, this is a branch of `rhel-9`:
-```
-$ git clone https://github.com/rhinstaller/anaconda -b rhel-9
-```
-
-#### Navigate and Edit the Anaconda Source Code:
-
-Go to the cloned repository and edit the `anaconda/pyanaconda/modules/storage/checker/utils.py` file. Comment out lines 724
-```
-Comment out the following lines:
-# self.add_check(verify_unlocked_devices_have_key)
-```
-
-#### Generate the updates.img File:
-
-Go back to the anaconda root folder: `~/anaconda`
-Run `makeupdates`:
-```
-./scripts/makeupdates
-```
-
-#### Placement of updates.img File:
-
-Place the generated `updates.img` file where it can be accessed during installation.
-
-Final Steps and Workaround for Installation Challenges:
-
-With logical volumes established, the final steps involve turning off the virtual machine (VM) and restarting the installation process. During the installation, incorporate the following parameter to address LUKS device key issues:
-```
-inst.updates=http://your-server-path/updates.img
-```
-
-I posted my file `updates.img` on GitHub, so my upload option looked like this:
-
-```
-inst.updates=https://raw.githubusercontent.com/AGolz/Born2beRoot/main/updates.img
-```
-<img width="957" alt="Screenshot 2024-01-31 at 03 17 30" src="https://github.com/AGolz/Born2beRoot/assets/51645091/73ecdd32-c684-48cf-be40-477bad934f02">
-
-This parameter integrate the previously generated updates.img file into the installation process, circumventing the LUKS device key challenges.
-
-#### Important Note:
-
-Exercise caution with this workaround, as it involves altering the installer's behavior and may impact system stability and support.
-
-#### Community Response:
-
-The Rocky Linux community, through various discussions and forums, has actively engaged in addressing this issue. However, a comprehensive solution from the official channels is still awaited.
-
-
-Go back to step 5 and press `ENTER`, select your hard drive in the window that appears and press `c'. Select item 4 "Manually assign mount points" and press `c` . Press `Alt+Tab` and switch to `shell` command line mode. Open the container:
-
-```
-# cryptsetup open /dev/sda5 sda5_crypt
-```
 
 Let's go back to the loader user interface by pressing `Alt+Tab` and update the information about the sections by pressing `s`.
 Now we see three partitions on our hard drive. Specify the mount points for the `root` partition and set the mount point for `boot` to /dev/sda1.
@@ -1052,4 +973,3 @@ Following this detailed guide, we have successfully deployed our own Linux serve
 
 Congratulations on completing the deployment of your server! 
 Enjoy the benefits of a reliable and efficient server environment tailored to your requirements.
-
