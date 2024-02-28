@@ -4,9 +4,7 @@
 
 **Result :** 125%
 
-**Update:** 
-
-This project was initially written for Rocky-9.1-x86_64. Errors may occur when manually partitioning and encrypting disks in later versions. You can download Rocky-9.1 before the release of Rocky-10 from [here](http://dl.rockylinux.org/vault/rocky/9.1/isos/x86_64/Rocky-9.1-x86_64-minimal.iso).
+**Update:** This project was initially written for Rocky-9.1-x86_64. Errors may occur when manually partitioning and encrypting disks in later versions. You can download Rocky-9.1 before the release of Rocky-10 from [here](http://dl.rockylinux.org/vault/rocky/9.1/isos/x86_64/Rocky-9.1-x86_64-minimal.iso).
 Similar issues have been reported in Fedora, RHEL, and CentOS. A possible solution can be found [here](https://linuxconfig.org/how-to-install-fedora-rhel-centos-via-kickstart-on-an-existing-luks-device).
 The `ks.cfg` file and `updates.img` are provided as examples in this repository.
 For more details, refer to the error message on the Rocky forum [here](https://bugs.rockylinux.org/view.php?id=5974).
