@@ -473,6 +473,10 @@ SSH uses public-key cryptography to authenticate the remote computer and allow t
 It was designed as a replacement for Telnet and other insecure remote shell protocols, which send information, notably passwords, in plaintext, leaving them susceptible to interception and disclosure using packet analysis.
 
 #### Configuring SSH
+Forward the required port in the settings of your virtual machine. Go to the `Network` tab and click `Port Forwarding`. Specify the following settings:
+<img width="1025" alt="237240242-527fcce7-58a1-4852-becb-c4dca765b7d5" src="https://github.com/AGolz/Born2beRoot/assets/51645091/86c1eef4-d621-40e1-9c57-0bbc527e6cd6">
+<img width="719" alt="Screen Shot 2024-03-03 at 11 43 22 AM" src="https://github.com/AGolz/Born2beRoot/assets/51645091/54c3ec88-7e73-4b59-843a-89c1c92195a9">
+
 SSH configuration is controlled by the /etc/ssh/sshd_config file on your system. In this file, you can customize various settings such as the SSH port, authentication methods, and security-related options.
 
 As per our project requirements, we need to modify the SSH configuration to make it more secure and meet specific criteria. Here's a step-by-step guide on how to do that:
