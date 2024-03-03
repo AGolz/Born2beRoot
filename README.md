@@ -368,7 +368,6 @@ mount /dev/LVMGroup/var-log /var/log
 Edit the `/etc/fstab` file using a text editor. For each partition, add a line to the fstab file that specifies the mount point and options. The format of the line should be as follows:
 ```
 /dev/LVMGroup/root    /root      ext4  defaults  0 0
-/dev/LVMGroup/swap none swap sw  0 0
 /dev/LVMGroup/home     /home      ext4  defaults  0 0
 /dev/LVMGroup/var      /var       ext4  defaults  0 0
 /dev/LVMGroup/srv      /srv       ext4  defaults  0 0
