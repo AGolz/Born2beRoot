@@ -366,7 +366,15 @@ mkdir /var/log/
 mount /dev/LVMGroup/var-log /var/log
 ```
 Edit the `/etc/fstab` file using a text editor. For each partition, add a line to the fstab file that specifies the mount point and options. The format of the line should be as follows:
-<img width="1077" alt="Screen Shot 2023-05-18 at 3 05 00 AM" src="https://github.com/AGolz/Born2beRoot/assets/51645091/0efe4b06-a782-42cb-a578-628726c927ec">
+```
+/dev/LVMGroup/home     /home      ext4  defaults  0 0
+/dev/LVMGroup/var      /var       ext4  defaults  0 0
+/dev/LVMGroup/srv      /srv       ext4  defaults  0 0
+/dev/LVMGroup/tmp      /tmp       ext4  defaults  0 0
+/dev/LVMGroup/var-log  /var/log   ext4  defaults  0 0
+```
+<img width="899" alt="Screen Shot 2024-03-03 at 12 40 27 PM" src="https://github.com/AGolz/Born2beRoot/assets/51645091/3177eaa1-7713-42f7-9f13-5818e6f31a11">
+
 
 The `/etc/fstab` file is a system configuration file on Linux and Unix-like operating systems that contains information about filesystems. The file is read by the mount command to determine which options should be used when mounting the specified filesystems.
 
@@ -377,8 +385,6 @@ The `/etc/fstab` file is a system configuration file on Linux and Unix-like oper
 - __Options__: This field specifies the mount options that should be used. Options are comma-separated and include things like defaults (use the default options), ro (mount read-only), rw (mount read-write), auto (mount automatically at boot), noauto (do not mount automatically at boot), and many others. The `x-systemd.device-timeout=0` option is a special mount option understood by systemd. It sets the device timeout to 0 seconds, meaning systemd will not wait for the device to be ready or accessible and will fail immediately if the device is not available at boot time.
 - __Dump__: This field is used by the dump utility to decide when to make a backup. If it is set to 0, dump will ignore the filesystem. If set to 1, dump will make a backup.
 - __Pass__: This field is used by the fsck program to determine the order in which filesystem checks are done at boot time. The root filesystem should have a pass of 1, and other filesystems should have a pass of 2. A pass value of 0 means that fsck will not check the filesystem.
-
-The `x-systemd.device-timeout=0` parameter is useful when you want the system boot process to fail quickly if a certain device is not available. However, setting it to 0 could cause issues if the device is slow to become ready or accessible during boot. You might want to consider using a small, non-zero value instead, depending on your specific needs and system configuration.
 
 To register the swap partition in /etc/fstab, you need to add the following entry: 
 ```
