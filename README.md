@@ -440,7 +440,7 @@ dnf install rsyslog
 If you encounter problems with the metadata of the Rocky Linux repository. Use --releasever=9:
 
 ```
-dnf --releasever=9: install rsyslog  
+dnf --releasever=9 install rsyslog  
 ```
 Create a file for boot logs:
 ```
