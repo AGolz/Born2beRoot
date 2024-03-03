@@ -390,22 +390,78 @@ To register the swap partition in /etc/fstab, you need to add the following entr
 - __0__: This field is for the dump utility. Since swap is not a filesystem, it's set to 0.
 - __0__: This field is for fsck order. Again, since swap is not a filesystem, it's set to 0.
 
-Test that the partitions are mounted correctly by running the `mount -a` command. This will attempt to mount all the partitions listed in the fstab file. However, it won't catch errors that might only occur during boot, such as an incorrect `fsck` order or a device that isn't ready in time. For this reason, it's also recommended to test a system reboot after making changes to the `/etc/fstab file`.
+Test that the partitions are mounted correctly by running the `mount -a` command. This will attempt to mount all the partitions listed in the fstab file. However, it won't catch errors that might only occur during boot, such as an incorrect `fsck` order or a device that isn't ready in time.
+
+After mounting the partitions, ensure that the ownership and permissions of the directories are set correctly. For instance:
+
+```
+chown -R root:root /home
+chown -R root:root /var
+chown -R root:root /srv
+chown -R root:root /tmp
+chown -R root:root /var/log
+```
 
 To enable the swap partition immediately, run the following command:
 ```
 # swapon -a
 ```
-This command activates all swap partitions listed in /etc/fstab. You can check the swap status with the following command:
+This command activates all swap partitions listed in `/etc/fstab`. You can check the swap status with the following command:
 ```
 # free -h
 ```
 This will display memory and swap usage in a human-readable format.
 
+To prevent logs from appearing on the terminal after a reboot and not interfering with the operation of the terminal, you can make some changes.
+
+Here are steps to redirect logs during boot to a file and prevent them from being displayed on the console:
+
+Open the `/etc/default/grub` file for editing. 
+Find the line that starts with `GRUB_CMDLINE_LINUX` and add quiet and splash to the parameters. Additionally, add `rd.systemd.show_status=0 to` disable status messages. The line should look something like this:
+```
+GRUB_CMDLINE_LINUX="quiet splash rd.systemd.show_status=0"
+```
+Save the file and exit the text editor.
+
+This should prevent most of the logs from being displayed on the console during boot. If you want to capture all logs in a file, you can use the rsyslog service to redirect logs to a file.
+
+Install rsyslog if it's not already installed:
+
+```
+dnf install rsyslog  
+```
+
+If you encounter problems with the metadata of the Rocky Linux repository. Use --releasever=9:
+
+```
+dnf --releasever=9: install rsyslog  
+```
+Create a file for boot logs:
+```
+touch /var/log/boot.log
+```
+Edit the rsyslog configuration file `/etc/rsyslog.d/50-default.conf`
+Add the following lines to the end of the file:
+
+```
+:msg, contains, "Kernel" /var/log/boot.log
+& stop
+```
+Save the file and restart the rsyslog service:
+
+```
+service rsyslog restart
+```
+Now, the kernel logs during boot will be captured in the `/var/log/boot.log file`, and the console should remain quieter during the boot process.
+
 Now our sections look like this:
 
 <img width="1087" alt="Screen Shot 2023-05-18 at 3 06 55 AM" src="https://github.com/AGolz/Born2beRoot/assets/51645091/476fa50e-de9e-4b90-9e7d-65e16a1c0fc4">
 
+Reboot your system:
+```
+reboot
+```
 Once your system is set up with the correct filesystems and mount points, and you've verified that everything is working correctly, you're ready to move on to setting up the server.
 
 ## Part V: Setting Up the Server
