@@ -367,17 +367,13 @@ mount /dev/LVMGroup/var-log /var/log
 ```
 Edit the `/etc/fstab` file using a text editor. For each partition, add a line to the fstab file that specifies the mount point and options. The format of the line should be as follows:
 ```
-/dev/LVMGroup/root    /root      ext4  defaults  0 0
+/dev/LVMGroup/root    /      ext4  defaults  0 0
 /dev/LVMGroup/home     /home      ext4  defaults  0 0
 /dev/LVMGroup/var      /var       ext4  defaults  0 0
 /dev/LVMGroup/srv      /srv       ext4  defaults  0 0
 /dev/LVMGroup/tmp      /tmp       ext4  defaults  0 0
 /dev/LVMGroup/var-log  /var/log   ext4  defaults  0 0
 ```
-
-<img width="900" alt="Screen Shot 2024-03-03 at 4 06 18 PM" src="https://github.com/AGolz/Born2beRoot/assets/51645091/cd1c8f78-2334-4332-b996-db79a532ee18">
-
-
 The `/etc/fstab` file is a system configuration file on Linux and Unix-like operating systems that contains information about filesystems. The file is read by the mount command to determine which options should be used when mounting the specified filesystems.
 
 `fstab` stands for File System Table, and it has a simple structure with each line representing one filesystem. Each line in the file contains six fields separated by spaces or tabs. Here's what those fields represent:
@@ -398,7 +394,9 @@ To register the swap partition in /etc/fstab, you need to add the following entr
 - __0__: This field is for the dump utility. Since swap is not a filesystem, it's set to 0.
 - __0__: This field is for fsck order. Again, since swap is not a filesystem, it's set to 0.
 
+
 Test that the partitions are mounted correctly by running the `mount -a` command. This will attempt to mount all the partitions listed in the fstab file. However, it won't catch errors that might only occur during boot, such as an incorrect `fsck` order or a device that isn't ready in time.
+<img width="900" alt="Screen Shot 2024-03-03 at 5 32 32 PM" src="https://github.com/AGolz/Born2beRoot/assets/51645091/04598723-2cb9-49f0-b248-424e95be5f73">
 
 After mounting the partitions, ensure that the ownership and permissions of the directories are set correctly. For instance:
 
