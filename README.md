@@ -429,6 +429,35 @@ reboot
 Once your system is set up with the correct filesystems and mount points, and you've verified that everything is working correctly, you're ready to move on to setting up the server.
 
 ## Part V: Setting Up the Server
+
+#### Adjusting SELinux for SSH
+SELinux (Security-Enhanced Linux) provides an additional layer of system security by managing the permissions of your applications. It prevents them from performing unauthorized actions, even if they have been exploited or compromised.
+
+SELinux and AppArmor are Mandatory Access Control (MAC) systems for Linux. They provide a way to restrict system access beyond the typical user/group/other permissions system (also known as Discretionary Access Control, or DAC).
+
+SELinux was initially developed by the NSA and contributed to the open-source community. It provides a fine level of control over system interactions, but it can be complex to manage due to its policy complexity.
+
+AppArmor is somewhat simpler to use than SELinux. It works by applying profiles to individual applications rather than working system-wide. This can make it less powerful, but also less likely to cause unintended side effects.
+
+SSH communication is typically allowed by default in the SELinux policies. However, if you have changed the default SSH port (22), SELinux might not allow the SSH daemon (sshd) to use the new port. In that case, you need to add the new port to the SELinux policy.
+
+Here are the steps to add a new SSH port to the SELinux policy (replace YOUR_NEW_PORT with your actual new port number):
+
+Install the policycoreutils-python-utils package which provides the semanage command:
+```
+dnf install -y policycoreutils-python-utils
+```
+
+Then add the new port to the SELinux policy with the semanage command:
+```
+semanage port -a -t ssh_port_t -p tcp 4242
+```
+erify that the new port is added:
+```
+semanage port -l | grep ssh
+```
+The command in step 2 tells SELinux to add (-a) a new rule that allows the sshd process type (ssh_port_t) to listen on the new TCP port (-p tcp 4242).
+
 ### Secure Shell
 Secure Shell (SSH) is a cryptographic network protocol for operating network services securely over an unsecured network. It is typically used to log into a remote machine and execute commands, but it also supports tunneling, forwarding TCP ports and X11(X Window System) connections. It can transfer files using the associated Secure Copy Protocol (SCP) or Secure File Transfer Protocol (SFTP).
 
@@ -458,34 +487,6 @@ These steps allow for key-based authentication on your VM, where the VM itself i
 
 However, if you intend to SSH from this VM to another machine (making this VM an SSH client), you will need to add the VM's public key to the ~/.ssh/authorized_keys file on the target server (the other machine).
 
-#### Adjusting SELinux for SSH
-SELinux (Security-Enhanced Linux) provides an additional layer of system security by managing the permissions of your applications. It prevents them from performing unauthorized actions, even if they have been exploited or compromised.
-
-SELinux and AppArmor are Mandatory Access Control (MAC) systems for Linux. They provide a way to restrict system access beyond the typical user/group/other permissions system (also known as Discretionary Access Control, or DAC).
-
-SELinux was initially developed by the NSA and contributed to the open-source community. It provides a fine level of control over system interactions, but it can be complex to manage due to its policy complexity.
-
-AppArmor is somewhat simpler to use than SELinux. It works by applying profiles to individual applications rather than working system-wide. This can make it less powerful, but also less likely to cause unintended side effects.
-
-SSH communication is typically allowed by default in the SELinux policies. However, if you have changed the default SSH port (22), SELinux might not allow the SSH daemon (sshd) to use the new port. In that case, you need to add the new port to the SELinux policy.
-
-Here are the steps to add a new SSH port to the SELinux policy (replace YOUR_NEW_PORT with your actual new port number):
-
-Install the policycoreutils-python-utils package which provides the semanage command:
-```
-dnf install -y policycoreutils-python-utils
-```
-just in case, check if the `selinux-policy-targeted` package is installed.
-
-Then add the new port to the SELinux policy with the semanage command:
-```
-semanage port -a -t ssh_port_t -p tcp 4242
-```
-erify that the new port is added:
-```
-semanage port -l | grep ssh
-```
-The command in step 2 tells SELinux to add (-a) a new rule that allows the sshd process type (ssh_port_t) to listen on the new TCP port (-p tcp 4242).
 
 #### Configuring Firewall for SSH
 
