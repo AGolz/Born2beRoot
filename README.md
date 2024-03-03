@@ -458,7 +458,7 @@ Save the file and restart the rsyslog service:
 ```
 service rsyslog restart
 ```
-Now, the kernel logs during boot will be captured in the /var/log/boot.log file, and the console should remain quieter during the boot process. 
+Now, the kernel logs during boot will be captured in the `/var/log/boot.log` file, and the console should remain quieter during the boot process. 
 Once your system is set up with the correct filesystems and mount points, and you've verified that everything is working correctly, you're ready to move on to setting up the server.
 
 ## Part V: Setting Up the Server
