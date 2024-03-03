@@ -426,6 +426,39 @@ Reboot your system:
 ```
 reboot
 ```
+If you are experiencing logs appearing on the terminal after a reboot, it might be due to the default behavior of system logs being displayed on the console during the boot process. To prevent these logs from interfering with the terminal, you can make some adjustments.
+
+Here are steps to redirect logs during boot to a file and prevent them from being displayed on the console:
+
+Open the `/etc/default/grub file for editing`. Find the line that starts with `GRUB_CMDLINE_LINUX` and add quiet and splash to the parameters. Additionally, add `rd.systemd.show_status=0` to disable status messages. The line should look something like this:
+
+```
+GRUB_CMDLINE_LINUX="quiet splash rd.systemd.show_status=0"
+```
+Save the file and exit the text editor.
+Reboot your system.
+This should prevent most of the logs from being displayed on the console during boot. If you want to capture all logs in a file, you can use the rsyslog service to redirect logs to a file.
+
+Install rsyslog if it's not already installed:
+
+```
+dnf install rsyslog
+```
+Create a file for boot logs:
+```
+touch /var/log/boot.log
+```
+Edit the rsyslog configuration file `/etc/rsyslog.d/50-default.conf`.
+Add the following lines to the end of the file:
+```
+:msg, contains, "Kernel" /var/log/boot.log
+& stop
+```
+Save the file and restart the rsyslog service:
+```
+service rsyslog restart
+```
+Now, the kernel logs during boot will be captured in the /var/log/boot.log file, and the console should remain quieter during the boot process. 
 Once your system is set up with the correct filesystems and mount points, and you've verified that everything is working correctly, you're ready to move on to setting up the server.
 
 ## Part V: Setting Up the Server
