@@ -418,48 +418,6 @@ free -h
 ```
 This will display memory and swap usage in a human-readable format.
 
-To prevent logs from appearing on the terminal after a reboot and not interfering with the operation of the terminal, you can make some changes.
-
-Here are steps to redirect logs during boot to a file and prevent them from being displayed on the console:
-
-Open the `/etc/default/grub` file for editing. 
-Find the line that starts with `GRUB_CMDLINE_LINUX` and add quiet and splash to the parameters. Additionally, add `rd.systemd.show_status=0 to` disable status messages. The line should look something like this:
-```
-GRUB_CMDLINE_LINUX="quiet splash rd.systemd.show_status=0"
-```
-Save the file and exit the text editor.
-
-This should prevent most of the logs from being displayed on the console during boot. If you want to capture all logs in a file, you can use the rsyslog service to redirect logs to a file.
-
-Install rsyslog if it's not already installed:
-
-```
-dnf install rsyslog  
-```
-
-If you encounter problems with the metadata of the Rocky Linux repository. Use --releasever=9:
-
-```
-dnf --releasever=9 install rsyslog  
-```
-Create a file for boot logs:
-```
-touch /var/log/boot.log
-```
-Edit the rsyslog configuration file `/etc/rsyslog.d/50-default.conf`
-Add the following lines to the end of the file:
-
-```
-:msg, contains, "Kernel" /var/log/boot.log
-& stop
-```
-Save the file and restart the rsyslog service:
-
-```
-service rsyslog restart
-```
-Now, the kernel logs during boot will be captured in the `/var/log/boot.log file`, and the console should remain quieter during the boot process.
-
 Now our sections look like this:
 
 <img width="1087" alt="Screen Shot 2023-05-18 at 3 06 55 AM" src="https://github.com/AGolz/Born2beRoot/assets/51645091/476fa50e-de9e-4b90-9e7d-65e16a1c0fc4">
