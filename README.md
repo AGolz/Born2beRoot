@@ -449,6 +449,10 @@ Install the policycoreutils-python-utils package which provides the semanage com
 ```
 dnf install -y policycoreutils-python-utils
 ```
+If you encounter problems with the metadata of the Rocky Linux repository. Use --releasever=9:
+```
+dnf --releasever=9 install -y policycoreutils-python-utils
+```
 
 Then add the new port to the SELinux policy with the semanage command:
 ```
