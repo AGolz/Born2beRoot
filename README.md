@@ -190,7 +190,7 @@ And so, in my project, I had to set up the partitions correctly to get a structu
 As we learned earlier, there are limitations in text mode, so we will create only a few partitions with which the loader will not have problems during mounting.
 To start, select our device using the following command:
 ```
-# fdisk /dev/sda
+fdisk /dev/sda
 ```
 Enter `n`, fdisk will prompt us to choose which partition we want to create "primary" or "extended".
 <img width="1083" alt="Screen Shot 2023-05-11 at 11 02 35 PM" src="https://github.com/AGolz/Born2beRoot/assets/51645091/c9db09d9-efe9-46ad-996b-305a99b237ae">
@@ -255,7 +255,7 @@ In the context of the Born2beRoot project, the choice of LUKS1 aligns well with 
 To start encryption, enter the following command:
 
 ```
-# cryptsetup luksFormat --type luks1 /dev/sda5
+cryptsetup luksFormat --type luks1 /dev/sda5
 ```
 
 and follow the instructions:
@@ -264,7 +264,7 @@ and follow the instructions:
 Open the container:
 
 ```
-# cryptsetup open /dev/sda5 sda5_crypt
+cryptsetup open /dev/sda5 sda5_crypt
 ```
 The decrypted container is now available:
 <img width="1080" alt="Screen Shot 2023-05-12 at 1 16 57 AM" src="https://github.com/AGolz/Born2beRoot/assets/51645091/8c1924a7-da1a-4c06-8c1b-023fe1c5a872">
@@ -288,13 +288,13 @@ Now that we have understood what LVM is and its components, let's create a volum
 Create a physical volume on top of the opened LUKS container:
 
 ```
-# pvcreate /dev/mapper/sda5_crypt
+pvcreate /dev/mapper/sda5_crypt
 ```
 
 Create a volume group (in this example named LVMGroup, but it can be whatever you want) and add the previously created physical volume to it:
 
 ```
-# vgcreate LVMGroup /dev/mapper/sda5_crypt
+vgcreate LVMGroup /dev/mapper/sda5_crypt
 ```
 
 <img width="1081" alt="Screen Shot 2023-05-12 at 1 33 56 AM" src="https://github.com/AGolz/Born2beRoot/assets/51645091/8a3c9548-0c09-4c61-94a7-c2adf7f9b46c">
@@ -305,12 +305,12 @@ Create logical volumes in a volume group using the `lvcreate` command:
 
 Format your filesystems on each logical volume:
 ```
-# mkfs.ext4 /dev/LVMGroup/root
-# mkswap /dev/LVMGroup/swap
+mkfs.ext4 /dev/LVMGroup/root
+mkswap /dev/LVMGroup/swap
 ```
 set the mount point for swap:
 ```
-# swapon /dev/LVMGroup/swap
+swapon /dev/LVMGroup/swap
 ```
 Now we have the following structure:
 <img width="1048" alt="Screen Shot 2023-05-12 at 3 16 22 AM" src="https://github.com/AGolz/Born2beRoot/assets/51645091/564fafb8-d07a-4c13-92af-b57e717a37e3">
@@ -350,20 +350,20 @@ By understanding and modifying the LVM configuration, we are able to work around
 
 Perform formatting:
 ```
-# mkfs.ext4 /dev/LVMGroup/home
-# mkfs.ext4 /dev/LVMGroup/var
-# mkfs.ext4 /dev/LVMGroup/srv
-# mkfs.ext4 /dev/LVMGroup/tmp
-# mkfs.ext4 /dev/LVMGroup/var-log
+mkfs.ext4 /dev/LVMGroup/home
+mkfs.ext4 /dev/LVMGroup/var
+mkfs.ext4 /dev/LVMGroup/srv
+mkfs.ext4 /dev/LVMGroup/tmp
+mkfs.ext4 /dev/LVMGroup/var-log
 ```
 Mount your filesystems:
 ```
-# mount /dev/LVMGroup/home /home
-# mount /dev/LVMGroup/var /var
-# mount /dev/LVMGroup/srv /srv
-# mount /dev/LVMGroup/tmp /tmp
-# mkdir /var/log/
-# mount /dev/LVMGroup/var-log /var/log
+mount /dev/LVMGroup/home /home
+mount /dev/LVMGroup/var /var
+mount /dev/LVMGroup/srv /srv
+mount /dev/LVMGroup/tmp /tmp
+mkdir /var/log/
+mount /dev/LVMGroup/var-log /var/log
 ```
 Edit the `/etc/fstab` file using a text editor. For each partition, add a line to the fstab file that specifies the mount point and options. The format of the line should be as follows:
 <img width="1077" alt="Screen Shot 2023-05-18 at 3 05 00 AM" src="https://github.com/AGolz/Born2beRoot/assets/51645091/0efe4b06-a782-42cb-a578-628726c927ec">
@@ -404,11 +404,11 @@ chown -R root:root /var/log
 
 To enable the swap partition immediately, run the following command:
 ```
-# swapon -a
+swapon -a
 ```
 This command activates all swap partitions listed in `/etc/fstab`. You can check the swap status with the following command:
 ```
-# free -h
+free -h
 ```
 This will display memory and swap usage in a human-readable format.
 
@@ -505,17 +505,17 @@ Here are the steps to add a new SSH port to the SELinux policy (replace YOUR_NEW
 
 Install the policycoreutils-python-utils package which provides the semanage command:
 ```
-# dnf install -y policycoreutils-python-utils
+dnf install -y policycoreutils-python-utils
 ```
 just in case, check if the `selinux-policy-targeted` package is installed.
 
 Then add the new port to the SELinux policy with the semanage command:
 ```
-# semanage port -a -t ssh_port_t -p tcp 4242
+semanage port -a -t ssh_port_t -p tcp 4242
 ```
 erify that the new port is added:
 ```
-# semanage port -l | grep ssh
+semanage port -l | grep ssh
 ```
 The command in step 2 tells SELinux to add (-a) a new rule that allows the sshd process type (ssh_port_t) to listen on the new TCP port (-p tcp 4242).
 
@@ -540,8 +540,8 @@ We need to configure it to allow SSH traffic through port 4242.
 
 Here's how to open port 4242 for SSH:
 ```
-# firewall-cmd --permanent --add-port=4242/tcp
-# firewall-cmd --reload
+firewall-cmd --permanent --add-port=4242/tcp
+firewall-cmd --reload
 ```
 Now, you should be able to connect to your VM via SSH on port 4242 while having the enhanced security of SELinux and a configured firewall.
 
@@ -566,7 +566,7 @@ The appropriate choice of protocol largely depends on the application requiremen
 
 let's try to connect to our server via ssh:
 ```
-# ssh username@localhost -p 4242
+ssh username@localhost -p 4242
 ```
 Voila! Welcome home! :) 
 
@@ -578,18 +578,18 @@ Your machine's hostname is akin to its own identity card, a unique name that sep
 
 Our tool of choice is the hostnamectl command. This handy tool is responsible for controlling the Linux system hostname. You can set the hostname to the required value with the following command. Be sure to replace 'emaksimo42' with your specific hostname:
 ```
-# sudo hostnamectl set-hostname emaksimo42
+sudo hostnamectl set-hostname emaksimo42
 ```
 To ensure our operation was successful, we'll verify by querying the hostname:
 ```
-# hostnamectl
+hostnamectl
 ```
 <img width="1187" alt="Screen Shot 2023-05-18 at 11 46 30 AM" src="https://github.com/AGolz/Born2beRoot/assets/51645091/58909c33-fd20-42e8-b27d-ae3109ef3cce">
 Your new hostname should make its appearance in both the Static and Pretty lines.
 
 But we're not done just yet. We want this change to be reflected throughout your system, so we'll go ahead and edit the hosts file:
 ```
-# sudo vi /etc/hosts
+sudo vi /etc/hosts
 ```
 Look for a line that follows this format: 127.0.1.1 your-old-hostname. It's time to bid farewell to your-old-hostname and replace it with your new hostname, yourlogin42. In the case this line is absent, don't worry. Simply add it right below the line that states 127.0.0.1 localhost.
 <img width="950" alt="Screen Shot 2023-05-18 at 11 50 00 AM" src="https://github.com/AGolz/Born2beRoot/assets/51645091/27f5a44d-ca32-42cc-bd9c-6dd2527d32f8">
@@ -597,7 +597,7 @@ Save the changes and close the file.
 Finally, to ensure that our changes take effect, we'll reboot the system:
 
 ```
-# sudo reboot
+sudo reboot
 ```
 After the system emerges from its brief slumber, it will wake up sporting its new identity, your customized hostname. 
 
@@ -669,7 +669,7 @@ Bash (Bourne Again SHell) is the default command-line interpreter for many Linux
 
 The script we've created for system monitoring, [monitoring.sh](https://github.com/AGolz/Born2beRoot/blob/main/monitoring.sh), collects a variety of important system information. Here's how it works:
 ```
-#!/bin/bash
+!/bin/bash
 ```
 This line, called a shebang, tells the system that this script should be executed using the bash shell interpreter.
 ```
@@ -728,7 +728,7 @@ This script collects and displays a wealth of information about the system, incl
 
 To make the script executable, save it to a file, let's say, "monitoring.sh", and then change its permissions using the chmod command like so:
 ```
-# chmod +x monitoring.sh
+chmod +x monitoring.sh
 ```
 #### Automating Tasks with Cron
 Cron is a time-based job scheduling utility in Unix-like operating systems. Users can schedule jobs (commands or scripts) to run at specific times on specific days.
@@ -741,7 +741,7 @@ While there are many ways to make a script run at startup, one common method inv
 
 To edit the crontab file, which contains a list of jobs run by cron, use the command:
 ```
-# crontab -e
+crontab -e
 ```
 
 Please remember that you need to have the correct permissions to execute these scripts and to schedule cron jobs.
@@ -752,12 +752,12 @@ Remember to test your script thoroughly to ensure that it's working as expected.
 
 __Now let's check our settings:__
 ```
-# head -n 2 /etc/os-release
-# sestatus
-# ss -tunlp
-# sudo firewall-cmd --list-service
-# sudo firewall-cmd --list-port
-# sudo firewall-cmd --state
+head -n 2 /etc/os-release
+sestatus
+ss -tunlp
+sudo firewall-cmd --list-service
+sudo firewall-cmd --list-port
+sudo firewall-cmd --state
 ```
 Here's what we need to see :
 <img width="1011" alt="Screen Shot 2023-05-18 at 3 44 58 PM" src="https://github.com/AGolz/Born2beRoot/assets/51645091/c8486f06-ec6f-4e12-ab11-8d94a8ca2b06">
@@ -780,26 +780,26 @@ To create a functional WordPress website with lighttpd, MariaDB, and PHP, follow
 
 Update and upgrade the system:
 ```
-# sudo dnf update -y
-# sudo dnf upgrade -y
+sudo dnf update -y
+sudo dnf upgrade -y
 ```
 Install the required packages:
 ```
-# sudo dnf install -y lighttpd lighttpd-fastcgi mariadb mariadb-server php php-mysqlnd php-fpm php-gd php-xml php-mbstring wget unzip
+sudo dnf install -y lighttpd lighttpd-fastcgi mariadb mariadb-server php php-mysqlnd php-fpm php-gd php-xml php-mbstring wget unzip
 ```
 Start and enable the services:
 ```
-# sudo systemctl start lighttpd
-# sudo systemctl enable lighttpd
-# sudo systemctl start mariadb
-# sudo systemctl enable mariadb
-# sudo systemctl start php-fpm
-# sudo systemctl enable php-fpm
+sudo systemctl start lighttpd
+sudo systemctl enable lighttpd
+sudo systemctl start mariadb
+sudo systemctl enable mariadb
+sudo systemctl start php-fpm
+sudo systemctl enable php-fpm
 ```
 __Configure lighttpd__:
 Edit the lighttpd configuration file to include the fastcgi configuration:
 ```
-# sudo vi /etc/lighttpd/lighttpd.conf
+sudo vi /etc/lighttpd/lighttpd.conf
 ```
 Add the following line at the end of the file:
 ```
@@ -823,24 +823,24 @@ Save and close the file.
 
 Check the ownership and permissions of the log files:
 ```
-# sudo ls -l /var/log/lighttpd/
+sudo ls -l /var/log/lighttpd/
 ```
 Make sure that the owner is set to the 'lighttpd' user and the group is also 'lighttpd'. The permissions should allow the user to read and write to the file.
 
 If the ownership and permissions are incorrect, you can change them using the following commands:
 ```
-# sudo chown lighttpd:lighttpd /var/log/lighttpd/access.log
-# sudo chmod 644 /var/log/lighttpd/access.log
-# sudo chown lighttpd:lighttpd /var/log/lighttpd/error.log
-# sudo chmod 644 /var/log/lighttpd/error.log
-# sudo chmod 755 /var/log/lighttpd/
+sudo chown lighttpd:lighttpd /var/log/lighttpd/access.log
+sudo chmod 644 /var/log/lighttpd/access.log
+sudo chown lighttpd:lighttpd /var/log/lighttpd/error.log
+sudo chmod 644 /var/log/lighttpd/error.log
+sudo chmod 755 /var/log/lighttpd/
 ```
 These commands change the ownership to 'lighttpd' and set the permissions to allow read and write access to the owner and read-only access to the group and others.
 
 __Configure PHP-FPM__:
 Edit the PHP-FPM configuration file:
 ```
-# sudo vi /etc/php-fpm.d/www.conf
+sudo vi /etc/php-fpm.d/www.conf
 ```
 Find the following lines and change their values:
 
@@ -856,12 +856,12 @@ Save and close the file.
 
 Restart the services:
 ```
-# sudo systemctl restart lighttpd
-# sudo systemctl restart php-fpm
+sudo systemctl restart lighttpd
+sudo systemctl restart php-fpm
 ```
 Secure the MariaDB installation:
 ```
-# sudo mysql_secure_installation
+sudo mysql_secure_installation
 ```
 Follow the prompts to set a root password and remove anonymous users, disallow remote root login, and remove the test database.
 
@@ -881,10 +881,10 @@ EXIT;
 ```
 Download and install WordPress:
 ```
-# cd /tmp
-# wget https://wordpress.org/latest.zip
-# unzip latest.zip
-# mv wordpress /var/www/lighttpd/
+cd /tmp
+wget https://wordpress.org/latest.zip
+unzip latest.zip
+mv wordpress /var/www/lighttpd/
 ```
 Set the proper ownership and permissions:
 ```
@@ -895,12 +895,12 @@ sudo find /var/www/lighttpd/wordpress/ -type f -exec chmod 644 {} \;
 __Configure WordPress__:
 Copy the sample configuration file:
 ```
-# cd /var/www/lighttpd/wordpress
-# cp wp-config-sample.php wp-config.php
+cd /var/www/lighttpd/wordpress
+cp wp-config-sample.php wp-config.php
 ```
 Edit the configuration file:
 ```
-# sudo vi wp-config.php
+sudo vi wp-config.php
 ```
 Replace the database details with the values you created earlier:
 ```
@@ -913,37 +913,37 @@ Save and close the file.
 
 Set the correct ownership and permissions for the new wp-config.php file:
 ```
-# sudo chown lighttpd:lighttpd wp-config.php
-# sudo chmod 644 wp-config.php
+sudo chown lighttpd:lighttpd wp-config.php
+sudo chmod 644 wp-config.php
 ```
 Configure the firewall:
 Allow incoming traffic on ports 80 (HTTP) and 443 (HTTPS):
 ```
-# sudo firewall-cmd --add-service=http --permanent
-# sudo firewall-cmd --add-service=https --permanent
-# sudo firewall-cmd --reload
+sudo firewall-cmd --add-service=http --permanent
+sudo firewall-cmd --add-service=https --permanent
+sudo firewall-cmd --reload
 ```
 Identify the SELinux context of the WordPress files:
 ```
-# sudo ls -Z /var/www/lighttpd/wordpress
+sudo ls -Z /var/www/lighttpd/wordpress
 ```
 The output will display the SELinux context of the files. It will look something like `unconfined_u:object_r:httpd_sys_content_t:s0`.
 
 Set the correct SELinux context for the WordPress files:
 ```
-# sudo chcon -R -t httpd_sys_content_t /var/www/lighttpd/wordpress
+sudo chcon -R -t httpd_sys_content_t /var/www/lighttpd/wordpress
 ```
 Replace `/var/www/lighttpd/wordpress` with the actual path to your WordPress installation.
 
 Verify the SELinux context has been set correctly:
 ```
-# sudo ls -Z /var/www/lighttpd/wordpress
+sudo ls -Z /var/www/lighttpd/wordpress
 ```
 The output should now display the new SELinux context for the files.
 
 Restart the Lighttpd server:
 ```
-# sudo systemctl restart lighttpd
+sudo systemctl restart lighttpd
 ```
 With the proper SELinux context set for the WordPress files, SELinux should allow access to them while still enforcing security policies. 
 
@@ -970,15 +970,15 @@ To install Varnish, follow these steps:
 Update the package repository:
 
 ```
-# sudo dnf update
+sudo dnf update
 ```
 Install Varnish using the package manager:
 ```
-# sudo dnf install varnish
+sudo dnf install varnish
 ```
 Configure Varnish to work with your web server. The configuration file for Varnish is located at `/etc/varnish/default.vcl`. Open the file using a text editor:
 ```
-# sudo vi /etc/varnish/default.vcl
+sudo vi /etc/varnish/default.vcl
 ```
 In the configuration file, you will find a section that begins with backend default. Replace the placeholder values with the IP address and port number of your web server. For example:
 ```
@@ -991,21 +991,21 @@ Save the changes and exit the text editor.
 
 Start the Varnish service:
 ```
-# sudo systemctl start varnish
+sudo systemctl start varnish
 ```
 Enable Varnish to start on system boot:
 ```
-# sudo systemctl enable varnish
+sudo systemctl enable varnish
 ```
 Verify that Varnish is running correctly:
 ```
-# sudo systemctl status varnish
+sudo systemctl status varnish
 ```
 You should see a status message indicating that Varnish is active and running.
 
 Open the configuration file using a text editor with root privileges. For example:
 ```
-# sudo vi /etc/httpd/conf/httpd.conf
+sudo vi /etc/httpd/conf/httpd.conf
 ```
 Look for a line that specifies the port on which your web server listens. This line is usually set to Listen 80, which indicates that it is listening on port 80. Change this line to specify a different port, such as Listen 8080.
 
@@ -1013,7 +1013,7 @@ Save the changes and exit the text editor.
 
 Restart your web server to apply the changes:
 ```
-# sudo systemctl restart httpd
+sudo systemctl restart httpd
 ```
 Now, Varnish is installed and running alongside your web server. It will start caching and serving web pages, improving the performance of your WordPress site. Keep in mind that any changes to your WordPress site might not be immediately visible due to Varnish's caching mechanism. To purge the cache and see the changes immediately, you can use the Varnish management tool or restart the Varnish service.
 
