@@ -449,6 +449,7 @@ if dnf fails with an error "Unable to detect release version (use '--releasever'
 Edit  or create the rsyslog configuration file `/etc/rsyslog.d/50-default.conf`:
 
 <img width="831" alt="Screen Shot 2024-03-26 at 4 38 49 PM" src="https://github.com/AGolz/Born2beRoot/assets/51645091/c711e77e-75b3-4292-93b1-b46c54589480">
+
 Don't forget to create all the necessary files.
 
 Save the file and restart the rsyslog service:
