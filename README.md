@@ -695,6 +695,19 @@ CPU_PHYSICAL=$(lscpu | grep "Socket(s):" | awk '{print $2}')
 VCPU=$(lscpu | grep "^CPU(s):" | awk '{print $2}')
 ```
 Here, the lscpu command is used to capture the number of physical CPU sockets and the total number of virtual CPUs (vCPUs).
+
+```
+DISTRIBUTION=$(cat /etc/redhat-release | awk '{print $1}'):
+```
+`cat /etc/redhat-release` This command prints the contents of the `/etc/redhat-release` file to the standard output.
+`|` This is a pipe operator that takes the output of the previous command (`cat /etc/redhat-release`) and passes it as input to the next command (`awk '{print $1}'`).
+`awk '{print $1}'` This awk command is used to manipulate text files. Here, it's instructed to print the first field (separated by whitespace) of each line. The output of this command will be the first word on the first line of the `/etc/redhat-release` file, which typically indicates the distribution name.
+
+```
+VERSION=$(cat /etc/redhat-release | awk '{print $4}'):
+```
+Similar to the line "DISTRIBUTION" this command retrieves the contents of the `/etc/redhat-release file`.
+`awk '{print $4}'` Here, awk is again used to print a specific field from each line. In this case, it prints the fourth field of each line. This typically corresponds to the version information in the `/etc/redhat-release file`.
 ```
 RAM_USAGE=$(free -m | awk 'NR==2{printf "%.0f/%.0fMB (%.2f%%)", $3, $2, $3*100/$2}')
 ```
@@ -712,7 +725,7 @@ LAST_BOOT=$(who -b | awk '{print $3, $4}')
 ```
 The who command with the -b option is used here to fetch the date and time of the last system boot.
 ```
-LVM_STATUS=$(lvs --noheadings -o lv_active 2>/dev/null | grep -q "active" && echo "yes" || echo "no")
+LVM_STATUS=$(lvs --noheadings -o lv_active LVMGroup 2>/dev/null | head -n 1 | grep -q "active" && echo "yes" || echo "no")
 ```
 This line checks if any active Logical Volume Manager (LVM) volumes exist.
 ```
