@@ -446,10 +446,6 @@ dnf install rsyslog
 ```
 if dnf fails with an error "Unable to detect release version (use '--releasever' to specify release version)" use the command `dnf --releasever=9 install rsyslog`.
 
-Create a file for boot logs:
-```
-touch /var/log/boot.log
-```
 Edit  or create the rsyslog configuration file `/etc/rsyslog.d/50-default.conf`:
 
 <img width="831" alt="Screen Shot 2024-03-26 at 4 38 49 PM" src="https://github.com/AGolz/Born2beRoot/assets/51645091/c711e77e-75b3-4292-93b1-b46c54589480">
