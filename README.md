@@ -372,7 +372,7 @@ Edit the `/etc/fstab` file using a text editor. For each partition, add a line t
 /dev/LVMGroup-var      /var       ext4  defaults  0 0
 /dev/LVMGroup-srv      /srv       ext4  defaults  0 0
 /dev/LVMGroup-tmp      /tmp       ext4  defaults  0 0
-/dev/LVMGroup-var-log  /var/log   ext4  defaults  0 0
+/dev/LVMGroup-var--log  /var/log   ext4  defaults  0 0
 ```
 The `/etc/fstab` file is a system configuration file on Linux and Unix-like operating systems that contains information about filesystems. The file is read by the mount command to determine which options should be used when mounting the specified filesystems.
 
