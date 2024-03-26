@@ -422,10 +422,6 @@ Now our sections look like this:
 
 <img width="1087" alt="Screen Shot 2023-05-18 at 3 06 55 AM" src="https://github.com/AGolz/Born2beRoot/assets/51645091/476fa50e-de9e-4b90-9e7d-65e16a1c0fc4">
 
-Reboot your system:
-```
-reboot
-```
 If you are experiencing logs appearing on the terminal after a reboot, it might be due to the default behavior of system logs being displayed on the console during the boot process. To prevent these logs from interfering with the terminal, you can make some adjustments.
 
 Here are steps to redirect logs during boot to a file and prevent them from being displayed on the console:
@@ -457,6 +453,10 @@ Save the file and restart the rsyslog service:
 service rsyslog restart
 ```
 
+Reboot your system:
+```
+reboot
+```
 Once your system is set up with the correct filesystems and mount points, and you've verified that everything is working correctly, you're ready to move on to setting up the server.
 
 ## Part V: Setting Up the Server
@@ -567,6 +567,11 @@ Apart from TCP, there are several other important protocols as well, including:
 - __DNS__ (Domain Name System): A hierarchical and decentralized naming system for computers, services, or other resources connected to the Internet or a private network. It associates various information with domain names assigned to each of the participating entities.
 
 The appropriate choice of protocol largely depends on the application requirements, such as the need for speed, reliability, or security.
+
+Reboot your system:
+```
+reboot
+```
 
 let's try to connect to our server via ssh:
 ```
