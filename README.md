@@ -430,7 +430,7 @@ If you are experiencing logs appearing on the terminal after a reboot, it might 
 
 Here are steps to redirect logs during boot to a file and prevent them from being displayed on the console:
 
-Open the `/etc/default/grub file for editing`. Find the line that starts with `GRUB_CMDLINE_LINUX` and add quiet and splash to the parameters. Additionally, add `rd.systemd.show_status=0` to disable status messages. The line should look something like this:
+Open the `/etc/default/grub` file for editing. Find the line that starts with `GRUB_CMDLINE_LINUX` and add quiet and splash to the parameters. Additionally, add `rd.systemd.show_status=0` to disable status messages. The line should look something like this:
 
 ```
 GRUB_CMDLINE_LINUX="quiet splash rd.systemd.show_status=0"
