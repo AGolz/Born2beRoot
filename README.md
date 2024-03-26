@@ -474,13 +474,13 @@ SSH communication is typically allowed by default in the SELinux policies. Howev
 
 Here are the steps to add a new SSH port to the SELinux policy (replace YOUR_NEW_PORT with your actual new port number):
 
+Install the selinux-policy-targeted package which provides the semanage command:
+```
+dnf install selinux-policy-targeted
+```
 Install the policycoreutils-python-utils package which provides the semanage command:
 ```
-dnf install -y policycoreutils-python-utils
-```
-If you encounter problems with the metadata of the Rocky Linux repository. Use --releasever=9:
-```
-dnf --releasever=9 install -y policycoreutils-python-utils
+dnf install policycoreutils-python-utils
 ```
 
 Then add the new port to the SELinux policy with the semanage command:
