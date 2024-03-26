@@ -450,17 +450,16 @@ Create a file for boot logs:
 ```
 touch /var/log/boot.log
 ```
-Edit the rsyslog configuration file `/etc/rsyslog.d/50-default.conf`.
-Add the following lines to the end of the file:
-```
-:msg, contains, "Kernel" /var/log/boot.log
-& stop
-```
+Edit  or create the rsyslog configuration file `/etc/rsyslog.d/50-default.conf`:
+
+<img width="831" alt="Screen Shot 2024-03-26 at 4 38 49 PM" src="https://github.com/AGolz/Born2beRoot/assets/51645091/c711e77e-75b3-4292-93b1-b46c54589480">
+
+
 Save the file and restart the rsyslog service:
 ```
 service rsyslog restart
 ```
-Now, the kernel logs during boot will be captured in the `/var/log/boot.log` file, and the console should remain quieter during the boot process. 
+
 Once your system is set up with the correct filesystems and mount points, and you've verified that everything is working correctly, you're ready to move on to setting up the server.
 
 ## Part V: Setting Up the Server
