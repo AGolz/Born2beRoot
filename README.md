@@ -849,7 +849,9 @@ if you want to disable IPv6 use the following line:
 ```
 server.use-ipv6 = "disable"
 ```
-and ensure that the configuration for the FastCGI module is correct. If you're using a TCP socket, it should look like this:
+Save and close the file.
+
+And make sure that the configuration of the FastCGI module in the `/etc/lighttpd/conf.d/fastcgi.conf` file is correct. If you are using a TCP socket, it should look like this:
 ```
 fastcgi.server += ( ".php" =>
     ((
