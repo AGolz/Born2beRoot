@@ -925,7 +925,7 @@ Download and install WordPress:
 cd /tmp
 wget https://wordpress.org/latest.zip
 unzip latest.zip
-mv wordpress /var/www/lighttpd/
+sudo mv wordpress /var/www/lighttpd/
 ```
 Set the proper ownership and permissions:
 ```
