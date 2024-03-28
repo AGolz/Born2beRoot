@@ -953,36 +953,33 @@ define('DB_HOST', 'localhost');
 ```
 Save and close the file.
 
-Set the correct ownership and permissions for the new wp-config.php file:
+Ensure the correct ownership and permissions for the `wp-config.php` file:
 ```
 sudo chown lighttpd:lighttpd wp-config.php
 sudo chmod 644 wp-config.php
 ```
-Identify the SELinux context of the WordPress files:
+Determine the SELinux context of the WordPress files:
 ```
 sudo ls -Z /var/www/lighttpd/wordpress
 ```
-The output will display the SELinux context of the files. It will look something like `unconfined_u:object_r:httpd_sys_content_t:s0`.
+Set the appropriate SELinux context for the WordPress files:
 
-Set the correct SELinux context for the WordPress files:
 ```
 sudo chcon -R -t httpd_sys_content_t /var/www/lighttpd/wordpress
 ```
 Replace `/var/www/lighttpd/wordpress` with the actual path to your WordPress installation.
 
-Verify the SELinux context has been set correctly:
+Confirm that the SELinux context has been updated successfully:
+
 ```
 sudo ls -Z /var/www/lighttpd/wordpress
 ```
-The output should now display the new SELinux context for the files.
-
-Restart the Lighttpd server:
+Restart the Lighttpd server to apply the changes:
 ```
 sudo systemctl restart lighttpd
 ```
-With the proper SELinux context set for the WordPress files, SELinux should allow access to them while still enforcing security policies. 
-
-Well, now we are ready to visit our website 'http://localhost:8080/wordpress/'
+By setting the correct SELinux context for the WordPress files, SELinux should allow access to them while still enforcing security policies. 
+Now, you can visit your website at http://localhost:8080/wordpress/.
 
 <img width="1703" alt="Screen Shot 2023-05-25 at 5 41 32 AM" src="https://github.com/AGolz/Born2beRoot/assets/51645091/a265f2db-3aac-4146-bbf2-73d200a83578">
 
