@@ -800,11 +800,30 @@ PHP is a popular general-purpose scripting language that is especially suited to
 
 To create a functional WordPress website with lighttpd, MariaDB, and PHP, follow these instructions:
 
+First, let's open the HTTPS port on our virtual machine by registering it in the settings.
+<img width="714" alt="Screen Shot 2024-03-28 at 9 34 04 PM" src="https://github.com/AGolz/Born2beRoot/assets/51645091/a68a7d43-9500-4697-80ac-a327f6599468">
+
+let's add the HTTPS service to the firewall:
+```
+sudo firewall-cmd --permanent --add-service http
+
+```
+After allowing the service, we need to reload the firewall service daemon: 
+```
+sudo firewall-cmd --reload
+```
 Update and upgrade the system:
 ```
 sudo dnf update -y
 sudo dnf upgrade -y
 ```
+You have to install the EPEL (Extra Package for Enterprise Linux) repository on your server. It is a free repository and allows you to connect many other open-source software packages. Use the below command to install EPEL.
+
+```
+sudo dnf install epel-release
+```
+Press y to accept the installation confirmation and press the Enter key.
+
 Install the required packages:
 ```
 sudo dnf install -y lighttpd lighttpd-fastcgi mariadb mariadb-server php php-mysqlnd php-fpm php-gd php-xml php-mbstring wget unzip
