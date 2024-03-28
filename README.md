@@ -803,15 +803,14 @@ To create a functional WordPress website with lighttpd, MariaDB, and PHP, follow
 First, let's open the HTTPS port on our virtual machine by registering it in the settings.
 <img width="714" alt="Screen Shot 2024-03-28 at 9 34 04 PM" src="https://github.com/AGolz/Born2beRoot/assets/51645091/a68a7d43-9500-4697-80ac-a327f6599468">
 
-let's add the HTTPS service to the firewall:
+Configure the firewall:
+Allow incoming traffic on ports 80 (HTTP) and 443 (HTTPS):
 ```
-sudo firewall-cmd --permanent --add-service http
-
-```
-After allowing the service, we need to reload the firewall service daemon: 
-```
+sudo firewall-cmd --add-service=http --permanent
+sudo firewall-cmd --add-service=https --permanent
 sudo firewall-cmd --reload
 ```
+
 Update and upgrade the system:
 ```
 sudo dnf update -y
@@ -956,13 +955,6 @@ Set the correct ownership and permissions for the new wp-config.php file:
 ```
 sudo chown lighttpd:lighttpd wp-config.php
 sudo chmod 644 wp-config.php
-```
-Configure the firewall:
-Allow incoming traffic on ports 80 (HTTP) and 443 (HTTPS):
-```
-sudo firewall-cmd --add-service=http --permanent
-sudo firewall-cmd --add-service=https --permanent
-sudo firewall-cmd --reload
 ```
 Identify the SELinux context of the WordPress files:
 ```
