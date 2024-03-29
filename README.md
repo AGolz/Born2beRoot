@@ -450,7 +450,7 @@ Don't forget to create all the necessary files.
 
 Save the file and restart the rsyslog service:
 ```
-service rsyslog restart
+systemctl restart rsyslog
 ```
 
 Reboot your system:
