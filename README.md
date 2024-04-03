@@ -791,7 +791,7 @@ This will open the default text editor (usually vi or nano) where you can add, e
 Inside the crontab file, add your cron jobs following the cron syntax. For example:
 
 ```
-*/10 * * * * /path/to/monitoring.sh
+@reboot /path/to/monitoring.sh
 ```
 Replace /path/to/monitoring.sh with the actual path to your script.
 
