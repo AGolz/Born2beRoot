@@ -759,9 +759,8 @@ In our case, we want monitoring.sh to run at system startup and every 10 minutes
 
 
 While there are many ways to make a script run at startup, one common method involves using cron's special @reboot keyword, which runs a job once at startup.
-<img width="887" alt="Screen Shot 2024-04-03 at 8 54 50 PM" src="https://github.com/AGolz/Born2beRoot/assets/51645091/ec4d718d-44e2-4343-8b43-b92917a8f810">
 
-
+<img width="972" alt="Screen Shot 2023-05-18 at 2 08 44 PM" src="https://github.com/AGolz/Born2beRoot/assets/51645091/ec4d718d-44e2-4343-8b43-b92917a8f810">
 
 Update Package Repository:
 ```
