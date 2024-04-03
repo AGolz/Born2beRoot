@@ -616,7 +616,7 @@ Maintaining a secure Linux environment entails setting strong password and sudo 
 __Implementing Strong Password Policies__
 To set strong password policies, you'd typically modify the configuration files associated with PAM (Pluggable Authentication Modules) and login.defs. Here's how:
 
-Open the /etc/login.defs file and make the following changes:
+Open the `/etc/login.defs` file and make the following changes:
 - __Set PASS_MAX_DAYS__ to __30__ to ensure passwords expire every 30 days.
 - __Set PASS_MIN_DAYS__ to __2__ to require at least two days before a password can be changed.
 - __Set PASS_WARN_AGE__ to __7__ to give users a 7-day warning before their password expires.
@@ -725,7 +725,7 @@ LAST_BOOT=$(who -b | awk '{print $3, $4}')
 ```
 The who command with the -b option is used here to fetch the date and time of the last system boot.
 ```
-LVM_STATUS=$(lvs --noheadings -o lv_active LVMGroup 2>/dev/null | head -n 1 | grep -q "active" && echo "yes" || echo "no")
+LVM_STATUS=$(/usr/sbin/lvs --noheadings -o lv_active LVMGroup 2>/dev/null | head -n 1 | grep -q "active" && echo "yes" || echo "no")
 ```
 This line checks if any active Logical Volume Manager (LVM) volumes exist.
 ```
@@ -744,13 +744,15 @@ The ip command is used here to display the IPv4 address and the MAC address of t
 SUDO_CMDS=$(journalctl _COMM=sudo | grep COMMAND | wc -l)
 ```
 Every 10 minutes, the script runs these commands, packages the results into a well-formatted message, and then broadcasts this message to all terminals using the wall command.
+
+
 <img width="811" alt="Screen Shot 2023-05-18 at 3 08 56 PM" src="https://github.com/AGolz/Born2beRoot/assets/51645091/0b63320b-513b-4b73-8b7e-a19166f08116">
 
 This script collects and displays a wealth of information about the system, including architecture, kernel version, CPU, RAM and Disk usage, last boot time, LVM status, TCP connections, logged users, network details, and sudo commands executed. It uses a variety of common Linux utilities to gather this information.
 
 To make the script executable, save it to a file, let's say, "monitoring.sh", and then change its permissions using the chmod command like so:
 ```
-chmod +x monitoring.sh
+sudo chmod +x monitoring.sh
 ```
 #### Automating Tasks with Cron
 Cron is a time-based job scheduling utility in Unix-like operating systems. Users can schedule jobs (commands or scripts) to run at specific times on specific days.
@@ -760,7 +762,7 @@ In our case, we want monitoring.sh to run at system startup and every 10 minutes
 
 While there are many ways to make a script run at startup, one common method involves using cron's special @reboot keyword, which runs a job once at startup.
 
-<img width="972" alt="Screen Shot 2023-05-18 at 2 08 44 PM" src="https://github.com/AGolz/Born2beRoot/assets/51645091/ec4d718d-44e2-4343-8b43-b92917a8f810">
+<img width="972" alt="Screen Shot 2023-05-18 at 2 08 44 PM" src="https://github.com/AGolz/Born2beRoot/assets/51645091/b287092c-7a9e-46b7-9abe-6077a43c7821">
 
 Update Package Repository:
 ```
@@ -784,16 +786,16 @@ sudo systemctl status crond
 ```
 Once cronie is installed and running, you can edit your cron jobs using the crontab -e command:
 ```
-crontab -e
+sudo crontab -e
 ```
 This will open the default text editor (usually vi or nano) where you can add, edit, or remove cron jobs.
 
 Inside the crontab file, add your cron jobs following the cron syntax. For example:
 
 ```
-@reboot root /path/to/monitoring.sh
+@reboot /path/to/monitoring.sh
 ```
-Replace /path/to/monitoring.sh with the actual path to your script.
+Replace `/path/to/monitoring.sh` with the actual path to your script.
 
 After adding your cron jobs, save and exit the crontab editor.
 
