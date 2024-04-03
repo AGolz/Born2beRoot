@@ -757,14 +757,45 @@ Cron is a time-based job scheduling utility in Unix-like operating systems. User
 
 In our case, we want monitoring.sh to run at system startup and every 10 minutes thereafter. The script itself contains an infinite loop that ensures the script will keep running once it's started, with a pause of 600 seconds (10 minutes) between iterations.
 
+
 While there are many ways to make a script run at startup, one common method involves using cron's special @reboot keyword, which runs a job once at startup.
 
 <img width="972" alt="Screen Shot 2023-05-18 at 2 08 44 PM" src="https://github.com/AGolz/Born2beRoot/assets/51645091/31af8729-1137-42f7-81ab-bce9819d57ed">
 
-To edit the crontab file, which contains a list of jobs run by cron, use the command:
+Update Package Repository:
+```
+sudo dnf update
+```
+Install cronie Package:
+```
+sudo dnf install cronie
+```
+This command will install the cronie package along with its dependencies.
+```
+sudo systemctl start crond
+```
+To ensure that the cronie service starts automatically at boot, you can enable it:
+```
+sudo systemctl enable crond
+```
+You can check the status of the cronie service to ensure it's running without any issues:
+```
+sudo systemctl status crond
+```
+Once cronie is installed and running, you can edit your cron jobs using the crontab -e command:
 ```
 crontab -e
 ```
+This will open the default text editor (usually vi or nano) where you can add, edit, or remove cron jobs.
+
+Inside the crontab file, add your cron jobs following the cron syntax. For example:
+
+```
+*/10 * * * * /path/to/monitoring.sh
+```
+Replace /path/to/monitoring.sh with the actual path to your script.
+
+After adding your cron jobs, save and exit the crontab editor.
 
 Please remember that you need to have the correct permissions to execute these scripts and to schedule cron jobs.
 
