@@ -1107,6 +1107,7 @@ sudo nginx -t
 If the configuration test is successful, restart Nginx to apply the changes:
 ```
 sudo systemctl restart nginx
+sudo systemctl enable nginx
 ```
 With this configuration, Nginx will listen on port 8080 and forward incoming requests to your Lighttpd server running on http://localhost:8080. You can access your site using http://localhost:8080 locally, and Nginx will manage the incoming traffic as a reverse proxy without caching the responses.
 
