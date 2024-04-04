@@ -745,14 +745,13 @@ SUDO_CMDS=$(journalctl _COMM=sudo | grep COMMAND | wc -l)
 ```
 Every 10 minutes, the script runs these commands, packages the results into a well-formatted message, and then broadcasts this message to all terminals using the wall command.
 
-
-<img width="811" alt="Screen Shot 2023-05-18 at 3 08 56 PM" src="https://github.com/AGolz/Born2beRoot/assets/51645091/0b63320b-513b-4b73-8b7e-a19166f08116">
+<img width="811" alt="Screen Shot 2024-04-04 at 4 05 56 AM" src="https://github.com/AGolz/Born2beRoot/assets/51645091/32bf7307-1704-45f3-9ff3-0f6d1ef0bdd7">
 
 This script collects and displays a wealth of information about the system, including architecture, kernel version, CPU, RAM and Disk usage, last boot time, LVM status, TCP connections, logged users, network details, and sudo commands executed. It uses a variety of common Linux utilities to gather this information.
 
 To make the script executable, save it to a file, let's say, "monitoring.sh", and then change its permissions using the chmod command like so:
 ```
-sudo chmod +x monitoring.sh
+sudo chmod +x /path/to/monitoring.sh
 ```
 #### Automating Tasks with Cron
 Cron is a time-based job scheduling utility in Unix-like operating systems. Users can schedule jobs (commands or scripts) to run at specific times on specific days.
@@ -837,12 +836,21 @@ First, let's open the HTTPS port on our virtual machine by registering it in the
 <img width="714" alt="Screen Shot 2024-03-28 at 9 34 04 PM" src="https://github.com/AGolz/Born2beRoot/assets/51645091/a68a7d43-9500-4697-80ac-a327f6599468">
 
 Configure the firewall:
-Allow incoming traffic on ports 80 (HTTP) and 443 (HTTPS):
+
+Allow HTTP and HTTPS traffic:
 ```
 sudo firewall-cmd --add-service=http --permanent
 sudo firewall-cmd --add-service=https --permanent
-sudo firewall-cmd --reload
 ```
+Allow MySQL/MariaDB traffic (assuming default port 3306):
+```
+sudo firewall-cmd --zone=public --add-port=3306/tcp --permanent
+```
+Allow PHP FastCGI traffic (assuming default port 9000 for PHP-FPM):
+```
+sudo firewall-cmd --zone=public --add-port=9000/tcp --permanent
+```
+restart the firewall settings by running the `sudo firewall-cmd --reload command`
 
 Update and upgrade the system:
 ```
@@ -911,14 +919,6 @@ listen.group = lighttpd
 listen.acl_users = lighttpd
 ```
 Save and close the file.
-This prevents PHP-FPM from resetting the ownership to its default values.
-
-Use the chown command to change the ownership of the socket file:
-
-```
-sudo chown lighttpd:lighttpd /var/run/php-fpm/www.sock
-```
-This command sets the owner and group of the file to lighttpd.
 
 Use the chmod command to set the appropriate permissions for the socket file: 
 ```
@@ -928,7 +928,11 @@ After making changes restart the PHP-FPM service to apply the changes:
 ```
 sudo systemctl restart php-fpm
 ```
-Verify that the ownership of the PHP-FPM socket file remains as intended after restarting the services:
+Here are the rights that a socket file should have:
+
+<img width="615" alt="Screen Shot 2024-04-04 at 4 23 38 AM" src="https://github.com/AGolz/Born2beRoot/assets/51645091/c6ce3103-fd23-402b-8013-5940a8f9252e">
+
+To verify this, run the following command:
 ```
 ls -l /var/run/php-fpm/www.sock
 ```
