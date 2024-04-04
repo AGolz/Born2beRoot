@@ -636,6 +636,14 @@ password sufficient pam_unix.so remember=7
 ```
 The remember option forces the user to choose a password that differs from the last 7 ones.
 
+Open the `/etc/security/pwquality.conf` file and change the following values:
+```
+minlen = 8  # minimum password length
+minclass = 4  # minimum number of character classes
+minage = 2  # minimum password age (days)
+maxage = 30  # maximum password age (days)
+```
+
 __Configuring Sudo Policies__
 Sudo policies are typically configured in the sudoers file. Here's how:
 
