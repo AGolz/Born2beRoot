@@ -878,7 +878,7 @@ Add the following line at the end of the file:
 ```
 include "conf.d/fastcgi.conf"
 ```
-if you want to disable IPv6 use the following line:
+disable IPv6:
 ```
 server.use-ipv6 = "disable"
 ```
@@ -886,31 +886,17 @@ Save and close the file.
 
 And make sure that the configuration of the FastCGI module in the `/etc/lighttpd/conf.d/fastcgi.conf` file is correct. If you are using a TCP socket, it should look like this:
 ```
-fastcgi.server += ( ".php" =>
-    ((
-        "host" => "127.0.0.1",
-        "port" => "9000",
-        "broken-scriptfilename" => "enable"
-    ))
+fastcgi.server += (
+    ".php" => (
+        "localhost" => (
+            "socket" => "/var/run/php-fpm/www.sock",
+            "broken-scriptfilename" => "enable"
+        )
+    )
 )
 ```
 Save and close the file.
 
-Check the ownership and permissions of the log files:
-```
-sudo ls -l /var/log/lighttpd/
-```
-Make sure that the owner is set to the 'lighttpd' user and the group is also 'lighttpd'. The permissions should allow the user to read and write to the file.
-
-If the ownership and permissions are incorrect, you can change them using the following commands:
-```
-sudo chown lighttpd:lighttpd /var/log/lighttpd/access.log
-sudo chmod 644 /var/log/lighttpd/access.log
-sudo chown lighttpd:lighttpd /var/log/lighttpd/error.log
-sudo chmod 644 /var/log/lighttpd/error.log
-sudo chmod 755 /var/log/lighttpd/
-```
-These commands change the ownership to 'lighttpd' and set the permissions to allow read and write access to the owner and read-only access to the group and others.
 
 __Configure PHP-FPM__:
 Edit the PHP-FPM configuration file:
@@ -920,21 +906,40 @@ sudo vi /etc/php-fpm.d/www.conf
 Find the following lines and change their values:
 
 ```
-user = lighttpd
-group = lighttpd
-listen = 127.0.0.1:9000
 listen.owner = lighttpd
 listen.group = lighttpd
-listen.mode = 0660
+listen.acl_users = lighttpd
 ```
 Save and close the file.
+This prevents PHP-FPM from resetting the ownership to its default values.
+
+Use the chown command to change the ownership of the socket file:
+
+```
+sudo chown lighttpd:lighttpd /var/run/php-fpm/www.sock
+```
+This command sets the owner and group of the file to lighttpd.
+
+Use the chmod command to set the appropriate permissions for the socket file: 
+```
+sudo chmod 660 /var/run/php-fpm/www.sock
+```
+After making changes restart the PHP-FPM service to apply the changes:
+```
+sudo systemctl restart php-fpm
+```
+Verify that the ownership of the PHP-FPM socket file remains as intended after restarting the services:
+```
+ls -l /var/run/php-fpm/www.sock
+```
+Ensure that the owner and group are set to lighttpd.
 
 Restart the services:
 ```
 sudo systemctl restart lighttpd
-sudo systemctl restart php-fpm
 ```
-Secure the MariaDB installation:
+
+__Secure the MariaDB installation__:
 ```
 sudo mysql_secure_installation
 ```
@@ -954,24 +959,23 @@ GRANT ALL PRIVILEGES ON wordpress.* TO 'wpuser'@'localhost';
 FLUSH PRIVILEGES;
 EXIT;
 ```
-Download and install WordPress:
+__Download and install WordPress__:
 ```
-cd /tmp
-wget https://wordpress.org/latest.zip
-unzip latest.zip
-sudo mv wordpress /var/www/lighttpd/
+wget http://wordpress.org/latest.tar.gz
+tar -xzvf latest.tar.gz
+sudo mv wordpress/* /var/www/html/
+rm -rf latest.tar.gz wordpress/
 ```
 Set the proper ownership and permissions:
 ```
-sudo chown -R lighttpd:lighttpd /var/www/lighttpd/wordpress
-sudo find /var/www/lighttpd/wordpress/ -type d -exec chmod 755 {} \;
-sudo find /var/www/lighttpd/wordpress/ -type f -exec chmod 644 {} \;
+sudo chown -R lighttpd:lighttpd /var/www/html
+sudo find /var/www/html/ -type d -exec chmod 755 {} \;
+sudo find /var/www/html/ -type f -exec chmod 644 {} \;
 ```
 __Configure WordPress__:
 Copy the sample configuration file:
 ```
-cd /var/www/lighttpd/wordpress
-cp wp-config-sample.php wp-config.php
+sudo mv /var/www/html/wp-config-sample.php /var/www/html/wp-config.php
 ```
 Edit the configuration file:
 ```
@@ -988,31 +992,31 @@ Save and close the file.
 
 Ensure the correct ownership and permissions for the `wp-config.php` file:
 ```
-sudo chown lighttpd:lighttpd wp-config.php
-sudo chmod 644 wp-config.php
+sudo chown lighttpd:lighttpd /var/www/html/wp-config.php
+sudo chmod 644 /var/www/html/wp-config.php
 ```
 Determine the SELinux context of the WordPress files:
 ```
-sudo ls -Z /var/www/lighttpd/wordpress
+sudo ls -Z /var/www/html
 ```
 Set the appropriate SELinux context for the WordPress files:
 
 ```
-sudo chcon -R -t httpd_sys_content_t /var/www/lighttpd/wordpress
+sudo chcon -R -t httpd_sys_content_t /var/www/html
 ```
 Replace `/var/www/lighttpd/wordpress` with the actual path to your WordPress installation.
 
 Confirm that the SELinux context has been updated successfully:
 
 ```
-sudo ls -Z /var/www/lighttpd/wordpress
+sudo ls -Z /var/www/html
 ```
 Restart the Lighttpd server to apply the changes:
 ```
 sudo systemctl restart lighttpd
 ```
 By setting the correct SELinux context for the WordPress files, SELinux should allow access to them while still enforcing security policies. 
-Now, you can visit your website at http://localhost:8080/wordpress/.
+Now, you can visit your website at http://localhost:8080/.
 
 <img width="1703" alt="Screen Shot 2023-05-25 at 5 41 32 AM" src="https://github.com/AGolz/Born2beRoot/assets/51645091/a265f2db-3aac-4146-bbf2-73d200a83578">
 
