@@ -1041,7 +1041,7 @@ Now, you can visit your website at http://localhost:8080/.
 
 This is where you can truly customize your server setup. There are many services that could enhance a WordPress site, so choose one that align with your particular needs or interests. For example, you might choose to install a caching service like Varnish or Memcached to improve the performance of your site, or a security service like Fail2Ban to enhance security.
 
-## We will install Fail2ban:
+#### We will install Fail2ban:
 
 Fail2ban is an intrusion prevention software framework that is designed to protect computer servers from brute-force attacks. It works by monitoring log files for various services and detecting repeated login failures or other suspicious activity. Once suspicious activity is identified, Fail2ban takes action by dynamically updating firewall rules to block the IP address from which the suspicious activity originated, thus preventing further unauthorized access attempts.
 
@@ -1092,7 +1092,7 @@ That's it! Fail2ban should now be installed and running on your system, helping 
 
 Fail2ban has successfully connected to its persistent database.
 
-## And for dessert 😋
+#### And for dessert 😋
 
 We will install Nginx anyway. Because it's right and good :)
 
