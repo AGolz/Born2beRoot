@@ -616,6 +616,14 @@ Maintaining a secure Linux environment entails setting strong password and sudo 
 __Implementing Strong Password Policies__
 To set strong password policies, you'd typically modify the configuration files associated with PAM (Pluggable Authentication Modules) and login.defs. Here's how:
 
+Open the `/etc/security/pwquality.conf` file and change the following values:
+```
+minlen = 8  # minimum password length
+minclass = 4  # minimum number of character classes
+minage = 2  # minimum password age (days)
+maxage = 30  # maximum password age (days)
+```
+
 Open the `/etc/login.defs` file and make the following changes:
 - __Set PASS_MAX_DAYS__ to __30__ to ensure passwords expire every 30 days.
 - __Set PASS_MIN_DAYS__ to __2__ to require at least two days before a password can be changed.
@@ -636,13 +644,6 @@ password sufficient pam_unix.so remember=7
 ```
 The remember option forces the user to choose a password that differs from the last 7 ones.
 
-Open the `/etc/security/pwquality.conf` file and change the following values:
-```
-minlen = 8  # minimum password length
-minclass = 4  # minimum number of character classes
-minage = 2  # minimum password age (days)
-maxage = 30  # maximum password age (days)
-```
 
 __Configuring Sudo Policies__
 Sudo policies are typically configured in the sudoers file. Here's how:
