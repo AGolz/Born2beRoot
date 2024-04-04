@@ -1136,7 +1136,6 @@ Finally, the `Percentage of the requests served within a certain time` section s
 
 ## Resume:**[Project instructions](https://github.com/AGolz/ft_printf-42/files/10759004/en.subject.pdf)**
 
-Need help: elmaksim@student.42yerevan.am
 
 In this article, we took a journey to deploy a server on Rocky Linux using VirtualBox. We started by understanding the concept of virtual machines (VMs) and their importance in modern software development and OT infrastructure.
 
