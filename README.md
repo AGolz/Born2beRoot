@@ -1117,18 +1117,31 @@ The output from ApacheBench (ab) provides information about the performance of y
 Here's a breakdown of the key metrics:
 
 __Server Software__: Indicates the software running on the server. In this case, it's Nginx version 1.20.1.
+
 __Server Hostname__: The hostname of the server, which is "localhost" in this case.
+
 __Server Port__: The port number the server is listening on, which is 8080.
+
 __Document Path__: The path to the document being requested, which is "/" indicating the homepage.
+
 __Document Length__: The size of the document being served, which is 157 bytes.
+
 __Concurrency Level__: The number of multiple requests being sent simultaneously, which is 10.
+
 __Time taken for tests__: The total time taken to complete the benchmarking tests, which is 0.149 seconds.
+
 __Complete requests__: The total number of requests completed, which is 1000.
+
 __Failed requests__: The number of requests that failed, which is 0 in this case.
+
 __Non-2xx responses__: The number of responses that were not in the 2xx range (e.g., 200 OK), which is 1000, indicating all responses were successful.
+
 __Requests per second__: The average number of requests handled per second, which is 6716.37.
+
 __Time per request__: The average time taken to process each request, which is 1.489 milliseconds.
+
 __Transfer rate__: The average data transfer rate, which is 2026.72 kilobytes per second.
+
 The `Connection Times` section provides details about the time taken for various stages of the request-handling process, including connecting to the server, processing the request, and waiting for a response.
 
 Finally, the `Percentage of the requests served within a certain time` section shows the distribution of response times. For example, 50% of requests were served within 1 milliseconds, 95% within 3 milliseconds, and 100% within 9 milliseconds. This information helps assess the overall responsiveness of the server under load.
