@@ -1041,7 +1041,60 @@ Now, you can visit your website at http://localhost:8080/.
 
 This is where you can truly customize your server setup. There are many services that could enhance a WordPress site, so choose one that align with your particular needs or interests. For example, you might choose to install a caching service like Varnish or Memcached to improve the performance of your site, or a security service like Fail2Ban to enhance security.
 
-We will install Nginx.
+## We will install Fail2ban:
+
+Fail2ban is an intrusion prevention software framework that is designed to protect computer servers from brute-force attacks. It works by monitoring log files for various services and detecting repeated login failures or other suspicious activity. Once suspicious activity is identified, Fail2ban takes action by dynamically updating firewall rules to block the IP address from which the suspicious activity originated, thus preventing further unauthorized access attempts.
+
+The primary purpose of Fail2ban is to enhance server security by reducing the risk of unauthorized access through brute-force attacks. By automatically blocking IP addresses that exhibit suspicious behavior, Fail2ban helps to mitigate the risk of successful attacks and improves the overall security posture of the server.
+
+In summary, Fail2ban is a valuable tool for server administrators to proactively defend against unauthorized access attempts and enhance the security of their systems.
+
+To install Fail2ban on a Linux system, you can follow these general steps:
+
+Update Package Lists: Ensure your package manager's cache is up-to-date by running:
+
+```
+sudo dnf update
+```
+Install Fail2ban: Use the package manager to install Fail2ban:
+
+```
+sudo dnf install fail2ban
+```
+Start Fail2ban Service: After installation, start the Fail2ban service:
+
+```
+sudo systemctl start fail2ban
+```
+
+Enable Fail2ban Service: If you want Fail2ban to start automatically at boot, enable the service:
+
+```
+sudo systemctl enable fail2ban
+```
+Verify Installation: Check the status of the Fail2ban service to ensure it's running without errors:
+```
+sudo systemctl status fail2ban
+```
+Configuration: Fail2ban's main configuration file is typically located at `/etc/fail2ban/jail.conf` or `/etc/fail2ban/jail.local`. You can customize the configuration to suit your needs. Remember to restart Fail2ban after making any changes to the configuration files:
+
+```
+sudo systemctl restart fail2ban
+```
+Check Logs: Monitor Fail2ban's logs to ensure it's functioning as expected:
+
+```
+sudo tail -f /var/log/fail2ban.log
+```
+That's it! Fail2ban should now be installed and running on your system, helping to protect your server from brute-force attacks. Remember to periodically review Fail2ban's logs and adjust its configuration as needed to ensure optimal security.
+
+<img width="986" alt="Screen Shot 2024-04-04 at 1 29 30 PM" src="https://github.com/AGolz/Born2beRoot/assets/51645091/22a1b7e4-a39d-4668-a3b3-0871579fec77">
+
+Fail2ban has successfully connected to its persistent database.
+
+## And for dessert 😋
+
+We will install Nginx anyway. Because it's right and good :)
 
 Nginx serves as a reverse proxy in this setup, providing several benefits:
 
