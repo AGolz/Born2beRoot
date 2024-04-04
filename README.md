@@ -1034,8 +1034,8 @@ Now, you can visit your website at http://localhost:8080/.
 <img width="1703" alt="Screen Shot 2023-05-25 at 5 41 32 AM" src="https://github.com/AGolz/Born2beRoot/assets/51645091/a265f2db-3aac-4146-bbf2-73d200a83578">
 
 :) Great, now that you have access to the WordPress dashboard, you can create a new page with the desired content. Here's how:  
-<img width="1806" alt="Screen Shot 2024-03-29 at 3 59 34 AM" src="https://github.com/AGolz/Born2beRoot/assets/51645091/478e202c-63ad-4b33-8977-0a55d88a5001">
 
+<img width="1497" alt="Screen Shot 2024-04-04 at 4 15 23 PM" src="https://github.com/AGolz/Born2beRoot/assets/51645091/df2375ca-ecef-4f16-b68d-3591fc75079e">
 
 ### Adding an Extra Service
 
