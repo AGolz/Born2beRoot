@@ -1032,71 +1032,111 @@ Now, you can visit your website at http://localhost:8080/.
 
 This is where you can truly customize your server setup. There are many services that could enhance a WordPress site, so choose one that align with your particular needs or interests. For example, you might choose to install a caching service like Varnish or Memcached to improve the performance of your site, or a security service like Fail2Ban to enhance security.
 
-We will install Varnish.
+We will install Nginx.
 
-Varnish is a popular caching service that can greatly improve the performance of your WordPress site. It acts as a reverse proxy, sitting between your web server and the visitors of your site. Varnish stores a copy of the web pages in its memory and serves them directly to visitors, reducing the load on your web server and improving response times.
+Nginx serves as a reverse proxy in this setup, providing several benefits:
 
-#### Installing Varnish:
+__Load Balancing__: Nginx can distribute incoming traffic across multiple servers, helping to balance the load and prevent any single server from becoming overwhelmed.
 
-To install Varnish, follow these steps:
+__Caching__: Nginx can cache frequently accessed content, reducing the load on your backend servers and improving overall performance. However, this feature is not being used in your current setup.
+
+__Security__: Nginx can act as a barrier between the internet and your backend servers, helping to protect against common web attacks like DDoS attacks and SQL injection.
+
+__Reverse Proxy__: By acting as a reverse proxy, Nginx can improve the performance and scalability of your web application by offloading tasks such as SSL termination, compression, and serving static files.
+
+__Flexibility__: Nginx is highly configurable and can be customized to suit your specific needs. It offers a wide range of features and can be extended with third-party modules.
+
+In your specific setup with Nginx acting as a reverse proxy forwarding requests to Lighttpd hosting your WordPress site, Lighttpd serves as the backend web server responsible for handling PHP requests and serving static content.
+
+Here's what Lighttpd is doing in your setup:
+
+Handling PHP requests: Lighttpd is responsible for processing PHP scripts required by your WordPress site. When a PHP file is requested, Nginx forwards the request to Lighttpd, which executes the PHP code and generates the dynamic content to be sent back to the client.
+
+Serving static content: Lighttpd also serves static files such as images, CSS, and JavaScript files directly to clients. This helps improve the performance of your WordPress site by efficiently delivering static content without the overhead of processing through PHP.
+
+In summary, while Nginx acts as the frontend reverse proxy handling incoming requests and providing additional features like load balancing and SSL termination, Lighttpd serves as the backend web server responsible for executing PHP scripts and serving static content for your WordPress site. This setup allows for a flexible and scalable architecture, where each server plays a specific role in delivering your web application to users efficiently and securely.
+
+#### Installing Nginx:
+
+To install Nginx, follow these steps:
 
 Update the package repository:
 
 ```
 sudo dnf update
 ```
-Install Varnish using the package manager:
+Install Nginx using the package manager:
 ```
-sudo dnf install varnish
+sudo dnf install nginx
 ```
-Configure Varnish to work with your web server. The configuration file for Varnish is located at `/etc/varnish/default.vcl`. Open the file using a text editor:
+Open the Nginx configuration file /etc/nginx/nginx.conf for editing:
 ```
-sudo vi /etc/varnish/default.vcl
+sudo vi /etc/nginx/nginx.conf
 ```
-In the configuration file, you will find a section that begins with backend default. Replace the placeholder values with the IP address and port number of your web server. For example:
+Inside the http block, add a new server block to define the reverse proxy configuration:
 ```
-backend default {
-    .host = "127.0.0.1";
-    .port = "9000";
+server {
+    listen 8080;  # Listen on port 8080
+
+    location / {
+        proxy_pass http://localhost:8080;  # Forward requests to Lighttpd
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+    }
 }
 ```
-Save the changes and exit the text editor.
 
-Start the Varnish service:
-```
-sudo systemctl start varnish
-```
-Enable Varnish to start on system boot:
-```
-sudo systemctl enable varnish
-```
-Verify that Varnish is running correctly:
-```
-sudo systemctl status varnish
-```
-You should see a status message indicating that Varnish is active and running.
-
-Open the configuration file using a text editor with root privileges. For example:
-```
-sudo vi /etc/httpd/conf/httpd.conf
-```
-Look for a line that specifies the port on which your web server listens. This line is usually set to Listen 80, which indicates that it is listening on port 80. Change this line to specify a different port, such as Listen 8080.
+<img width="1040" alt="Screen Shot 2024-04-04 at 7 21 50 AM" src="https://github.com/AGolz/Born2beRoot/assets/51645091/5018f264-d527-4992-af0e-5137d1f69e4e">
 
 Save the changes and exit the text editor.
 
-Restart your web server to apply the changes:
+Test the Nginx configuration for syntax errors:
 ```
-sudo systemctl restart httpd
+sudo nginx -t
 ```
-Now, Varnish is installed and running alongside your web server. It will start caching and serving web pages, improving the performance of your WordPress site. Keep in mind that any changes to your WordPress site might not be immediately visible due to Varnish's caching mechanism. To purge the cache and see the changes immediately, you can use the Varnish management tool or restart the Varnish service.
+If the configuration test is successful, restart Nginx to apply the changes:
+```
+sudo systemctl restart nginx
+```
+With this configuration, Nginx will listen on port 8080 and forward incoming requests to your Lighttpd server running on http://localhost:8080. You can access your site using http://localhost:8080 locally, and Nginx will manage the incoming traffic as a reverse proxy without caching the responses.
 
-Note: Make sure to adjust the configuration according to your specific setup, such as the IP address and port number of your web server.
+__let's check the work of Nginx__:
 
-By following these steps, you can observe the caching behavior of Varnish in action. It should improve the response time for subsequent requests by serving them from cache, reducing the load on your backend server and improving overall performance.
+Do the following:
+```
+ab -n 1000 -c 10 http://localhost:8080/
+```
+Here's what you'll see:
 
-Setting up a WordPress website using Lighttpd, MariaDB, and PHP offers a balanced blend of performance and flexibility. By adding an extra service of your choice, you can further optimize your setup to meet your specific needs. This process not only equips you with a functional WordPress website but also deepens your understanding of how different services work together in a web server environment.
+<img width="1175" alt="Screen Shot 2024-04-04 at 7 26 08 AM" src="https://github.com/AGolz/Born2beRoot/assets/51645091/eed03dd8-c97c-47a9-94cc-8e32104d2d9e">
 
-## Resume:
+The output from ApacheBench (ab) provides information about the performance of your server when handling 1000 requests with a concurrency of 10.
+
+Here's a breakdown of the key metrics:
+
+__Server Software__: Indicates the software running on the server. In this case, it's Nginx version 1.20.1.
+__Server Hostname__: The hostname of the server, which is "localhost" in this case.
+__Server Port__: The port number the server is listening on, which is 8080.
+__Document Path__: The path to the document being requested, which is "/" indicating the homepage.
+__Document Length__: The size of the document being served, which is 157 bytes.
+__Concurrency Level__: The number of multiple requests being sent simultaneously, which is 10.
+__Time taken for tests__: The total time taken to complete the benchmarking tests, which is 0.149 seconds.
+__Complete requests__: The total number of requests completed, which is 1000.
+__Failed requests__: The number of requests that failed, which is 0 in this case.
+__Non-2xx responses__: The number of responses that were not in the 2xx range (e.g., 200 OK), which is 1000, indicating all responses were successful.
+__Requests per second__: The average number of requests handled per second, which is 6716.37.
+__Time per request__: The average time taken to process each request, which is 1.489 milliseconds.
+__Transfer rate__: The average data transfer rate, which is 2026.72 kilobytes per second.
+The `Connection Times` section provides details about the time taken for various stages of the request-handling process, including connecting to the server, processing the request, and waiting for a response.
+
+Finally, the `Percentage of the requests served within a certain time` section shows the distribution of response times. For example, 50% of requests were served within 1 milliseconds, 95% within 3 milliseconds, and 100% within 9 milliseconds. This information helps assess the overall responsiveness of the server under load.
+
+## Resume:**[Project instructions](https://github.com/AGolz/ft_printf-42/files/10759004/en.subject.pdf)**
+
+Need help: elmaksim@student.42yerevan.am
+
 In this article, we took a journey to deploy a server on Rocky Linux using VirtualBox. We started by understanding the concept of virtual machines (VMs) and their importance in modern software development and OT infrastructure.
 
 Turning to the practical side, we studied the process of installing and configuring Rocky Linux in VirtualBox. We learned about the advantages of Rocky Linux as a stable and secure corporate operating system.
@@ -1104,4 +1144,6 @@ Turning to the practical side, we studied the process of installing and configur
 Following this detailed guide, we have successfully deployed our own Linux server ready to support our development needs. We have a powerful combination that allows us to experiment, test and deploy applications in a controlled and isolated environment.
 
 Congratulations on completing the deployment of your server! 
-Enjoy the benefits of a reliable and efficient server environment tailored to your requirements.
+
+Need help: elmaksim@student.42yerevan.am
+
